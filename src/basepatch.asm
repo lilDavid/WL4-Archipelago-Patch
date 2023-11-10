@@ -1,7 +1,7 @@
 .gba
 
 input equ "Wario Land 4.gba"
-output equ "out/basepatch.gba"
+output equ "out/baserom.gba"
 .open input,output,0x08000000
 
 UnusedRamStart equ 0x03006280

@@ -35,8 +35,7 @@ def batches(iterable, n):
 
 
 def main():
-    file_directory = Path(__file__).parent
-    in_path = file_directory / f'{sys.argv[1]}.png'
+    in_path = Path(sys.argv[1]).with_suffix('.png')
     palette_path = in_path.with_suffix('.txt')
     out_path = in_path.with_suffix('.bin')
 
