@@ -1,14 +1,6 @@
 .gba
 
 
-; Override the end of EXimage_Clear_Work_2Mode() to instead jump to our function
-.org 0x8074068
-.area 0x8074070-.
-        ldr r0, =@Hook_EXimage_Clear_Work_2Mode | 1
-        bx r0
-    .pool
-.endarea
-
 ; HardwareInitialization()
 hook 0x8000728, 0x8000738, InitializeVariables
 
@@ -32,11 +24,6 @@ hook 0x801BB7A, 0x801BB90, LoadTextSprites
     ldrb r2, [r0, offset]
     strb r2, [r1, offset]
 .endmacro
-
-
-@Hook_EXimage_Clear_Work_2Mode:
-    bl CreateStartingInventory
-    pop {pc}  ; Returning from hooked function, LR already pushed
 
 
 ; Receive multiworld items (level select)

@@ -27,9 +27,9 @@ UnusedRomStart equ 0x0878F97C
 .autoregion :: .importobj "obj/items/collect_junk.o" :: .endautoregion
 .include "src/items/collection_indicator.asm"
 .include "src/shuffle/randomize_boxes.asm"
-.include "src/shuffle/save_full_health.asm"
 .include "src/shuffle/limit_abilities.asm"
 .include "src/shuffle/ability_ui.asm"
+.include "src/shuffle/save_data.asm"
 .include "src/routines.asm"
 .include "src/patches.asm"
 .include "src/graphics.asm"

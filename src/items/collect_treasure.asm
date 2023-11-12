@@ -6,14 +6,7 @@
 ; Give the player their progression items from what they collected in the level.
 
 
-; SeisanSave()
-hook 0x80811BA, 0x8081284, CheckLocations
-
-
 .autoregion
-
-
-.importobj "obj/items/collect_treasure.o"
 
 
 .align 2

@@ -37,3 +37,4 @@ extern u8 QueuedFullHealthItem;
 extern u8 QueuedFormTraps;
 extern u8 QueuedHearts;
 extern u8 QueuedLightningTraps;
+extern u8 AbilitiesInThisLevel;

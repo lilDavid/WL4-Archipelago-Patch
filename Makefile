@@ -18,9 +18,9 @@ ASM = src/util/vanilla_labels.asm \
 	  src/items/collect_treasure.asm \
 	  src/items/collection_indicator.asm \
 	  src/shuffle/randomize_boxes.asm \
-	  src/shuffle/save_full_health.asm \
 	  src/shuffle/limit_abilities.asm \
 	  src/shuffle/ability_ui.asm \
+	  src/shuffle/save_data.asm \
 	  src/routines.asm \
 	  src/patches.asm \
 	  src/graphics.asm \
@@ -30,8 +30,8 @@ ASM = src/util/vanilla_labels.asm \
 
 OBJ = obj/routines.o \
 	  obj/items/item_table.o \
-	  obj/items/collect_treasure.o \
-	  obj/items/collect_junk.o
+	  obj/items/collect_junk.o \
+	  obj/shuffle/save_data.o \
 
 GRAPHICS = data/graphics/ability_get.bin \
 		   data/graphics/ability_icons.bin \
