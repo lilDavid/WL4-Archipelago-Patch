@@ -6,7 +6,7 @@ $(error "Please set DEVKITARM in your environment. export DEVKITARM=<path to>dev
 endif
 
 CC = $(DEVKITARM)/bin/arm-none-eabi-gcc
-CFLAGS = -mthumb -mthumb-interwork -Wall -Wextra -std=gnu11 \
+CFLAGS = -mthumb -mthumb-interwork -Wall -Wextra -std=gnu11 -O1 \
 		 -Iinclude -I$(DEVKITPRO)/libgba/include -Lgba
 
 ASM = src/util/vanilla_labels.asm \
@@ -30,6 +30,7 @@ ASM = src/util/vanilla_labels.asm \
 
 OBJ = obj/routines.o \
 	  obj/items/item_table.o \
+	  obj/items/collect_treasure.o \
 	  obj/items/collect_junk.o
 
 GRAPHICS = data/graphics/ability_get.bin \

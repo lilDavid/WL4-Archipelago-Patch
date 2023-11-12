@@ -48,21 +48,22 @@ void GiveWarioHearts(int hearts) {
     }
 }
 
-typedef void (*ChangeWarioReactFunc)(void);
 void ChangeWarioReact_Fire(void);
 void ChangeWarioReact_Fat(void);
 void ChangeWarioReact_Frozen(void);
-static ChangeWarioReactFunc reactionList[] = {
-    ChangeWarioReact_Fire,
-    ChangeWarioReact_Fat,
-    ChangeWarioReact_Frozen
-};
 
 // Randomly transform Wario. For compatibility with all levels, only Flaming,
 // Fat and Frozen Wario are allowed right now.
 void GiveTransformTrap() {
+    typedef void (*ChangeWarioReactFunc)(void);
+    static ChangeWarioReactFunc reactionList[] = {
+        ChangeWarioReact_Fire,
+        ChangeWarioReact_Fat,
+        ChangeWarioReact_Frozen
+    };
+
     int random = MiniRandomCreate();
-    _modsi3(random, 3);
+    random = _modsi3(random, 3);
     reactionList[random]();
 }
 

@@ -18,7 +18,7 @@
 .macro hook_branch, Start, End, ReturnAddress, HackFunction
     .org Start
     .area End-.
-        ldr r0, =ReturnAddress
+        ldr r0, =ReturnAddress | 1
         mov lr, r0
         ldr r0, =HackFunction
         mov pc, r0

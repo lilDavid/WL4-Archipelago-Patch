@@ -1,4 +1,5 @@
 .gba
+.arm
 
 ; Object tiles in VRAM
 .definelabel TilesReceived8, 0x06012180

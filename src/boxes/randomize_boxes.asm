@@ -80,14 +80,17 @@ SpawnRandomizedItemFromBox:
         str r2, [r4, @oam_animation_pointer]
 
     @@CheckLocation:
-        ldr r6, =Jewel1BoxContents
-        ldr r7, =Jewel1BoxExtData
-        add r6, r6, r0
-        lsl r1, r0, #2
-        add r7, r7, r1
-        bl GetItemAtLocation
-        strb r0, [r6]
-        str r1, [r7]
+        mov r6, r0
+        bl ItemInCurrentLevel
+        ldr r2, =Jewel1BoxContents
+        add r2, r2, r6
+        strb r0, [r2]
+        mov r0, r6
+        bl ExtDataInCurrentLevel
+        ldr r2, =Jewel1BoxExtData
+        lsl r1, r6, #2
+        add r2, r2, r1
+        str r0, [r2]
 
     ; If it's your own junk item, always release it
         cmp r1, #0

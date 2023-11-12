@@ -42,48 +42,19 @@ MoveBit_GroundPoundSuper equ 6
 MoveBit_GrabHeavy equ 7
 
 
+.align 4
+.arm
+ItemLocationTable:              .fill 6 * 4 * 7,     ItemID_None
+ItemExtDataTable:               .fill 6 * 4 * 7 * 4, 0
+StartingInventoryItemStatus:    .fill 6 * 6,         0
+StartingInventoryJunkCounts:    .fill 4,             0
+StartingInventoryWarioAbilities:               .byte 0
+.thumb
+
 .importobj "obj/items/item_table.o"
-.definelabel ItemLocationTable, Jewel1LocationTable
-.definelabel ItemExtDataTable, Jewel1ExtDataTable
 
 
 .align 2
-; Retrieve the item and multiworld pointer at the location specified in r0 in this level.
-; Return the encoded ID in r0 and the multiworld pointer in r1
-GetItemAtLocation:
-        ; r1 = boxtype * 6
-        lsl r1, r0, #1
-        add r1, r1, r0
-        lsl r1, r1, #1
-
-        ; r1 = (boxtype * 6 + passageID) * 4
-        ldr r0, =PassageID
-        ldrb r0, [r0]
-        add r1, r1, r0
-        lsl r1, r1, #2
-
-        ; r3 = locationID = (boxtype * 6 + passageID) * 4 + levelID
-        ldr r0, =InPassageLevelID
-        ldrb r0, [r0]
-        add r3, r1, r0
-
-        ; r0 = item ID
-        ldr r1, =ItemLocationTable
-        add r2, r1, r3
-        ldrb r0, [r2]
-
-        ; r3 = locationID * 4
-        lsl r3, r3, #2
-
-        ; r1 = multiworld pointer
-        ldr r1, =ItemExtDataTable
-        add r2, r1, r3
-        ldr r1, [r2]
-
-        mov pc, lr
-    .pool
-
-
 ; Collect the item in r0. If the item is this player's junk, it will be stored
 ; and given to Wario later.
 ;

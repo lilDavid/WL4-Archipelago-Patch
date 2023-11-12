@@ -1,4 +1,5 @@
 .gba
+.arm
 
 
 ; Store letters and AP logo in some unused space in the tile data near the

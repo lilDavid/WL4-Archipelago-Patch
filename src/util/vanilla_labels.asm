@@ -1,6 +1,7 @@
 .gba
 
 ; WRAM Variables
+.arm
 .definelabel PassageID, 0x3000002
 .definelabel InPassageLevelID, 0x3000003
 .definelabel CurrentRoomId, 0x3000024
@@ -44,6 +45,7 @@
 .definelabel ObjectPaletteF, 0x50003E0
 
 ; Functions
+.thumb
 .definelabel MainGameLoop, 0x80001CC
 .definelabel ClearOamBuf, 0x8000A0C
 .definelabel m4aSongNumStart, 0x8001DA4
@@ -74,9 +76,10 @@
 .definelabel MiniRandomCreate, 0x8089B80
 .definelabel MojiCreate, 0x80904DC
 .definelabel _modsi3, 0x8094ED0
-.definelabel WarioChng_React, 0x82DECA0
 
 ; ROM data
+.arm
+.definelabel WarioChng_React, 0x82DECA0
 .definelabel BigBoardEntityTiles, 0x83644F0
 .definelabel BigBoardEntityPalettes, 0x83B1950
 .definelabel takara_Anm_00, 0x83B4BC8
