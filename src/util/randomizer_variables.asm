@@ -12,9 +12,9 @@
 ; These extra bits of save data are stored in the upper parts of Entry Passage
 ; levels that don't exist.
 ; Most significant byte of the "third" level
-.definelabel WarioAbilities, LevelStatusTable + 11
+.definelabel WarioAbilities, W4ItemStatus + 11
 ; Upper halfword of the "fourth" level
-.definelabel ReceivedItemCount, LevelStatusTable + 14
+.definelabel ReceivedItemCount, W4ItemStatus + 14
 
 ; Items can be received one at a time w/o issue
 .definelabel IncomingItemID, UnusedRamStart  ; byte

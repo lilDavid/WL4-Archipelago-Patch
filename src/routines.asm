@@ -3,7 +3,7 @@
 
 ; Override the end of EXimage_Clear_Work_2Mode() to instead jump to our function
 .org 0x8074068
-        ldr r0, =CreateStartingInventory | 1
+        ldr r0, =@Hook_EXimage_Clear_Work_2Mode | 1
         bx r0
     .pool
 
@@ -32,41 +32,9 @@ hook 0x801BB7A, 0x801BB90, LoadTextSprites
 .endmacro
 
 
-; Create starting inventory by updating the item status after loading the empty save.
-CreateStartingInventory:
-        call_using r0, AutoSave_EXRead_Work
-
-        ldr r0, =LevelStatusTable
-        ldr r1, =StartingInventoryLevelStatus
-        mov r2, #36
-
-    @@NextLevel:
-        ldrb r3, [r1]
-        strb r3, [r0]
-
-        add r0, #4
-        add r1, #1
-        sub r2, #1
-        cmp r2, #0
-        beq @@Junk
-        b @@NextLevel
-
-    @@Junk:
-        ldr r0, =StartingInventoryJunkCounts
-        ldr r1, =QueuedJunk
-        @transfer_itemcount 0
-        @transfer_itemcount 1
-        @transfer_itemcount 2
-        @transfer_itemcount 3
-
-    ; Abilities
-        ldr r0, =StartingInventoryWarioAbilities
-        ldr r1, =WarioAbilities
-        ldrb r0, [r0]
-        strb r0, [r1]
-
-        pop {pc}  ; Return address from EXimage_Clear_Work_2Mode()
-    .pool
+@Hook_EXimage_Clear_Work_2Mode:
+    bl CreateStartingInventory
+    pop {pc}  ; Returning from hooked function, LR already pushed
 
 
 ; Initialize randomizer variables
@@ -312,6 +280,9 @@ LoadTextSprites:
 
         pop {pc}
     .pool
+
+
+.importobj "obj/routines.o"
 
 
 .endautoregion

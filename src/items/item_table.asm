@@ -42,36 +42,10 @@ MoveBit_GroundPoundSuper equ 6
 MoveBit_GrabHeavy equ 7
 
 
-; Maps locations to the 8-bit IDs of the items they contain.
-; After Archipelago patches the ROM, the "invalid" value should only be in
-; locations that don't exist
-.align 4
-ItemLocationTable:
-    Jewel1LocationTable:  .fill @levels, ItemID_None
-    Jewel2LocationTable:  .fill @levels, ItemID_None
-    Jewel3LocationTable:  .fill @levels, ItemID_None
-    Jewel4LocationTable:  .fill @levels, ItemID_None
-    CDLocationTable:      .fill @levels, ItemID_None
-    HealthLocationTable:  .fill @levels, ItemID_None
-    Health2LocationTable: .fill @levels, ItemID_None
+.importobj "obj/items/item_table.o"
+.definelabel ItemLocationTable, Jewel1LocationTable
+.definelabel ItemExtDataTable, Jewel1ExtDataTable
 
-; Maps locations to pointers toward the item's multiworld data.
-.align 4
-ItemExtDataTable:
-    Jewel1ExtDataTable:  .fill @levels * 4, 0
-    Jewel2ExtDataTable:  .fill @levels * 4, 0
-    Jewel3ExtDataTable:  .fill @levels * 4, 0
-    Jewel4ExtDataTable:  .fill @levels * 4, 0
-    CDExtDataTable:      .fill @levels * 4, 0
-    HealthExtDataTable:  .fill @levels * 4, 0
-    Health2ExtDataTable: .fill @levels * 4, 0
-
-
-; Starting inventory.
-.align 4
-StartingInventoryLevelStatus: .fill 36, 0
-StartingInventoryJunkCounts: .fill 4, 0
-StartingInventoryWarioAbilities: .byte 0
 
 .align 2
 ; Retrieve the item and multiworld pointer at the location specified in r0 in this level.
@@ -137,7 +111,7 @@ GiveItem:
         cmp r1, #1
         beq @@WarioAbility
 
-        ldr r4, =LevelStatusTable
+        ldr r4, =W4ItemStatus
 
         ; Get passage ID * 24 into r1
         get_bits r1, r0, 4, 2  ; r1 = passage ID

@@ -9,7 +9,7 @@
 .definelabel CurrentEntityInfoList_TEbuf, 0x3000104
 .definelabel EntityLeftOverStateList, 0x3000564
 .definelabel CurrentEnemyData, 0x3000A24
-.definelabel LevelStatusTable, 0x3000A68
+.definelabel W4ItemStatus, 0x3000A68
 .definelabel Scbuf_ucStatus, 0x3000BE0
 .definelabel HasJewelPiece1, 0x3000C07
 .definelabel HasJewelPiece2, 0x3000C08
@@ -73,7 +73,7 @@
 .definelabel WarioVoiceSet, 0x8088620
 .definelabel MiniRandomCreate, 0x8089B80
 .definelabel MojiCreate, 0x80904DC
-.definelabel modsi3, 0x8094ED0
+.definelabel _modsi3, 0x8094ED0
 .definelabel WarioChng_React, 0x82DECA0
 
 ; ROM data

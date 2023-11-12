@@ -77,7 +77,7 @@ ItemGetFlags:
 
 ; Save the appropriate item data flag for the full health item box.
 SeisanSaveFullHealthItem:
-        ldr r3, =LevelStatusTable
+        ldr r3, =W4ItemStatus
         ldrb r1, [r6]
         lsl r1, r1, #2
         ldrb r2, [r5]
