@@ -6,7 +6,7 @@
 
 void CheckLocations() {
     static const u8* has_boxes[BOX_MAX] = {
-        &HasJewelPiece1, &HasJewelPiece2, &HasJewelPiece3, &HasJewelPiece4,
+        &Has1stGemPiece, &Has2ndGemPiece, &Has3rdGemPiece, &Has4thGemPiece,
         &HasCD, &HasFullHealthItem, &HasFullHealthItem2
     };
 

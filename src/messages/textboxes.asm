@@ -369,7 +369,7 @@ PyramidScreenShowReceivedItem:
 ResultsScreenShowNextItem:
         push {r4-r6, lr}
 
-        ldr r0, =HasJewelPiece1
+        ldr r0, =Has1stGemPiece
         mov r2, #3
         ldr r3, =Jewel1BoxExtData
 

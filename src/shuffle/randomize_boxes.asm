@@ -54,7 +54,7 @@ SpawnRandomizedItemFromBox:
         beq @@FullHealthBox
 
     ; For jewel pieces/CDs, the relevant locations are adjacent in memory
-        ldr r1, =HasJewelPiece1
+        ldr r1, =Has1stGemPiece
         add r5, r1, r0
 
     ; Change opening animation if CD
@@ -365,7 +365,7 @@ CollectRandomItem:
         beq @@FullHealthCheck
 
     ; For jewel pieces/CDs, the relevant locations are adjacent in memory
-        ldr r6, =HasJewelPiece1
+        ldr r6, =Has1stGemPiece
         add r6, r6, r5
         b @@GetItem
 

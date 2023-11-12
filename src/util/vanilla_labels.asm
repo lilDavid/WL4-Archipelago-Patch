@@ -12,10 +12,10 @@
 .definelabel CurrentEnemyData, 0x3000A24
 .definelabel W4ItemStatus, 0x3000A68
 .definelabel Scbuf_ucStatus, 0x3000BE0
-.definelabel HasJewelPiece1, 0x3000C07
-.definelabel HasJewelPiece2, 0x3000C08
-.definelabel HasJewelPiece3, 0x3000C09
-.definelabel HasJewelPiece4, 0x3000C0A
+.definelabel Has1stGemPiece, 0x3000C07
+.definelabel Has2ndGemPiece, 0x3000C08
+.definelabel Has3rdGemPiece, 0x3000C09
+.definelabel Has4thGemPiece, 0x3000C0A
 .definelabel HasCD, 0x3000C0B
 .definelabel HasKeyzer, 0x3000C0C
 .definelabel sGameSeq, 0x3000C3C

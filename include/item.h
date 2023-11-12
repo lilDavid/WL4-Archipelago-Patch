@@ -4,10 +4,10 @@
 
 #include "vanilla/types.h"
 
-extern u8 HasJewelPiece1;
-extern u8 HasJewelPiece2;
-extern u8 HasJewelPiece3;
-extern u8 HasJewelPiece4;
+extern u8 Has1stGemPiece;
+extern u8 Has2ndGemPiece;
+extern u8 Has3rdGemPiece;
+extern u8 Has4thGemPiece;
 extern u8 HasCD;
 extern u8 HasKeyzer;
 extern u8 HasFullHealthItem;
