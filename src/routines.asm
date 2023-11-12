@@ -3,12 +3,14 @@
 
 ; Override the end of EXimage_Clear_Work_2Mode() to instead jump to our function
 .org 0x8074068
+.area 0x8074070-.
         ldr r0, =@Hook_EXimage_Clear_Work_2Mode | 1
         bx r0
     .pool
+.endarea
 
 ; HardwareInitialization()
-hook 0x8000728, 0x8000738, PreGamePrep
+hook 0x8000728, 0x8000738, InitializeVariables
 
 ; GameSelect() case 2
 .org 0x80799E0
@@ -35,35 +37,6 @@ hook 0x801BB7A, 0x801BB90, LoadTextSprites
 @Hook_EXimage_Clear_Work_2Mode:
     bl CreateStartingInventory
     pop {pc}  ; Returning from hooked function, LR already pushed
-
-
-; Initialize randomizer variables
-PreGamePrep:
-    ; Copy deathlink option from ROM
-        ldr r0, =DeathLinkFlag
-        ldrb r0, [r0]
-        ldr r4, =DeathlinkEnabled
-        strb r0, [r4]
-
-    ; Reset incoming item
-        ldr r4, =MultiworldState
-        mov r0, #0
-        strb r0, [r4]
-        ldr r4, =TextTimer
-        strb r0, [r4]
-
-    ; Replaced code
-        ldr r0, =KeyPressContinuous
-        strh r7, [r0]
-        ldr r0, =KeyPressPrevious
-        strh r7, [r0]
-        ldr r4, =usTrg_KeyPress1Frame
-        strh r7, [r4]
-        ldr r0, =sGameSeq
-        strh r7, [r0]
-
-        mov pc, lr
-    .pool
 
 
 ; Receive multiworld items (level select)

@@ -16,7 +16,7 @@ void CheckLocations() {
         W4ItemStatus[PassageID][InPassageLevelID] |= 1 << (8 + i);
         int item_id = ItemInCurrentLevel(i);
         const ExtData* multiworld_data = ExtDataInCurrentLevel(i);
-        if (multiworld_data == NULL || !(item_id & ITEMBIT_JUNK))
+        if (!(item_id & ITEMBIT_JUNK && multiworld_data != NULL))
             GiveItem(item_id, multiworld_data);
     }
 
@@ -30,7 +30,7 @@ void CheckLocations() {
         W4ItemStatus[PassageID][InPassageLevelID] |= 1 << (8 + i + 1);
         int item_id = ItemInCurrentLevel(i);
         const ExtData* multiworld_data = ExtDataInCurrentLevel(i);
-        if (multiworld_data == NULL || !(item_id & ITEMBIT_JUNK))
+        if (!(item_id & ITEMBIT_JUNK && multiworld_data != NULL))
             GiveItem(item_id, multiworld_data);
     }
 }
