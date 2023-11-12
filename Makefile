@@ -17,10 +17,10 @@ ASM = src/util/vanilla_labels.asm \
 	  src/items/multiworld.asm \
 	  src/items/collect_treasure.asm \
 	  src/items/collection_indicator.asm \
-	  src/boxes/randomize_boxes.asm \
-	  src/boxes/save_full_health.asm \
-	  src/move_shuffle/limit_abilities.asm \
-	  src/move_shuffle/ability_ui.asm \
+	  src/shuffle/randomize_boxes.asm \
+	  src/shuffle/save_full_health.asm \
+	  src/shuffle/limit_abilities.asm \
+	  src/shuffle/ability_ui.asm \
 	  src/routines.asm \
 	  src/patches.asm \
 	  src/graphics.asm \
