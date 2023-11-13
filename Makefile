@@ -5,6 +5,7 @@ ifeq ($(strip $(DEVKITARM)),)
 $(error "Please set DEVKITARM in your environment. export DEVKITARM=<path to>devkitARM)
 endif
 
+ARMIPSFLAGS=
 CC = $(DEVKITARM)/bin/arm-none-eabi-gcc
 CFLAGS = -mthumb -mthumb-interwork -Wall -Wextra -std=gnu11 -O1 \
 		 -Iinclude -I$(DEVKITPRO)/libgba/include -Lgba
@@ -37,16 +38,22 @@ GRAPHICS = data/graphics/ability_get.bin \
 		   data/graphics/ability_icons.bin \
 		   data/graphics/ap_logo.bin
 
+.PHONY: all clean debug remake remake-debug
+
+all: basepatch
+
 basepatch: out/basepatch.bsdiff
+
+debug: CFLAGS += -DDEBUG -g
+debug: ARMIPSFLAGS += -definelabel DEBUG 1
+debug: basepatch
 
 out/basepatch.bsdiff: out/baserom.gba
 	bsdiff "Wario Land 4.gba" out/baserom.gba out/basepatch.bsdiff
 
-baserom: out/baserom.gba
-
 out/baserom.gba: $(ASM) $(OBJ) $(GRAPHICS)
 	@mkdir -p out
-	armips src/basepatch.asm -sym out/baserom.sym
+	armips src/basepatch.asm -sym out/baserom.sym $(ARMIPSFLAGS)
 	grep -Ev '[0-9A-F]{8} [@.].*' out/baserom.sym > out/basepatch.sym
 
 obj/%.o: src/%.c include/*.h
@@ -55,6 +62,10 @@ obj/%.o: src/%.c include/*.h
 
 data/graphics/%.bin: data/graphics/%.png data/graphics/%.txt
 	python3 make_graphics.py $@
+
+remake: clean all
+
+remake-debug: clean debug
 
 clean:
 	rm -rf obj out

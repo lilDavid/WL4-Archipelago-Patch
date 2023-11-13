@@ -30,6 +30,10 @@ hook 0x801BB7A, 0x801BB90, LoadTextSprites
 PyramidScreen:
         push {r4}
 
+    .ifdef DEBUG
+        bl Debug_SetFlagsWithL
+    .endif
+
         ldr r0, =MultiworldState
         ldrb r0, [r0]
         cmp r0, #2
@@ -93,6 +97,10 @@ PyramidScreen:
 ; Receive multiworld items and collect junk (in level)
 LevelScreen:
         push {r4}
+
+    .ifdef DEBUG
+        bl Debug_PressSelectForFreeMovement
+    .endif
 
     ; If Wario isn't in a playable state, don't bother yet
         ldr r0, =usWarStopFlg
