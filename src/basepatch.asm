@@ -22,7 +22,7 @@ UnusedRomStart equ 0x0878F97C
 .endregion
 
 .include "src/items/item_table.asm"
-.include "src/items/multiworld.asm"
+.autoregion :: .importobj "obj/items/multiworld.o" :: .endautoregion
 .include "src/items/collect_treasure.asm"
 .autoregion :: .importobj "obj/items/collect_junk.o" :: .endautoregion
 .include "src/items/collection_indicator.asm"

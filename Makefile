@@ -14,7 +14,6 @@ ASM = src/util/vanilla_labels.asm \
 	  src/util/macros.asm \
 	  src/util/bitfields.asm \
 	  src/items/item_table.asm \
-	  src/items/multiworld.asm \
 	  src/items/collect_treasure.asm \
 	  src/items/collection_indicator.asm \
 	  src/shuffle/randomize_boxes.asm \
@@ -29,6 +28,7 @@ ASM = src/util/vanilla_labels.asm \
 	  src/messages/strings.asm
 
 OBJ = obj/routines.o \
+	  obj/items/multiworld.o \
 	  obj/items/item_table.o \
 	  obj/items/collect_junk.o \
 	  obj/shuffle/save_data.o \

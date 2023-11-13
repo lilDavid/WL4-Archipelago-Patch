@@ -6,6 +6,7 @@
 
 .loadtable "data/charset.tbl"
 
+.arm
 StrScreenFiller: .fill (TextBoxCharCount - 9), 0xFF
 StrItemSent: .string "Sent "
 StrItemTo: .string " to "
