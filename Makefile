@@ -21,14 +21,18 @@ ASM = src/util/vanilla_labels.asm \
 	  src/shuffle/limit_abilities.asm \
 	  src/shuffle/ability_ui.asm \
 	  src/shuffle/save_data.asm \
-	  src/routines.asm \
+	  src/game_loop/level_select.asm \
+	  src/game_loop/game_main.asm \
+	  src/game_loop/level_results.asm \
+	  src/init.asm \
 	  src/patches.asm \
+	  src/lib.asm \
 	  src/graphics.asm \
-	  src/messages/textboxes.asm \
-	  src/messages/draw_text.asm \
-	  src/messages/strings.asm
+	  src/string_data.asm
 
-OBJ = obj/routines.o \
+OBJ = obj/init.o \
+	  obj/game_loop/level_select.o \
+	  obj/game_loop/game_main.o \
 	  obj/items/multiworld.o \
 	  obj/items/item_table.o \
 	  obj/items/collect_junk.o \

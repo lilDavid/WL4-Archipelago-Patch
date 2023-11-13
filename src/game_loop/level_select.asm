@@ -1,68 +1,298 @@
-.gba
 
-; GameSelectSeisan() case 7 - Show item text box
-hook 0x8080C5C, 0x8080C6C, ResultsScreenShowItems
+; GameSelect() case 2
+.org 0x80799E0
+.word PyramidScreen
 
-; GameSelectSeisan() case 8 - Let the player flip through items quickly
-org 0x8080CD8
-    mov r0, #15
-
-; GameSelectSeisan() case 9 - Repeatedly show text box
-.org 0x8080AB0
-.word ResultsScreenMessageState
+; SelectDmapOamCreate() returning
+.org 0x807CA64
+.area 0x807CA6C-.
+        ldr r0, =PyramidScreenCreateReceivedItemOAM | 1
+        bx r0
+    .pool
+.endarea
 
 
 .autoregion
-
-
 .align 2
-; Initialize the former save tutorial, or end the level if nothing to show.
-ResultsScreenShowItems:
-        push {lr}
-
-        ldr r0, =usMojiCount
-        ldr r1, =1000  ; Fixed text position (?)
-        strh r1, [r0]
-
-        bl ResultsScreenShowNextItem
-        cmp r0, #0
-        beq @@JumpToFadeOut
-        pop {pc}
-
-    @@JumpToFadeOut:
-        pop {r0}
-        ldr r0, =0x8080D03
-        mov pc, r0
-    .pool
 
 
-; Handle the 'sent item' message on the results screen.
-ResultsScreenMessageState:
+.importobj "obj/game_loop/level_select.o"
+
+
+; Receive multiworld items (level select)
+PyramidScreen:
+        push {r4}
+
+    .ifdef DEBUG
+        bl Debug_SetFlagsWithL
+    .endif
+
+        ldr r0, =MultiworldState
+        ldrb r0, [r0]
+        cmp r0, #2
+        beq @@ShowTextBox
+
+        bl ReceiveNextItem  ; a1
+        cmp r0, #ItemID_None
+        beq @@RunCase2
+
+        mov r4, r0
+        mov r1, #0  ; a2
+        bl GiveItem
+        mov r0, r4
+        bl ItemReceivedFeedbackSound
+
+        bl LoadMessageBG
+        bl PyramidScreenShowReceivedItem
+
+        ldr r0, =TextTimer
+        mov r1, #15
+        strb r1, [r0]
+
+    @@RunCase2:
+        ldr r0, =0x8079AE0
+        b @@Return
+
+    @@ShowTextBox:
+        ldr r0, =TextTimer
+        ldrb r1, [r0]
+        cmp r1, #0
+        beq @@WaitForButton
+        sub r1, #1
+        strb r1, [r0]
+        b @@SkipCase2
+
+    @@WaitForButton:
         ldr r0, =usTrg_KeyPress1Frame
         ldrh r1, [r0]
         mov r0, #1
         and r0, r1
         cmp r0, #0
-        beq @@DefaultCase
+        beq @@SkipCase2
+
         ldr r0, =0x125
         call_using r1, m4aSongNumStart
+        bl LoadPyramidBG3
 
-        bl ResultsScreenShowNextItem
-        cmp r0, #0
-        beq @@FadeOut
-
-        ldr r0, =ucSeldemoSeq
-        ldrb r1, [r0]
-        sub r1, #1
+        ldr r0, =MultiworldState
+        mov r1, #0
         strb r1, [r0]
 
-    @@DefaultCase:
-        ldr r0, =0x8080D45
+    @@SkipCase2:
+        ldr r0, =0x807A36A
+    @@Return:
+        pop {r4}
         mov pc, r0
+    .pool
 
-    @@FadeOut:
-        ldr r0, =0x8080D03
-        mov pc, r0
+
+; Create the sprite for the item received.
+PyramidScreenCreateReceivedItemOAM:
+        ldr r0, =MultiworldState
+        ldrb r0, [r0]
+        cmp r0, #2
+        bne @@Return
+
+        ldr r3, =ucCntObj
+        ldrb r5, [r3]
+        ldr r4, =OamBuf
+        lsl r0, r5, #3
+        add r4, r4, r0
+
+        ldr r0, =attr0_square | attr0_4bpp | attr0_y(104)
+        ldr r2, =attr2_palette(0xF) | attr2_priority(0) | attr2_id(0x200)
+
+        ldr r6, =IncomingItemID
+        ldrb r6, [r6]
+        get_bit r1, r6, ItemBit_Junk
+        cmp r1, #0
+        bne @@JunkItem
+
+    ; Jewel Pieces or CD
+        add r5, #1
+
+        get_bit r1, r6, ItemBit_Ability
+        cmp r1, #0
+        bne @@JewelPieceOrAbility
+
+        get_bit r1, r6, ItemBit_CD
+        cmp r1, #0
+        bne @@CD
+
+    @@JewelPieceOrAbility:
+        ldr r1, =attr1_size(1) | attr1_x(120 - 8)
+        strh r0, [r4]
+        strh r1, [r4, #2]
+        strh r2, [r4, #4]
+        b @@Return
+
+    @@CD:
+        sub r0, #8
+        ldr r1, =attr1_size(2) | attr1_x(120 - 16)
+        strh r0, [r4]
+        strh r1, [r4, #2]
+        strh r2, [r4, #4]
+        b @@Return
+
+    @@JunkItem:
+        get_bits r1, r6, 3, 0
+        lsl r1, #2
+        ldr r7, =@@JunkJumpTable
+        add r1, r7
+        ldr r1, [r1]
+        mov pc, r1
+
+    .align 4
+    @@JunkJumpTable:
+        .word @@FullHealthItem
+        .word @@BigBoardTrap  ; Wario transform
+        .word @@Heart
+        .word @@BigBoardTrap  ; Lightning damage
+
+    @@FullHealthItem:
+        ldr r1, =attr1_size(1) | attr1_x(120 - 8)
+        strh r0, [r4]
+        strh r1, [r4, #2]
+        strh r2, [r4, #4]
+
+        ldr r0, =attr0_wide | attr0_4bpp | attr0_y(104 - 8)
+        mov r1, #attr1_size(0) | attr1_x(120 - 8)
+        add r2, #2
+        strh r0, [r4, #8]
+        strh r1, [r4, #10]
+        strh r2, [r4, #12]
+
+        add r5, #2
+        b @@Return
+
+    @@Heart:
+        ldr r1, =attr1_size(1) | attr1_x(120 - 8)
+        strh r0, [r4]
+        strh r1, [r4, #2]
+        strh r2, [r4, #4]
+
+        add r5, #1
+        b @@Return
+
+    @@BigBoardTrap:
+        sub r0, #4
+        ldr r1, =attr1_size(1) | attr1_x(120 - 12)
+        strh r0, [r4]
+        strh r1, [r4, #2]
+        strh r2, [r4, #4]
+
+        ldr r0, =attr0_tall | attr0_4bpp | attr0_y(104 - 4)
+        ldr r7, =attr1_size(0) | attr1_x(120 + 4)
+        add r2, #2
+        strh r0, [r4, #8]
+        strh r7, [r4, #10]
+        strh r2, [r4, #12]
+
+        ; Wario is padded on the left. Lightning on the right.
+        cmp r6, #ItemID_Lightning
+        beq @@BigBoardSpriteBottom
+        sub r1, #8
+
+    @@BigBoardSpriteBottom:
+        ldr r0, =attr0_wide | attr0_4bpp | attr0_y(104 - 4 + 16)
+        add r2, #1
+        strh r0, [r4, #16]
+        strh r1, [r4, #18]
+        strh r2, [r4, #20]
+
+        add r5, #3
+
+    @@Return:
+        strb r5, [r3]  ; Write object count back
+
+    ; Return from SelectDmapOamCreate
+        pop {r4-r7}
+        pop {r0}
+        bx r0
+    .pool
+
+
+; Load the background for the vanilla autosave tutorial.
+LoadMessageBG:
+        ldr r0, =REG_BG3CNT
+        ldr r1, =bg_reg_32x32 | bg_sbb(0x1E) | bg_4bpp | bg_cbb(2) | bg_priority(0)
+        strh r1, [r0]
+
+        ; Miraculously, BGP 6 color 2 isn't used at all as far as I can tell
+        ldr r0, =0x50000C4
+        ldr r1, =0xFFFF
+        strh r1, [r0]
+
+        ldr r0, =REG_DMA3SAD
+        ldr r1, =SaveTutorialTilemap
+        str r1, [r0]
+        ldr r1, =0x600F000
+        str r1, [r0, #4]
+        ldr r1, =dma_enable | dma_halfwords(0x800)
+        str r1, [r0, #8]
+        ldr r1, [r0, #8]
+
+        ldr r1, =PortalTileset2
+        str r1, [r0]
+        ldr r1, =0x6008000
+        str r1, [r0, #4]
+        ldr r1, =dma_enable | dma_words(0x1000)
+        str r1, [r0, #8]
+        ldr r1, [r0, #8]
+
+        mov pc, lr
+    .pool
+
+
+; Load the original pyramid background 3 graphics.
+LoadPyramidBG3:
+        ldr r0, =REG_BG3CNT
+        ldr r1, =bg_reg_32x32 | bg_sbb(0x1E) | bg_4bpp | bg_cbb(0) | bg_priority(0)
+        strh r1, [r0]
+
+        ldr r0, =REG_DMA3SAD
+        ldr r1, =PortalTilemap3
+        str r1, [r0]
+        ldr r1, =0x600F000
+        str r1, [r0, #4]
+        ldr r1, =dma_enable | dma_halfwords(0x800)
+        str r1, [r0, #8]
+        ldr r1, [r0, #8]
+
+        mov pc, lr
+    .pool
+
+
+PassagePaletteTable:
+    .halfword 0x7B3E, 0x723C, 0x6576, 0x58B0, 0x4C07  ; Entry passage
+    .halfword 0x5793, 0x578D, 0x4B20, 0x2E40, 0x1160  ; Emerald passage
+    .halfword 0x6B5F, 0x529F, 0x253F, 0x14B4, 0x14AE  ; Ruby passage
+    .halfword 0x6BDF, 0x23DF, 0x139B, 0x1274, 0x0DAE  ; Topaz passage
+    .halfword 0x7F5A, 0x7E94, 0x7D29, 0x50A5, 0x38A5  ; Sapphire passage
+    .halfword 0x579F, 0x3B1F, 0x1A7F, 0x05DE, 0x00FB  ; Golden pyramid
+    .halfword 0x3D9C, 0x327D, 0x2B28, 0x6A3B, 0x6DED  ; Archipelago item
+    .halfword 0x0000, 0x6BDF, 0x3FBF, 0x22FA, 0x0DAF  ; Garlic (Dash Attack)
+    .halfword 0x0000, 0x0000, 0x0000, 0x05DE, 0x24C5  ; Helmet (Head Smash)
+
+
+; Set the end of object palette 4 to the colors matching the passage in r0
+SetTreasurePalette:
+        ldr r1, =PassagePaletteTable
+        lsl r2, r0, #2
+        add r0, r2, r0
+        lsl r0, r0, #1
+        add r0, r1, r0
+
+    ; DMA transfer - 5 halfwords from palette table entry
+        ldr r1, =REG_DMA3SAD
+        str r0, [r1]
+        ldr r0, =ObjectPalette4 + 0x296 - 0x280
+        str r0, [r1, #4]
+        ldr r0, =dma_enable | dma_halfwords(5)
+        str r0, [r1, #8]
+        ldr r0, [r1, #8]
+
+        mov pc, lr
     .pool
 
 
@@ -89,7 +319,7 @@ PyramidScreenShowReceivedItem:
 
         ; Player name
         ldr r0, =IncomingItemSender
-        bl StrLen
+        bl W4strlen
         mov r2, r0  ; a3 String length
         lsl r3, r2, #6
         mov r1, r6  ; a2 Current tile
@@ -360,154 +590,6 @@ PyramidScreenShowReceivedItem:
     ; 3x2 top offset, 4x1 bottom offset
     @@WarioFormTrapOffsets: .halfword tile_coord_4b(22, 4), tile_coord_4b(28, 5)
     @@DamageTrapOffsets:    .halfword tile_coord_4b(12, 4), tile_coord_4b(25, 4)
-
-
-; Load the text for the next item collection message. If no items are left to
-; show, start fading the results screen.
-; Returns:
-;  a0: 1 if a new message was loaded, 0 if nothing left to display
-ResultsScreenShowNextItem:
-        push {r4-r6, lr}
-
-        ldr r0, =Has1stGemPiece
-        mov r2, #3
-        ldr r3, =Jewel1BoxExtData
-
-    ; Jewel 1
-        ldrb r1, [r0]
-        cmp r1, #1
-        bne @@Jewel2
-        strb r2, [r0]
-        ldr r4, [r3]
-        cmp r4, #0
-        beq @@Jewel2
-        b @@SetText
-
-    @@Jewel2:
-        ldrb r1, [r0, #1]
-        cmp r1, #1
-        bne @@Jewel3
-        strb r2, [r0, #1]
-        ldr r4, [r3, #4]
-        cmp r4, #0
-        beq @@Jewel3
-        b @@SetText
-
-    @@Jewel3:
-        ldrb r1, [r0, #2]
-        cmp r1, #1
-        bne @@Jewel4
-        strb r2, [r0, #2]
-        ldr r4, [r3, #8]
-        cmp r4, #0
-        beq @@Jewel4
-        b @@SetText
-
-    @@Jewel4:
-        ldrb r1, [r0, #3]
-        cmp r1, #1
-        bne @@CD
-        strb r2, [r0, #3]
-        ldr r4, [r3, #12]
-        cmp r4, #0
-        beq @@CD
-        b @@SetText
-
-    @@CD:
-        ldrb r1, [r0, #4]
-        cmp r1, #1
-        bne @@FullHealth
-        strb r2, [r0, #4]
-        ldr r4, [r3, #16]
-        beq @@FullHealth
-        b @@SetText
-
-    @@FullHealth:
-        ldr r0, =HasFullHealthItem
-        ldrb r1, [r0]
-        cmp r1, #1
-        bne @@FullHealth2
-        strb r2, [r0]
-        ldr r4, [r3, #20]
-        cmp r4, #0
-        beq @@FullHealth2
-
-    @@FullHealth2:
-        ldr r0, =HasFullHealthItem2
-        ldrb r1, [r0]
-        cmp r1, #1
-        bne @@NoMore
-        strb r2, [r0]
-        ldr r4, [r3, #20]
-        cmp r4, #0
-        beq @@NoMore
-
-    @@SetText:
-        ldr r5, [r4]  ; Item name
-        ldr r4, [r4, #4]  ; Item receiver
-        ldr r6, =0x9000  ; Next tile
-
-        ; "Sent "
-        mov r2, #5  ; a3 String length
-        lsl r3, r2, #6
-        mov r1, r6  ; a2
-        add r6, r3  ; Set next tile
-        ldr r0, =StrItemSent  ; a1
-        call_using r3, MojiCreate
-
-        ; Item name
-        ; Really long item names could lead to the text box being over-filled, but
-        ; the background 2 tileset has tons of unused tiles (due in part to vanilla
-        ; allocating tiles for both Japanese and English text), so I don't think any
-        ; item will have a long enough name to cause any visual glitches in practice.
-        mov r0, r4
-        bl StrLen
-        mov r2, r0  ; a3 String length
-        lsl r3, r2, #6
-        mov r1, r6  ; a2 Current tile
-        add r6, r3  ; Set next tile
-        mov r0, r4  ; a1
-        call_using r3, MojiCreate
-
-        ; " to "
-        mov r2, #4  ; a3 String length
-        lsl r3, r2, #6
-        mov r1, r6  ; a2
-        add r6, r3  ; Set next tile
-        ldr r0, =StrItemTo  ; a1
-        call_using r3, MojiCreate
-
-        ; Receiver name
-        mov r0, r5
-        bl StrLen
-        mov r2, r0  ; a3 String length
-        lsl r3, r2, #6
-        mov r1, r6  ; a2 Current tile
-        add r6, r3  ; Set next tile
-        mov r0, r5  ; a1
-        call_using r3, MojiCreate
-
-        ; Space filler
-        ; The above being said, I would rather not tempt fate by filling almost 140
-        ; extra tiles for no reason
-        ldr r2, =0xA180
-        cmp r6, r2
-        bge @@Return
-        sub r2, r6
-        lsr r2, r2, #6  ; a3 String length
-        mov r1, r6  ; a2 Current tile
-        ldr r0, =StrScreenFiller  ; a1
-        call_using r3, MojiCreate
-
-        mov r0, #1
-        b @@Return
-
-    @@NoMore:
-        mov r0, #0
-
-    @@Return:
-        pop {r4-r6, pc}
-    .pool
 
 
 .endautoregion

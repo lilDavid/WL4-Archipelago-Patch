@@ -1,12 +1,3 @@
-.gba
-
-
-; HardwareInitialization()
-hook 0x8000728, 0x8000738, InitializeVariables
-
-; GameSelect() case 2
-.org 0x80799E0
-.word PyramidScreen
 
 ; GameMain() case 2
 .org 0x801B8EC
@@ -20,78 +11,7 @@ hook 0x801BB7A, 0x801BB90, LoadTextSprites
 .align 2
 
 
-.macro @transfer_itemcount, offset
-    ldrb r2, [r0, offset]
-    strb r2, [r1, offset]
-.endmacro
-
-
-; Receive multiworld items (level select)
-PyramidScreen:
-        push {r4}
-
-    .ifdef DEBUG
-        bl Debug_SetFlagsWithL
-    .endif
-
-        ldr r0, =MultiworldState
-        ldrb r0, [r0]
-        cmp r0, #2
-        beq @@ShowTextBox
-
-        bl ReceiveNextItem  ; a1
-        cmp r0, #ItemID_None
-        beq @@RunCase2
-
-        mov r4, r0
-        mov r1, #0  ; a2
-        bl GiveItem
-        mov r0, r4
-        bl ItemReceivedFeedbackSound
-
-        bl LoadMessageBG
-        bl PyramidScreenShowReceivedItem
-
-        ldr r0, =TextTimer
-        mov r1, #15
-        strb r1, [r0]
-
-    @@RunCase2:
-        ldr r0, =0x8079AE0
-        b @@Return
-
-    @@ShowTextBox:
-        ldr r0, =TextTimer
-        ldrb r1, [r0]
-        cmp r1, #0
-        beq @@WaitForButton
-        sub r1, #1
-        strb r1, [r0]
-        b @@SkipCase2
-
-    @@WaitForButton:
-        ldr r0, =usTrg_KeyPress1Frame
-        ldrh r1, [r0]
-        mov r0, #1
-        and r0, r1
-        cmp r0, #0
-        beq @@SkipCase2
-
-        ldr r0, =0x125
-        call_using r1, m4aSongNumStart
-        bl LoadPyramidBG3
-
-        ldr r0, =MultiworldState
-        mov r1, #0
-        strb r1, [r0]
-
-    @@SkipCase2:
-        ldr r0, =0x807A36A
-    @@Return:
-        pop {r4}
-        mov pc, r0
-    .pool
-
+.importobj "obj/game_loop/game_main.o"
 
 
 ; Receive multiworld items and collect junk (in level)
@@ -250,7 +170,150 @@ LoadTextSprites:
     .pool
 
 
-.importobj "obj/routines.o"
+; Create OAM data for text
+; Parameters:
+;   r0: No gaps between objects if 0; otherwise, add spaces around the third object
+CreateTextOAM:
+        push {r4-r6, lr}
+        mov r6, r0
+        ldr r0, =attr0_wide | attr0_4bpp | attr0_y(146)
+        ldr r1, =attr1_size(1) | attr1_x(8)
+        ldr r2, =attr2_palette(3) | attr2_priority(0) | attr2_id(0x10C)
+        ldr r3, =ucCntObj
+        ldr r4, =OamBuf
+
+        ldrb r5, [r3]
+        lsl r5, r5, #3
+        add r4, r4, r5
+
+    ; 1st
+        strh r0, [r4]
+        strh r1, [r4, #2]
+        strh r2, [r4, #4]
+    ; 2nd
+        add r1, #32
+        add r2, #4
+        add r4, #8
+        strh r0, [r4]
+        strh r1, [r4, #2]
+        strh r2, [r4, #4]
+    ; 3rd
+        cmp r6, #0
+        beq @@NoSpace3
+        add r1, #8
+    @@NoSpace3:
+        add r1, #32
+        add r2, #4
+        add r4, #8
+        strh r0, [r4]
+        strh r1, [r4, #2]
+        strh r2, [r4, #4]
+        ; 4th
+        cmp r6, #0
+        beq @@NoSpace4
+        add r1, #8
+    @@NoSpace4:
+        add r1, #32
+        add r2, #0x130-0x114
+        add r4, #8
+        strh r0, [r4]
+        strh r1, [r4, #2]
+        strh r2, [r4, #4]
+    ; 5th
+        add r1, #32
+        add r2, #4
+        add r4, #8
+        strh r0, [r4]
+        strh r1, [r4, #2]
+        strh r2, [r4, #4]
+    ; 6th
+        add r1, #32
+        add r2, #0x20-4
+        add r4, #8
+        strh r0, [r4]
+        strh r1, [r4, #2]
+        strh r2, [r4, #4]
+    ; 7th
+        add r1, #32
+        add r2, #4
+        add r4, #8
+        strh r0, [r4]
+        strh r1, [r4, #2]
+        strh r2, [r4, #4]
+
+        ldrb r5, [r3]
+        add r5, #7
+        strb r5, [r3]
+
+        pop {r4-r6, pc}
+    .pool
+
+
+.definelabel @ObjectPalette3, 0x5000260
+
+; Copy text sprites into the sprite table. On encountering 0xFE, blank spaces
+; will be copied into the remaining space.
+; Parameters:
+;   r0: Pointer to 0xFE-terminated string
+;   r1: Pointer to first letter destination
+;   r2: Number of characters to copy.
+; Returns:
+;   r0: Pointer to byte after the last one loaded. If the end of the string was
+;       hit, this will point to 0xFE.
+LoadSpriteString:
+        push {lr}
+        push {r4-r6}
+        mov r4, r0
+        mov r5, r1
+        mov r6, r2
+
+    ; Override OBP3 color 2 with white.
+    ; TODO: find where the overridden purple color is used and change methods if necessary
+        ldr r1, =@ObjectPalette3 + 4
+        ldr r0, =0x7FFF
+        strh r0, [r1]
+
+    @@LoadFromString:
+        ldrb r0, [r4]
+        cmp r0, #0xFE
+        beq @@LoadCharacter
+        add r4, r4, #1
+
+    @@LoadCharacter:
+        mov r1, r5
+        bl LoadSpriteCharacter
+        add r5, #sizeof_tile
+        sub r6, r6, #1
+
+    @@CheckNChars:
+        cmp r6, #0
+        bne @@LoadFromString
+    @@Return:
+        mov r0, r4
+        pop {r4-r6}
+        pop {pc}
+    .pool
+
+; Load a character into the sprite table.
+; Parameters:
+;   r0: Pointer to character
+;   r1: Pointer to destination
+LoadSpriteCharacter:
+        lsl r0, r0, #2
+        ldr r2, =LetterToSpriteTile
+        add r0, r2, r0
+        ldr r0, [r0]
+
+        ldr r2, =REG_DMA3SAD
+        str r0, [r2]
+        mov r0, r1
+        str r0, [r2, #4]
+        ldr r0, =dma_enable | dma_words(8)
+        str r0, [r2, #8]
+        ldr r0, [r2, #8]
+
+        mov pc, lr
+    .pool
 
 
 .endautoregion

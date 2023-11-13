@@ -3,37 +3,9 @@
 #include "vanilla/variables.h"
 #include "vanilla/functions.h"
 #include "item.h"
-#include "multiworld.h"
-
-void InitializeVariables() {
-    DeathLinkEnabled = DeathLinkFlag;
-    MultiworldState = 0;
-    TextTimer = 0;
-
-    // From vanilla
-    KeyPressContinuous = 0;
-    KeyPressPrevious = 0;
-    usTrg_KeyPress1Frame = 0;
-    sGameSeq = 0;
-}
-
-extern u16 usTrg_KeyPress1Frame;
-extern u8 sGameSeq;
 
 
 #ifdef DEBUG
-
-// While free movement is enabled:
-//  - D-pad to move, hold R to move faster
-//  - Press Start to center camera on Wario. Press Start again or exit free
-//    movement to return the camera to normal.
-//  - Press L + D-pad up to clear the level. RANDO: This will dupe already
-//    collected items.
-void Debug_PressSelectForFreeMovement() {
-    if (usTrg_KeyPress1Frame & KEY_SELECT) {
-        sGameSeq = 8;
-    }
-}
 
 // Ported from debug build (https://tcrf.net/Wario_Land_4/Debug_Build#Controls)
 // - L + B: No items or bosses
