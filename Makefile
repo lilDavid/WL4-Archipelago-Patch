@@ -18,13 +18,13 @@ GRAPHICS = data/graphics/ability_get.bin \
 	       data/graphics/ability_icons.bin \
 	       data/graphics/ap_logo.bin
 
-out/basepatch.bsdiff: out/baserom.gba
-	bsdiff "Wario Land 4.gba" out/baserom.gba out/basepatch.bsdiff
+build/basepatch.bsdiff: build/baserom.gba
+	bsdiff "Wario Land 4.gba" build/baserom.gba build/basepatch.bsdiff
 
-out/baserom.gba: $(ASM) $(GRAPHICS)
-	@mkdir -p out
-	armips src/basepatch.asm -sym out/baserom.sym
-	grep -Ev '[0-9A-F]{8} [@.].*' out/baserom.sym > out/basepatch.sym
+build/baserom.gba: $(ASM) $(GRAPHICS)
+	@mkdir -p build
+	armips src/basepatch.asm -sym build/baserom.sym
+	grep -Ev '[0-9A-F]{8} [@.].*' build/baserom.sym > build/basepatch.sym
 
 data/graphics/%.bin: data/graphics/%.png data/graphics/%.txt
 	python3 make_graphics.py $@

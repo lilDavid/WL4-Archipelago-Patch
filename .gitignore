@@ -52,7 +52,7 @@ Mkfile.old
 dkms.conf
 
 # Output files
-out/*
+build/*
 *.gba
 *.sym
 *.bin
