@@ -2,7 +2,7 @@
 
 #include <gba.h>
 
-#include "vanilla/types.h"
+#include "unsorted/types.h"
 
 extern u8 Has1stGemPiece;
 extern u8 Has2ndGemPiece;

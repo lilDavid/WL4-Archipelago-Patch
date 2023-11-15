@@ -3,7 +3,7 @@
 #include "graphics.h"
 #include "item.h"
 #include "multiworld.h"
-#include "vanilla/functions.h"
+#include "unsorted/functions.h"
 
 
 void ItemReceivedFeedbackSound(u8 item_id) {

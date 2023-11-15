@@ -1,7 +1,7 @@
 #include <gba.h>
 
-#include "vanilla/functions.h"
-#include "vanilla/variables.h"
+#include "unsorted/functions.h"
+#include "unsorted/variables.h"
 #include "item_table.h"
 #include "graphics.h"
 #include "multiworld.h"

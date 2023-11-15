@@ -1,7 +1,7 @@
 #include <gba.h>
 
-#include "vanilla/variables.h"
-#include "vanilla/functions.h"
+#include "unsorted/variables.h"
+#include "unsorted/functions.h"
 #include "item.h"
 
 

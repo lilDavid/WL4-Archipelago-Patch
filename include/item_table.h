@@ -2,7 +2,7 @@
 
 #include <gba.h>
 
-#include "vanilla/types.h"
+#include "unsorted/types.h"
 
 typedef enum {
     BOX_GEM1,
