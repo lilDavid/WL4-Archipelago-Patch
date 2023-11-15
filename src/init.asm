@@ -5,4 +5,4 @@
 hook 0x8000728, 0x8000738, InitializeVariables
 
 
-.autoregion :: .importobj "obj/routines.o" :: .endautoregion
+.autoregion :: .importobj "obj/init.o" :: .endautoregion
