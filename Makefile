@@ -33,6 +33,7 @@ ASM = src/util/vanilla_labels.asm \
 OBJ = obj/init.o \
 	  obj/game_loop/level_select.o \
 	  obj/game_loop/game_main.o \
+	  obj/game_loop/level_results.o \
 	  obj/items/multiworld.o \
 	  obj/items/item_table.o \
 	  obj/items/collect_junk.o \
@@ -60,12 +61,15 @@ out/baserom.gba: $(ASM) $(OBJ) $(GRAPHICS)
 	armips src/basepatch.asm -sym out/baserom.sym $(ARMIPSFLAGS)
 	grep -Ev '[0-9A-F]{8} [@.].*' out/baserom.sym > out/basepatch.sym
 
-obj/%.o: src/%.c include/*.h
+obj/%.o: src/%.c include/*
 	@mkdir -p $(shell dirname $@)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 data/graphics/%.bin: data/graphics/%.png data/graphics/%.txt
 	python3 make_graphics.py $@
+
+checkobj/%.c: src/%.c
+	$(CC) $(CFLAGS) -S $< -o- | less
 
 remake: clean all
 

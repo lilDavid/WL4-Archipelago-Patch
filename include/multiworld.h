@@ -22,6 +22,7 @@ extern const u8 StrItemSent[sizeof("Sent ") - 1];
 extern const u8 StrItemTo[sizeof(" to ") - 1];
 extern const u8 StrItemReceived[sizeof("Received ") - 1];
 extern const u8 StrItemFrom[sizeof("from ") - 1];
+extern const u8 StrScreenFiller[];
 
 void ItemReceivedFeedbackSound(u8 item_id);
 u8 ReceiveNextItem();

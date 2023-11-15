@@ -26,14 +26,19 @@ typedef struct {
 extern const u8 ItemLocationTable[PASSAGE_MAX][LEVEL_MAXLEVEL][BOX_MAX];
 
 // Maps locations to pointers toward the item's multiworld data.
-
 extern const ExtData* ItemExtDataTable[PASSAGE_MAX][LEVEL_MAXLEVEL][BOX_MAX];
 
 // Starting inventory.
-
 extern const u8 StartingInventoryItemStatus[PASSAGE_MAX][LEVEL_MAX];
 extern const u8 StartingInventoryJunkCounts[4];
 extern const u8 StartingInventoryWarioAbilities;
+
+
+extern u8* boxPosessionVariables[BOX_MAX];
+#define HAS_BOX(box) (*boxPosessionVariables[box])
+extern u8 BoxContents[BOX_MAX];
+extern ExtData* BoxExtData[BOX_MAX];
+
 
 u8 ItemInCurrentLevel(u32 boxtype);
 const ExtData* ExtDataInCurrentLevel(u32 boxtype);

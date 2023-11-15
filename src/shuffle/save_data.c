@@ -24,7 +24,7 @@ void CreateStartingInventory() {
     WarioAbilities = StartingInventoryWarioAbilities;
 }
 
-static u8* has_boxes[BOX_MAX] = {
+u8* boxPosessionVariables[BOX_MAX] = {
     &Has1stGemPiece, &Has2ndGemPiece, &Has3rdGemPiece, &Has4thGemPiece,
     &HasCD, &HasFullHealthItem, &HasFullHealthItem2
 };
@@ -36,7 +36,7 @@ static u8* has_boxes[BOX_MAX] = {
 
 void CheckLocations() {
     for (int i = 0; i <= BOX_CD; i++) {
-        if (*has_boxes[i] != 1)
+        if (HAS_BOX(i) != 1)
             continue;
         W4ItemStatus[PassageID][InPassageLevelID] |= 1 << (8 + i);
         int item_id = ItemInCurrentLevel(i);
@@ -50,7 +50,7 @@ void CheckLocations() {
     }
 
     for (int i = BOX_HEART; i < BOX_MAX; i++) {
-        if (*has_boxes[i] != 1)
+        if (HAS_BOX(i) != 1)
             continue;
         W4ItemStatus[PassageID][InPassageLevelID] |= 1 << (8 + i + 1);
         int item_id = ItemInCurrentLevel(i);
@@ -67,7 +67,7 @@ void SetItemCollection() {
         int has_item = item_status & (1 << (8 + i));
         if (has_item)
             has_item = 3;
-        *has_boxes[i] = has_item;
+        HAS_BOX(i) = has_item;
     }
     if (item_status & ISB_KEYZER) {
         HasKeyzer = 2;
@@ -78,7 +78,7 @@ void SetItemCollection() {
         int has_item = item_status & (1 << (8 + i + 1));
         if (has_item)
             has_item = 3;
-        *has_boxes[i] = has_item;
+        HAS_BOX(i) = has_item;
     }
 
     AbilitiesInThisLevel = 0;

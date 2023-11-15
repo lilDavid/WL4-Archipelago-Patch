@@ -15,3 +15,5 @@ extern u16 usTrg_KeyPress1Frame;
 extern u8 Wario_ucReact;
 extern u8 Wario_ucMiss;
 extern u8 WarioHeart[4];
+
+extern u16 usMojiCount;
