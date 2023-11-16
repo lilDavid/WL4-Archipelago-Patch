@@ -107,3 +107,19 @@
     mov r0, #1
 .org 0x807A034  ; MainGameLoop(): Pyramid opens
     nop
+
+; Speed up Golden Diva intro
+.org 0x804F2DE  ; Q_BOUND1_L_item_cat(): Move faster and skip attack
+    add r0, r2, #7
+.org 0x804F30E
+    mov r0, #0x3B
+.org 0x804F582  ; BOUND3_L_item_cat(): Faster absorbing animation
+    sub r0, #8
+.org 0x80634B0  ; Pool in Q_INITIAL_mouja(): Start at final position
+   .word -0x18C
+.org 0x80679B0  ; K0_WALK_mouja_ring(): Make them disappear with these changes
+    blt 0x8067A50
+.org 0x806C478  ; BossStage_Diva_Event(): Start wave effect sooner
+    cmp r0, #5
+.org 0x806C5E4  ; BossStage_Diva_Raster(): Make wave effect faster
+    add r0, #4
