@@ -10,9 +10,18 @@
 
 
 void SpawnCollectionIndicator(u32 is_cd, u32 is_permanent);
-u32 GetFullHealthBoxID(void);
 void SetTreasurePalette(u32 item_palette);
 void CollectRandomItem(void);
+
+
+// Identify a heart box based on what room the player is in. Returns 1 if the
+// player is in Pinball Zone but not in the pink room with the heart box, and 0
+// otherwise.
+u32 GetHeartBoxID() {
+    return PassageID == PASSAGE_RUBY &&
+           InPassageLevelID == LEVEL_4 &&
+           CurrentRoomId != 8;
+}
 
 
 extern TAnmDef zako_takara_box_Anm_02[];
@@ -24,7 +33,7 @@ void SpawnRandomizedItemFromBox() {
     int box_id = CurrentEnemyData.GlobalId;
     int box_contents = box_id;
     if (box_id == ENTITY_BOX_HEART) {
-        box_contents += GetFullHealthBoxID();
+        box_contents += GetHeartBoxID();
         CurrentEnemyData.OAMDataPackPointerForCurrentAnimation = zako_takara_box_Anm_11;
     } else if (box_id == ENTITY_BOX_CD) {
         CurrentEnemyData.OAMDataPackPointerForCurrentAnimation = zako_takara_box_Anm_02;
@@ -84,7 +93,7 @@ static TAnmDef* gem_animations[] = {
 void LoadRandomItemAnimation() {
     int box_type = CurrentEnemyData.GlobalId - ENTITY_TREASURE_GEM1;
     if (CurrentEnemyData.GlobalId == ENTITY_TREASURE_HEART) {
-        box_type += GetFullHealthBoxID();
+        box_type += GetHeartBoxID();
     }
     int item_id = BoxContents[box_type];
 
@@ -162,7 +171,7 @@ void LoadRandomItemAnimation() {
 void CollectRandomItem() {
     int box_type = CurrentEnemyData.GlobalId - ENTITY_TREASURE_GEM1;
     if (CurrentEnemyData.GlobalId == ENTITY_TREASURE_HEART) {
-        box_type += GetFullHealthBoxID();
+        box_type += GetHeartBoxID();
     }
     HAS_BOX(box_type) = 1;
 

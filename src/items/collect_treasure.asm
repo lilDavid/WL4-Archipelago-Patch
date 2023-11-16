@@ -26,30 +26,4 @@ MixTemporaryAbilities:
     .pool
 
 
-; Identify a full health item box based on what room the player is in.
-; Returns:
-;     r0: 1 if the player is in Pinball Zone but not the FHB pink room; 0 otherwise
-GetFullHealthBoxID:
-        ldr r2, =PassageID
-        ldrb r2, [r2]
-        cmp r2, #2  ; Ruby Passage
-        bne @@Box1
-        ldr r2, =InPassageLevelID
-        ldrb r2, [r2]
-        cmp r1, #4  ; Pinball Zone
-        bne @@Box1
-        ldr r2, =CurrentRoomId
-        ldrb r2, [r2]
-        cmp r1, #8  ; Pink room with the heart box in the center
-        beq @@Box1
-
-        mov r0, #1
-        mov pc, lr
-
-    @@Box1:
-        mov r0, #0
-        mov pc, lr
-    .pool
-
-
 .endautoregion
