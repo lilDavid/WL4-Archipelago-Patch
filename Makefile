@@ -17,7 +17,7 @@ ASM = src/util/vanilla_labels.asm \
 	  src/items/item_table.asm \
 	  src/items/collect_treasure.asm \
 	  src/items/collection_indicator.asm \
-	  src/shuffle/randomize_boxes.asm \
+	  src/shuffle/boxes.asm \
 	  src/shuffle/limit_abilities.asm \
 	  src/shuffle/ability_ui.asm \
 	  src/shuffle/save_data.asm \
