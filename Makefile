@@ -37,6 +37,7 @@ OBJ = obj/init.o \
 	  obj/items/multiworld.o \
 	  obj/items/item_table.o \
 	  obj/items/collect_junk.o \
+	  obj/shuffle/boxes.o \
 	  obj/shuffle/save_data.o \
 
 GRAPHICS = data/graphics/ability_get.bin \

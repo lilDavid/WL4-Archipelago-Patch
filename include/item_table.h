@@ -37,7 +37,7 @@ extern const u8 StartingInventoryWarioAbilities;
 extern u8* boxPosessionVariables[BOX_MAX];
 #define HAS_BOX(box) (*boxPosessionVariables[box])
 extern u8 BoxContents[BOX_MAX];
-extern ExtData* BoxExtData[BOX_MAX];
+extern const ExtData* BoxExtData[BOX_MAX];
 
 
 u8 ItemInCurrentLevel(u32 boxtype);

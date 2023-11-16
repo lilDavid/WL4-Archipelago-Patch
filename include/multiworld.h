@@ -6,7 +6,8 @@
 typedef enum {
     MW_IDLE,
     MW_ITEM_READY,
-    MW_SHOWING_TEXT
+    MW_TEXT_RECEIVED_ITEM,
+    MW_TEXT_SENDING_ITEM,
 } MultiworldStatus;
 
 extern u16 ReceivedItemCount;

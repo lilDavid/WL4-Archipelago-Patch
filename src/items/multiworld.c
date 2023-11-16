@@ -22,7 +22,7 @@ u8 ReceiveNextItem() {
     if (MultiworldState != MW_ITEM_READY)
         return ITEM_NONE;
 
-    MultiworldState = MW_SHOWING_TEXT;
+    MultiworldState = MW_TEXT_RECEIVED_ITEM;
     ReceivedItemCount += 1;
 
     u8 incoming_item = IncomingItemID;

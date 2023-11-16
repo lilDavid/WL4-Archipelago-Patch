@@ -7,6 +7,7 @@ extern u8 InPassageLevelID;
 
 extern u8 sGameSeq;
 extern u8 GlobalTimer;
+extern u8 CurrentRoomId;
 
 extern u16 KeyPressContinuous;
 extern u16 KeyPressPrevious;

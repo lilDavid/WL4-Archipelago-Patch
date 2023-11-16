@@ -38,14 +38,16 @@ typedef enum {
     ABILITY_DASH_ATTACK,
     ABILITY_ENEMY_JUMP,
     ABILITY_SUPER_GROUND_POUND,
-    ABILITY_HEAVY_GRAB
+    ABILITY_HEAVY_GRAB,
+    ABILITY_MAX,
 } Ability;
 
 typedef enum {
     JUNK_FULL_HEALTH,
     JUNK_WARIO_FORM_TRAP,
     JUNK_HEART,
-    JUNK_LIGHTNING_TRAP
+    JUNK_LIGHTNING_TRAP,
+    JUNK_MAX,
 } JunkItem;
 
 #define ITEM_JEWEL(passage, quadrant) ((passage << 2) | quadrant)
@@ -82,3 +84,7 @@ extern u8 QueuedFormTraps;
 extern u8 QueuedHearts;
 extern u8 QueuedLightningTraps;
 extern u8 AbilitiesInThisLevel;
+
+void GiveWarioHearts(u32 hearts);
+void GiveTransformTrap(void);
+void GiveLightningTrap(void);

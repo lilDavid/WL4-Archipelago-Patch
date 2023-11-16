@@ -7,10 +7,6 @@ extern u8 ucFlashLoop;
 
 #define WarioCoinSet THUMB_FUNCTION(0x80768B8, void, s32)
 
-void GiveWarioHearts(int);
-void GiveTransformTrap(void);
-void GiveLightningTrap(void);
-
 // Give and apply queued junk items given by, for example, another player in the
 // multiworld.
 void CollectJunkItems(void) {
@@ -34,7 +30,7 @@ void CollectJunkItems(void) {
 }
 
 // Refill Wario's health by a specified amount
-void GiveWarioHearts(int hearts) {
+void GiveWarioHearts(u32 hearts) {
     WarioHeart[1] += hearts;
     if (WarioHeart[0] + WarioHeart[1] > 8) {
         WarioHeart[1] = 8 - WarioHeart[0];
