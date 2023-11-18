@@ -209,11 +209,11 @@ void CollectRandomItem() {
             int new_ability = item_id & 7;
             if (abilities & (1 << new_ability)) {
                 if (item_id == ITEM_GROUND_POUND)
-                    new_ability = 1 << ABILITY_SUPER_GROUND_POUND;
+                    new_ability = ABILITY_SUPER_GROUND_POUND;
                 else
-                    new_ability = 1 << ABILITY_HEAVY_GRAB;
+                    new_ability = ABILITY_HEAVY_GRAB;
             }
-            AbilitiesInThisLevel |= new_ability;
+            AbilitiesInThisLevel |= 1 << new_ability;
             SpawnCollectionIndicator(0, 0);
         } else {
             SpawnCollectionIndicator(1, 0);
