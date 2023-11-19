@@ -12,6 +12,9 @@
 .definelabel CurrentEnemyData, 0x3000A24
 .definelabel W4ItemStatus, 0x3000A68
 .definelabel Scbuf_ucStatus, 0x3000BE0
+.definelabel Scbuf_ucSeq, 0x3000BE3
+.definelabel Scbuf_ucWork0, 0x3000BE4
+.definelabel Scbuf_usPosX, 0x3000BEA
 .definelabel Has1stGemPiece, 0x3000C07
 .definelabel Has2ndGemPiece, 0x3000C08
 .definelabel Has3rdGemPiece, 0x3000C09
@@ -27,6 +30,9 @@
 .definelabel ucCntObj, 0x300184A
 .definelabel Wario_ucReact, 0x3001898
 .definelabel Wario_ucMiss, 0x300189C
+.definelabel Wario_usMukiX, 0x30018A6
+.definelabel Wario_usPosX, 0x30018AA
+.definelabel Wario_usPosY, 0x30018AC
 .definelabel WarioHeart, 0x3001910
 .definelabel WHit, 0x3001918
 .definelabel WarioLift, 0x3001940

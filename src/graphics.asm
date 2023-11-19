@@ -158,11 +158,13 @@ CarryingGrab2Tile: .skip sizeof_tile
 HasGrab1Tile: .skip sizeof_tile
 HasGrab2Tile: .skip sizeof_tile
 
+EmptyNonProgressiveAbilityTiles:
 EmptySwimTile: .skip sizeof_tile
 EmptyHeadSmashTile: .skip sizeof_tile
 EmptyDashAttackTile: .skip sizeof_tile
 EmptyEnemyJumpTile: .skip sizeof_tile
 
+FilledNonProgressiveAbilityTiles:
 HasSwimTile:
     .incbin "data/graphics/ability_get.bin", 18 * sizeof_tile, 4 * sizeof_tile
 .org HasSwimTile + sizeof_tile

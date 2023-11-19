@@ -34,6 +34,7 @@ OBJ = obj/init.o \
 	  obj/game_loop/level_select.o \
 	  obj/game_loop/game_main.o \
 	  obj/game_loop/level_results.o \
+	  obj/items/collection_indicator.o \
 	  obj/items/multiworld.o \
 	  obj/items/item_table.o \
 	  obj/items/collect_junk.o \
