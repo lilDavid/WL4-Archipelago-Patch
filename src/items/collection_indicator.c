@@ -44,7 +44,7 @@ void SpawnCollectionIndicator(u32 is_cd, u32 is_permanent) {
     if ((Wario_usMukiX & 0x20) == 0)
         x = Wario_usPosX + 72;
     else
-        x = Wario_usPosX + 200;
+        x = Wario_usPosX - 200;
     TOptObjSet(Wario_usPosY - 160, x, is_cd + 0x41);
     LastCollectedItemStatus = 2 * is_permanent + 1;
 }
@@ -111,7 +111,7 @@ u32 GemIcons_SetUpAbilities() {
         ability_tile = &EmptyGroundPound2Tile;
     } else /* Grab */ {
         // Hack to make the blue W work with the red palette active
-        *(SPRITE_PALETTE + (4 * 16 + 0xF) * sizeof(u16)) = 0x50A5;
+        SPRITE_PALETTE[4 * 16 + 0xF] = 0x50A5;
         if (abilities & (1 << ABILITY_HEAVY_GRAB)) {
             if (WarioAbilities & (1 << ABILITY_GRAB)) {
                 new_seq = 2;
@@ -179,7 +179,7 @@ static void GemIcons_SetCollectedAbility(u32 position) {
 
     if (LastCollectedItemID == ITEM_GRAB) {
         // Hack to make the blue W work with the red palette active
-        *(SPRITE_PALETTE + (4 * 16 + 0xF) * sizeof(u16)) = 0x50A5;
+        SPRITE_PALETTE[4 * 16 + 0xF] = 0x50A5;
         ability_tile = &CarryingGrab1Tile;
     } else /* Ground Pound */ {
         ability_tile = &CarryingGroundPound1Tile;

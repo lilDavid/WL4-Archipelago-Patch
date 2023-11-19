@@ -9,8 +9,6 @@
 #include "multiworld.h"
 
 
-void SpawnCollectionIndicator(u32 is_cd, u32 is_permanent);
-void SetTreasurePalette(u32 item_palette);
 void CollectRandomItem(void);
 
 
@@ -60,17 +58,6 @@ void SpawnRandomizedItemFromBox() {
     }
 }
 
-
-const u16 AbilityPaletteTable[ABILITY_MAX] = {
-    /* Ground Pound */       PAL_ENTRY,
-    /* Swim */               PAL_SAPPHIRE,
-    /* Head Smash */         PAL_HELMET,
-    /* Grab */               PAL_SAPPHIRE,
-    /* Dash Attack */        PAL_GARLIC,
-    /* Enemy Jump */         PAL_EMERALD,
-    /* Super Ground Pound */ PAL_ENTRY,
-    /* Heavy Grab */         PAL_RUBY,
-};
 
 extern u8 CurrentJewelIconPosition;
 

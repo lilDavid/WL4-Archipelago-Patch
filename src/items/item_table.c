@@ -4,6 +4,7 @@
 #include "unsorted/variables.h"
 #include "item.h"
 #include "item_table.h"
+#include "graphics.h"
 
 
 u8 ItemInCurrentLevel(u32 boxtype) {
@@ -87,3 +88,15 @@ static void GiveItem_Junk(u8 item_id) {
             break;
     }
 }
+
+
+const u16 AbilityPaletteTable[ABILITY_MAX] = {
+    /* Ground Pound */       PAL_ENTRY,
+    /* Swim */               PAL_SAPPHIRE,
+    /* Head Smash */         PAL_HELMET,
+    /* Grab */               PAL_SAPPHIRE,
+    /* Dash Attack */        PAL_GARLIC,
+    /* Enemy Jump */         PAL_EMERALD,
+    /* Super Ground Pound */ PAL_ENTRY,
+    /* Heavy Grab */         PAL_RUBY,
+};

@@ -72,6 +72,7 @@ typedef enum {
     ITEM_NONE = 0xFF
 } ItemID;
 
+extern const u16 AbilityPaletteTable[];
 
 extern u32 W4ItemStatus[PASSAGE_MAX][LEVEL_MAX];
 extern u8 WarioAbilities;

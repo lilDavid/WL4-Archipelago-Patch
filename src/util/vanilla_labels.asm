@@ -37,6 +37,7 @@
 .definelabel WHit, 0x3001918
 .definelabel WarioLift, 0x3001940
 .definelabel usWarStopFlg, 0x30019F6
+.definelabel ucWarOffFlg, 0x30019F8
 .definelabel ucSeldemoSeq, 0x3003C39
 .definelabel usMojiCount, 0x3004A30  ; ???
 

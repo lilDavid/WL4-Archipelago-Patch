@@ -39,7 +39,9 @@ extern u8* boxPosessionVariables[BOX_MAX];
 extern u8 BoxContents[BOX_MAX];
 extern const ExtData* BoxExtData[BOX_MAX];
 
-
 u8 ItemInCurrentLevel(u32 boxtype);
 const ExtData* ExtDataInCurrentLevel(u32 boxtype);
+
+void SetTreasurePalette(u32 item_palette);
 void GiveItem(u8 item_id, const ExtData* ext_data);
+void SpawnCollectionIndicator(u32 is_cd, u32 is_permanent);

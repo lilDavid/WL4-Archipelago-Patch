@@ -34,6 +34,7 @@ typedef struct {
     u8 unused[3];
 } TAnmDef;
 
+
 typedef struct { u8 bytes[0x20]; } Tile4bpp;
 
 #define TILE_NO_4B(n) ((n) * sizeof(Tile4bpp))
@@ -42,7 +43,7 @@ typedef struct { u8 bytes[0x20]; } Tile4bpp;
 
 extern const Tile4bpp BasicElementTiles[];
 
-u8* LoadSpriteString(const u8* w4Str, Tile4bpp* tiles, u32 length);
+const u8* LoadSpriteString(const u8* w4Str, Tile4bpp* tiles, u32 length);
 
 extern const Tile4bpp AbilityIconTilesTop[ABILITY_MAX * 2];
 extern const Tile4bpp AbilityIconTilesBottom[ABILITY_MAX * 2];
@@ -56,3 +57,7 @@ extern Tile4bpp TilesSenderB8[];
 extern Tile4bpp TilesItemA12[];
 extern Tile4bpp TilesItemB8[];
 extern Tile4bpp TilesItemC8[];
+
+
+extern u8 ucCntObj;
+extern OBJATTR OamBuf[128];
