@@ -17,11 +17,11 @@ UnusedRomStart equ 0x0878F97C
 .org UnusedRomStart
 .region 0x0E000000-.
     .arm
+    .align 4
     PlayerName: .fill 64, 0
     PlayerID: .halfword 0
     DeathLinkFlag: .byte 0
 
-    .align 4
     ItemLocationTable:              .fill 6 * 4 * 7,     ItemID_None
     ItemExtDataTable:               .fill 6 * 4 * 7 * 4, 0
     StartingInventoryItemStatus:    .fill 6 * 6,         0
@@ -30,22 +30,26 @@ UnusedRomStart equ 0x0878F97C
     .thumb
 .endregion
 
-.autoregion :: .importobj "obj/items/item_table.o" :: .endautoregion
-.autoregion :: .importobj "obj/items/multiworld.o" :: .endautoregion
-.include "src/items/collect_treasure.asm"
-.autoregion :: .importobj "obj/items/collect_junk.o" :: .endautoregion
-.include "src/items/collection_indicator.asm"
-.include "src/shuffle/boxes.asm"
-.include "src/shuffle/limit_abilities.asm"
-.include "src/game_loop/level_select.asm"
-.include "src/shuffle/save_data.asm"
-.include "src/game_loop/passage_select.asm"
-.include "src/game_loop/game_main.asm"
-.include "src/game_loop/level_results.asm"
-.include "src/init.asm"
 .include "src/patches.asm"
+.include "src/hooks.asm"
+.include "src/limit_abilities.asm"
+
 .include "src/lib.asm"
-.autoregion :: .importobj "obj/graphics.o" :: .endautoregion
+.autoregion
+.importobj "obj/init.o"
+.importobj "obj/items/item_table.o"
+.importobj "obj/items/multiworld.o"
+.importobj "obj/items/collect_junk.o"
+.importobj "obj/items/collection_indicator.o"
+.importobj "obj/shuffle/boxes.o"
+.importobj "obj/shuffle/save_data.o"
+.importobj "obj/game_loop/passage_select.o"
+.importobj "obj/game_loop/level_select.o"
+.importobj "obj/game_loop/game_main.o"
+.importobj "obj/game_loop/level_results.o"
+.importobj "obj/graphics.o"
+.endautoregion
+
 .include "src/data/graphics.asm"
 .include "src/data/strings.asm"
 

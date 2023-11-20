@@ -14,23 +14,14 @@ ASM = src/util/vanilla_labels.asm \
 	  src/util/randomizer_variables.asm \
 	  src/util/macros.asm \
 	  src/util/bitfields.asm \
-	  src/items/collect_treasure.asm \
-	  src/items/collection_indicator.asm \
-	  src/shuffle/boxes.asm \
-	  src/shuffle/limit_abilities.asm \
-	  src/game_loop/level_select.asm \
-	  src/shuffle/save_data.asm \
-	  src/game_loop/passage_select.asm \
-	  src/game_loop/game_main.asm \
-	  src/game_loop/level_results.asm \
-	  src/init.asm \
 	  src/patches.asm \
+	  src/hooks.asm \
+	  src/limit_abilities.asm \
 	  src/lib.asm \
 	  src/data/graphics.asm \
 	  src/data/strings.asm
 
 OBJ = obj/init.o \
-      obj/graphics.o \
 	  obj/game_loop/passage_select.o \
 	  obj/game_loop/level_select.o \
 	  obj/game_loop/game_main.o \
@@ -41,6 +32,7 @@ OBJ = obj/init.o \
 	  obj/items/collect_junk.o \
 	  obj/shuffle/boxes.o \
 	  obj/shuffle/save_data.o \
+	  obj/graphics.o \
 
 GRAPHICS = data/graphics/ability_get.bin \
 		   data/graphics/ability_icons.bin \
@@ -57,12 +49,12 @@ debug: ARMIPSFLAGS += -definelabel DEBUG 1
 debug: basepatch
 
 build/basepatch.bsdiff: build/baserom.gba
-	grep -Ev '[0-9A-F]{8} [@.].*' build/baserom.sym > build/basepatch.sym
 	bsdiff "Wario Land 4.gba" build/baserom.gba build/basepatch.bsdiff
 
 build/baserom.gba: $(ASM) $(OBJ) $(GRAPHICS)
 	@mkdir -p build
 	armips src/basepatch.asm -sym build/baserom.sym $(ARMIPSFLAGS)
+	grep -Ev '[0-9A-F]{8} [@.].*' build/baserom.sym > build/basepatch.sym
 
 obj/%.o: src/%.c include/*
 	@mkdir -p $(shell dirname $@)
