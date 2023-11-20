@@ -44,7 +44,7 @@ void SpawnCollectionIndicator(u32 is_cd, u32 is_permanent) {
     if ((Wario_usMukiX & 0x20) == 0)
         x = Wario_usPosX + 72;
     else
-        x = Wario_usPosX - 200;
+        x = Wario_usPosX - (is_cd ? 136 : 200);
     TOptObjSet(Wario_usPosY - 160, x, is_cd + 0x41);
     LastCollectedItemStatus = 2 * is_permanent + 1;
 }
@@ -149,7 +149,7 @@ void GemIcons_Update() {
 
     if (Scbuf_ucWork0 == 20) {
         TKakeraComp_SE_Set();
-        int position = LastCollectedItemID & 3;
+        int position = Scbuf_ucSeq;
         if (LastCollectedItemID & ITEMBIT_ABILITY)
             GemIcons_SetCollectedAbility(position);
         else

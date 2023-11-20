@@ -26,7 +26,7 @@ extern u8 ucWarOffFlg;
 extern u8 Scbuf_ucStatus;
 extern u8 Scbuf_ucSeq;
 extern u8 Scbuf_ucWork0;
-extern u8 Scbuf_usPosX;
+extern u16 Scbuf_usPosX;
 
 extern u16 usMojiCount;
 

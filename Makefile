@@ -32,6 +32,16 @@ OBJ = obj/init.o \
 	  obj/shuffle/save_data.o \
 	  obj/graphics.o \
 
+INCLUDE = include/unsorted/functions.h \
+          include/unsorted/macros.h \
+          include/unsorted/types.h \
+          include/unsorted/variables.h \
+          include/entity.h \
+          include/graphics.h \
+          include/item_table.h \
+          include/item.h \
+          include/multiworld.h \
+
 GRAPHICS = data/graphics/ability_get.bin \
 		   data/graphics/ability_icons.bin \
 		   data/graphics/ap_logo.bin
@@ -54,7 +64,7 @@ build/baserom.gba: src/basepatch.asm $(ASM) $(OBJ) $(GRAPHICS)
 	armips src/basepatch.asm -sym build/baserom.sym $(ARMIPSFLAGS)
 	grep -Ev '[0-9A-F]{8} [@.].*' build/baserom.sym > build/basepatch.sym
 
-obj/%.o: src/%.c include/*
+obj/%.o: src/%.c $(INCLUDE)
 	@mkdir -p $(shell dirname $@)
 	$(CC) $(CFLAGS) -c $< -o $@
 
