@@ -45,6 +45,7 @@ UnusedRomStart equ 0x0878F97C
 .include "src/init.asm"
 .include "src/patches.asm"
 .include "src/lib.asm"
+.autoregion :: .importobj "obj/graphics.o" :: .endautoregion
 .include "src/data/graphics.asm"
 .include "src/data/strings.asm"
 

@@ -30,6 +30,7 @@ ASM = src/util/vanilla_labels.asm \
 	  src/data/strings.asm
 
 OBJ = obj/init.o \
+      obj/graphics.o \
 	  obj/game_loop/passage_select.o \
 	  obj/game_loop/game_main.o \
 	  obj/game_loop/level_results.o \

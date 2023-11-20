@@ -173,43 +173,4 @@ HasDashAttackTile: .skip sizeof_tile
 HasEnemyJumpTile: .skip sizeof_tile
 
 
-.align 2
-APLogoObj:
-    .halfword 1  ; Length
-    .halfword attr0_square | attr0_4bpp | attr0_y(-8)
-    .halfword attr1_size(1) | attr1_x(-8)
-    .halfword attr2_palette(4) | attr2_priority(0) | attr2_id(0x12E)
-
-HeartObj:
-    .halfword 1  ; Length
-    .halfword attr0_square | attr0_4bpp | attr0_y(-8)
-    .halfword attr1_size(1) | attr1_x(-8)
-    .halfword attr2_palette(7) | attr2_priority(0) | attr2_id(234)
-
-EmptyObj:
-    .halfword 1  ; Length
-    .halfword attr0_square | attr0_4bpp | attr0_hide | attr0_y(0)
-    .halfword attr1_size(0) | attr1_x(0)
-    .halfword attr2_palette(0) | attr2_priority(0) | attr2_id(0)
-
-.align 4
-APLogoAnm:
-    .word APLogoObj  ; Object address
-    .byte 0xFF  ; Timer
-    .fill 3, 0  ; Unused
-    .fill 8, 0  ; Zeroed entry
-
-HeartAnm:
-    .word HeartObj  ; Object address
-    .byte 0xFF  ; Timer
-    .fill 3, 0  ; Unused
-    .fill 8, 0  ; Zeroed entry
-
-EmptyAnm:
-    .word EmptyObj  ; Object address
-    .byte 0xFF  ; Timer
-    .fill 3, 0  ; Unused
-    .fill 8, 0  ; Zeroed entry
-
-
 .endautoregion

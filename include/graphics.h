@@ -15,6 +15,7 @@ typedef enum {
     PAL_AP,
     PAL_GARLIC,
     PAL_HELMET,
+    PAL_MAX
 } PassagePalette;
 
 typedef struct {
@@ -29,7 +30,7 @@ typedef struct {
 } TObjDef;
 
 typedef struct {
-    TObjDef* uiObjAddr;
+    const TObjDef* uiObjAddr;
     u8 ucTimer;
     u8 unused[3];
 } TAnmDef;
