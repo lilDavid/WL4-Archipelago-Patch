@@ -1,7 +1,7 @@
 #include "graphics.h"
 
 
-static const u16 PassagePaletteTable[PAL_MAX][5] = {
+const u16 PassagePaletteTable[PAL_MAX][5] = {
     /* Entry Passage */        { 0x7B3E, 0x723C, 0x6576, 0x58B0, 0x4C07 },
     /* Emerald Passage */      { 0x5793, 0x578D, 0x4B20, 0x2E40, 0x1160 },
     /* Ruby Passage */         { 0x6B5F, 0x529F, 0x253F, 0x14B4, 0x14AE },

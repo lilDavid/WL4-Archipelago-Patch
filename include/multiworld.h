@@ -2,6 +2,8 @@
 
 #include <gba.h>
 
+#include "unsorted/macros.h"
+
 
 typedef enum {
     MW_IDLE,
@@ -19,10 +21,10 @@ extern u8 TextTimer;
 extern u8 DeathLinkEnabled;
 extern const u8 DeathLinkFlag;
 
-extern const u8 StrItemSent[sizeof("Sent ") - 1];
-extern const u8 StrItemTo[sizeof(" to ") - 1];
-extern const u8 StrItemReceived[sizeof("Received ") - 1];
-extern const u8 StrItemFrom[sizeof("from ") - 1];
+extern const u8 StrItemSent[LEN("Sent ")];
+extern const u8 StrItemTo[LEN(" to ")];
+extern const u8 StrItemReceived[LEN("Received ")];
+extern const u8 StrItemFrom[LEN("from ")];
 extern const u8 StrScreenFiller[];
 
 void ItemReceivedFeedbackSound(u8 item_id);

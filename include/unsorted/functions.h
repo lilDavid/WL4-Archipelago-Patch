@@ -23,3 +23,5 @@
 
 typedef void (*WarioChngFunc)(u8);
 extern WarioChngFunc WarioChng_React[2];
+
+u32 W4strlen(const u8* str);

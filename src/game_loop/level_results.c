@@ -7,8 +7,6 @@
 #include "multiworld.h"
 
 
-u32 W4strlen(const u8* str);
-
 // Load the text for the next item collection message. If no items are left to
 // show, indicate start fading the results screen.
 u32 LevelResults_ShowNextItem() {
