@@ -19,7 +19,7 @@ ASM = src/util/vanilla_labels.asm \
 	  src/items/collection_indicator.asm \
 	  src/shuffle/boxes.asm \
 	  src/shuffle/limit_abilities.asm \
-	  src/shuffle/ability_ui.asm \
+	  src/game_loop/level_select.asm \
 	  src/shuffle/save_data.asm \
 	  src/game_loop/passage_select.asm \
 	  src/game_loop/game_main.asm \
