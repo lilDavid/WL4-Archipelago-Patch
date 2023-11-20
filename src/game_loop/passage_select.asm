@@ -16,7 +16,7 @@
 .align 2
 
 
-.importobj "obj/game_loop/level_select.o"
+.importobj "obj/game_loop/passage_select.o"
 
 
 ; Receive multiworld items (level select)

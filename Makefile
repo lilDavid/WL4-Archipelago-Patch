@@ -21,7 +21,7 @@ ASM = src/util/vanilla_labels.asm \
 	  src/shuffle/limit_abilities.asm \
 	  src/shuffle/ability_ui.asm \
 	  src/shuffle/save_data.asm \
-	  src/game_loop/level_select.asm \
+	  src/game_loop/passage_select.asm \
 	  src/game_loop/game_main.asm \
 	  src/game_loop/level_results.asm \
 	  src/init.asm \
@@ -31,7 +31,7 @@ ASM = src/util/vanilla_labels.asm \
 	  src/string_data.asm
 
 OBJ = obj/init.o \
-	  obj/game_loop/level_select.o \
+	  obj/game_loop/passage_select.o \
 	  obj/game_loop/game_main.o \
 	  obj/game_loop/level_results.o \
 	  obj/items/collection_indicator.o \

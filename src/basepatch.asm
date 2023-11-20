@@ -30,7 +30,7 @@ UnusedRomStart equ 0x0878F97C
 .include "src/shuffle/limit_abilities.asm"
 .include "src/shuffle/ability_ui.asm"
 .include "src/shuffle/save_data.asm"
-.include "src/game_loop/level_select.asm"
+.include "src/game_loop/passage_select.asm"
 .include "src/game_loop/game_main.asm"
 .include "src/game_loop/level_results.asm"
 .include "src/init.asm"
