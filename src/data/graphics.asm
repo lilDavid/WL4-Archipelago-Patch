@@ -5,6 +5,10 @@
 ; Store letters and AP logo in some unused space in the tile data near the
 ; jewels and such. WL4 stores graphics data in 4bpp uncompressed 2D format.
 
+sizeof_tile equ 0x20
+.expfunc tile_no_4b(n), n * sizeof_tile
+.expfunc tile_coord_4b(x, y), tile_no_4b(x + 32 * y)
+
 ; Spaces that will be used by text are now filled with empty tiles for clarity.
 .org BasicElementTiles + tile_coord_4b(12, 4)
 EmptyTile:

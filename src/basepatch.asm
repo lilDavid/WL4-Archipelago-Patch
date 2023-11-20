@@ -7,11 +7,10 @@ output equ "build/baserom.gba"
 UnusedRamStart equ 0x03006280
 UnusedRomStart equ 0x0878F97C
 
-.include "src/util/vanilla_labels.asm"
-.include "src/util/randomizer_variables.asm"
-.include "src/util/macros.asm"
-.include "src/util/bitfields.asm"
+.include "src/symbols/vanilla_labels.asm"
+.include "src/symbols/randomizer_variables.asm"
 
+ITEM_NONE equ 0xFF
 
 ; Allocate space at ROM end
 .org UnusedRomStart
@@ -22,7 +21,7 @@ UnusedRomStart equ 0x0878F97C
     PlayerID: .halfword 0
     DeathLinkFlag: .byte 0
 
-    ItemLocationTable:              .fill 6 * 4 * 7,     ItemID_None
+    ItemLocationTable:              .fill 6 * 4 * 7,     ITEM_NONE
     ItemExtDataTable:               .fill 6 * 4 * 7 * 4, 0
     StartingInventoryItemStatus:    .fill 6 * 6,         0
     StartingInventoryJunkCounts:    .fill 4,             0

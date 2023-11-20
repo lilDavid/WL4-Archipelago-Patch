@@ -41,16 +41,6 @@
 .definelabel ucSeldemoSeq, 0x3003C39
 .definelabel usMojiCount, 0x3004A30  ; ???
 
-; I/O Registers
-.definelabel REG_BG3CNT, 0x400000E
-.definelabel REG_BG0VOFS, 0x4000012
-.definelabel REG_DMA3SAD, 0x40000D4
-
-; PalRAM
-.definelabel ObjectPalette4, 0x5000280
-.definelabel ObjectPalette9, 0x5000320
-.definelabel ObjectPaletteF, 0x50003E0
-
 ; Functions
 .thumb
 .definelabel MainGameLoop, 0x80001CC

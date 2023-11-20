@@ -10,10 +10,8 @@ CC = $(DEVKITARM)/bin/arm-none-eabi-gcc
 CFLAGS = -mthumb -mthumb-interwork -Wall -Wextra -std=gnu11 -O1 \
 		 -Iinclude -I$(DEVKITPRO)/libgba/include -Lgba
 
-ASM = src/util/vanilla_labels.asm \
-	  src/util/randomizer_variables.asm \
-	  src/util/macros.asm \
-	  src/util/bitfields.asm \
+ASM = src/symbols/vanilla_labels.asm \
+	  src/symbols/randomizer_variables.asm \
 	  src/patches.asm \
 	  src/hooks.asm \
 	  src/limit_abilities.asm \
