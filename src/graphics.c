@@ -15,8 +15,17 @@ static const u16 PassagePaletteTable[PAL_MAX][5] = {
 
 void SetTreasurePalette(u32 palette) {
     const u16* source = PassagePaletteTable[palette];
-    u16* destination = &SPRITE_PALETTE[4 * 16 - 5];
+    u16* destination = &SPRITE_PALETTE[5 * 16 - 5];
     dmaCopy(source, destination, 5 * sizeof(u16));
+}
+
+void OamBuf_AddObj(u16 attr0, u16 attr1, u16 attr2) {
+    if (ucCntObj >= 0x80)
+        return;
+    OamBuf[ucCntObj].attr0 = attr0;
+    OamBuf[ucCntObj].attr1 = attr1;
+    OamBuf[ucCntObj].attr2 = attr2;
+    ucCntObj += 1;
 }
 
 

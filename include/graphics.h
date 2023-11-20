@@ -62,3 +62,5 @@ extern Tile4bpp TilesItemC8[];
 
 extern u8 ucCntObj;
 extern OBJATTR OamBuf[128];
+
+void OamBuf_AddObj(u16 attr0, u16 attr1, u16 attr2);

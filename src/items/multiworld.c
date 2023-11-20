@@ -14,6 +14,7 @@ void ItemReceivedFeedbackSound(u8 item_id) {
         m4aSongNumStart(0x13C);
     else
         m4aSongNumStart(0x13B);
+    WarioVoiceSet(1);
 }
 
 // Get the next incoming item. If nothing has been received, return ITEM_NONE.

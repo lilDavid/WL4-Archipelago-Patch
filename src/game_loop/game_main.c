@@ -40,6 +40,7 @@ static void GameMain_CollectMultiworld() {
     if (item_id & ITEMBIT_JUNK)
         return;
 
+    ItemReceivedFeedbackSound(item_id);
     if (item_id & ITEMBIT_ABILITY) {
         int ability = item_id & 7;
         int progressive = 0;
@@ -114,64 +115,42 @@ static void GameMain_CreateTextOAM(u32 spaces_around_3rd) {
     int attr1 = ATTR1_SIZE_16 | OBJ_X(8);
     int attr2 = ATTR2_PALETTE(3) | ATTR2_PRIORITY(0) | OBJ_CHAR(0x10C);
 
-    // FIXME: This can overrun OamBuf
-    // TODO: Also reduce copypasta
+    // TODO: Reduce copypasta
 
     // 1st object
-    OamBuf[ucCntObj].attr0 = attr0;
-    OamBuf[ucCntObj].attr1 = attr1;
-    OamBuf[ucCntObj].attr2 = attr2;
-    ucCntObj += 1;
+    OamBuf_AddObj(attr0, attr1, attr2);
 
     // 2nd object
     attr1 += OBJ_X(32);
     attr2 += OBJ_CHAR(4);
-    OamBuf[ucCntObj].attr0 = attr0;
-    OamBuf[ucCntObj].attr1 = attr1;
-    OamBuf[ucCntObj].attr2 = attr2;
-    ucCntObj += 1;
+    OamBuf_AddObj(attr0, attr1, attr2);
 
     // 3rd object
     if (spaces_around_3rd)
         attr1 += OBJ_X(8);
     attr1 += OBJ_X(32);
     attr2 += OBJ_CHAR(4);
-    OamBuf[ucCntObj].attr0 = attr0;
-    OamBuf[ucCntObj].attr1 = attr1;
-    OamBuf[ucCntObj].attr2 = attr2;
+    OamBuf_AddObj(attr0, attr1, attr2);
     if (spaces_around_3rd)
         attr1 += OBJ_X(8);
-    ucCntObj += 1;
 
     // 4th
     attr1 += OBJ_X(32);
     attr2 += OBJ_CHAR(0x130 - 0x114);
-    OamBuf[ucCntObj].attr0 = attr0;
-    OamBuf[ucCntObj].attr1 = attr1;
-    OamBuf[ucCntObj].attr2 = attr2;
-    ucCntObj += 1;
+    OamBuf_AddObj(attr0, attr1, attr2);
 
     // 5th
     attr1 += OBJ_X(32);
     attr2 += OBJ_CHAR(4);
-    OamBuf[ucCntObj].attr0 = attr0;
-    OamBuf[ucCntObj].attr1 = attr1;
-    OamBuf[ucCntObj].attr2 = attr2;
-    ucCntObj += 1;
+    OamBuf_AddObj(attr0, attr1, attr2);
 
     // 6th
     attr1 += OBJ_X(32);
     attr2 += OBJ_CHAR(0x20 - 4);
-    OamBuf[ucCntObj].attr0 = attr0;
-    OamBuf[ucCntObj].attr1 = attr1;
-    OamBuf[ucCntObj].attr2 = attr2;
-    ucCntObj += 1;
+    OamBuf_AddObj(attr0, attr1, attr2);
 
     // 7th
     attr1 += OBJ_X(32);
     attr2 += OBJ_CHAR(4);
-    OamBuf[ucCntObj].attr0 = attr0;
-    OamBuf[ucCntObj].attr1 = attr1;
-    OamBuf[ucCntObj].attr2 = attr2;
-    ucCntObj += 1;
+    OamBuf_AddObj(attr0, attr1, attr2);
 }
