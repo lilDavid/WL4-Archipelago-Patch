@@ -1,30 +1,82 @@
-ASM = src/items/item_table.asm \
-      src/items/multiworld.asm \
-      src/items/collect_treasure.asm \
-      src/items/collect_junk.asm \
-      src/items/collection_indicator.asm \
-      src/boxes/randomize_boxes.asm \
-      src/boxes/save_full_health.asm \
-      src/move_shuffle/limit_abilities.asm \
-      src/move_shuffle/ability_ui.asm \
-      src/routines.asm \
-      src/patches.asm \
-      src/graphics.asm \
-      src/messages/textboxes.asm \
-      src/messages/draw_text.asm \
-      src/messages/strings.asm
+ifeq ($(strip $(DEVKITPRO)),)
+$(error "Please set DEVKITPRO in your environment. export DEVKITPRO=<path to>devkitPRO)
+endif
+ifeq ($(strip $(DEVKITARM)),)
+$(error "Please set DEVKITARM in your environment. export DEVKITARM=<path to>devkitARM)
+endif
+
+ARMIPSFLAGS=
+CC = $(DEVKITARM)/bin/arm-none-eabi-gcc
+CFLAGS = -mthumb -mthumb-interwork -Wall -Wextra -std=gnu11 -O1 \
+		 -Iinclude -I$(DEVKITPRO)/libgba/include -Lgba
+
+ASM = src/symbols/vanilla_labels.asm \
+	  src/symbols/randomizer_variables.asm \
+	  src/patches.asm \
+	  src/hooks.asm \
+	  src/limit_abilities.asm \
+	  src/lib.asm \
+	  src/data/graphics.asm \
+	  src/data/strings.asm
+
+OBJ = obj/init.o \
+	  obj/game_loop/passage_select.o \
+	  obj/game_loop/level_select.o \
+	  obj/game_loop/game_main.o \
+	  obj/game_loop/level_results.o \
+	  obj/items/collection_indicator.o \
+	  obj/items/multiworld.o \
+	  obj/items/item_table.o \
+	  obj/items/collect_junk.o \
+	  obj/shuffle/boxes.o \
+	  obj/shuffle/save_data.o \
+	  obj/graphics.o \
+
+INCLUDE = include/unsorted/functions.h \
+          include/unsorted/macros.h \
+          include/unsorted/types.h \
+          include/unsorted/variables.h \
+          include/entity.h \
+          include/graphics.h \
+          include/item_table.h \
+          include/item.h \
+          include/multiworld.h \
 
 GRAPHICS = data/graphics/ability_get.bin \
-	       data/graphics/ability_icons.bin \
-	       data/graphics/ap_logo.bin
+		   data/graphics/ability_icons.bin \
+		   data/graphics/ap_logo.bin
+
+.PHONY: all clean debug remake remake-debug
+
+all: basepatch
+
+basepatch: build/basepatch.bsdiff
+
+debug: CFLAGS += -DDEBUG -g
+debug: ARMIPSFLAGS += -definelabel DEBUG 1
+debug: basepatch
 
 build/basepatch.bsdiff: build/baserom.gba
 	bsdiff "Wario Land 4.gba" build/baserom.gba build/basepatch.bsdiff
 
-build/baserom.gba: $(ASM) $(GRAPHICS)
+build/baserom.gba: src/basepatch.asm $(ASM) $(OBJ) $(GRAPHICS)
 	@mkdir -p build
-	armips src/basepatch.asm -sym build/baserom.sym
+	armips src/basepatch.asm -sym build/baserom.sym $(ARMIPSFLAGS)
 	grep -Ev '[0-9A-F]{8} [@.].*' build/baserom.sym > build/basepatch.sym
+
+obj/%.o: src/%.c $(INCLUDE)
+	@mkdir -p $(shell dirname $@)
+	$(CC) $(CFLAGS) -c $< -o $@
 
 data/graphics/%.bin: data/graphics/%.png data/graphics/%.txt
 	python3 make_graphics.py $@
+
+checkobj/%.c: src/%.c
+	$(CC) $(CFLAGS) -S $< -o- | less
+
+remake: clean all
+
+remake-debug: clean debug
+
+clean:
+	rm -rf obj build

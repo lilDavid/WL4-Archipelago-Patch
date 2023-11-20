@@ -1,4 +1,5 @@
 .gba
+.arm
 
 ; Object tiles in VRAM
 .definelabel TilesReceived8, 0x06012180
@@ -12,9 +13,9 @@
 ; These extra bits of save data are stored in the upper parts of Entry Passage
 ; levels that don't exist.
 ; Most significant byte of the "third" level
-.definelabel WarioAbilities, LevelStatusTable + 11
+.definelabel WarioAbilities, W4ItemStatus + 11
 ; Upper halfword of the "fourth" level
-.definelabel ReceivedItemCount, LevelStatusTable + 14
+.definelabel ReceivedItemCount, W4ItemStatus + 14
 
 ; Items can be received one at a time w/o issue
 .definelabel IncomingItemID, UnusedRamStart  ; byte
@@ -57,18 +58,20 @@
     .definelabel QueuedHearts, QueuedJunk + 2
     .definelabel QueuedLightningTraps, QueuedJunk + 3
 
-.definelabel Jewel1BoxContents, QueuedJunk + 4  ; bytes
-    .definelabel Jewel2BoxContents, Jewel1BoxContents + 1
-    .definelabel Jewel3BoxContents, Jewel1BoxContents + 2
-    .definelabel Jewel4BoxContents, Jewel1BoxContents + 3
-    .definelabel CDBoxContents, Jewel1BoxContents + 4
-    .definelabel HealthBoxContents, Jewel1BoxContents + 5
-    .definelabel HealthBox2Contents, Jewel1BoxContents + 6
+.definelabel BoxContents, QueuedJunk + 4  ; bytes
+    .definelabel Jewel1BoxContents, BoxContents  ; bytes
+    .definelabel Jewel2BoxContents, BoxContents + 1
+    .definelabel Jewel3BoxContents, BoxContents + 2
+    .definelabel Jewel4BoxContents, BoxContents + 3
+    .definelabel CDBoxContents, BoxContents + 4
+    .definelabel HealthBoxContents, BoxContents + 5
+    .definelabel HealthBox2Contents, BoxContents + 6
 
-.definelabel Jewel1BoxExtData, Jewel1BoxContents + 8  ; words
-    .definelabel Jewel2BoxExtData, Jewel1BoxExtData + 4
-    .definelabel Jewel3BoxExtData, Jewel1BoxExtData + 8
-    .definelabel Jewel4BoxExtData, Jewel1BoxExtData + 12
-    .definelabel CDBoxExtData, Jewel1BoxExtData + 16
-    .definelabel HealthBoxExtData, Jewel1BoxExtData + 20
-    .definelabel HealthBox2ExtData, Jewel1BoxExtData + 24
+.definelabel BoxExtData, Jewel1BoxContents + 8  ; words
+    .definelabel Jewel1BoxExtData, BoxExtData
+    .definelabel Jewel2BoxExtData, BoxExtData + 4
+    .definelabel Jewel3BoxExtData, BoxExtData + 8
+    .definelabel Jewel4BoxExtData, BoxExtData + 12
+    .definelabel CDBoxExtData, BoxExtData + 16
+    .definelabel HealthBoxExtData, BoxExtData + 20
+    .definelabel HealthBox2ExtData, BoxExtData + 24

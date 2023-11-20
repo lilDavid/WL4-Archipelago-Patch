@@ -12,11 +12,34 @@
 ; 6: Super Ground Pound
 ; 7: Grab heavy objects
 
+MoveBit_GroundPound equ 0
+MoveBit_Swim equ 1
+MoveBit_HeadSmash equ 2
+MoveBit_Grab equ 3
+MoveBit_DashAttack equ 4
+MoveBit_EnemyJump equ 5
+MoveBit_GroundPoundSuper equ 6
+MoveBit_GrabHeavy equ 7
 
 .macro get_wario_move, ability
         ldr r0, =WarioAbilities
         ldrb r0, [r0]
         get_bit r0, r0, ability
+.endmacro
+
+
+; Copy bits m-n inclusive from the source register into a destination register.
+; They'll be shifted into the least significant position, and the most
+; significant bits will all be cleared.
+.macro get_bits, dst, src, msb, lsb
+        lsl dst, src, #31-msb
+        lsr dst, dst, #31 - (msb - lsb)
+.endmacro
+
+; Copy bit n from the source register into the least significant bit in the
+; destination register. The most significant 31 bits will be cleared.
+.macro get_bit, dst, src, bit
+        get_bits dst, src, bit, bit
 .endmacro
 
 
@@ -292,12 +315,16 @@ LimitWarioAbility_HeadSmash:
 
     @@HeadSmash:
         mov r0, sp
-        call_using r1, PanelPartWork_Broken_Main
+        ldr r1, =PanelPartWork_Broken_Main | 1
+        bl @@call_via_r1
         mov r3, r0
         cmp r3, #1
 
         ldr r0, =0x806EE60
         mov pc, r0
+
+    @@call_via_r1:
+        bx r1
 
     .pool
 

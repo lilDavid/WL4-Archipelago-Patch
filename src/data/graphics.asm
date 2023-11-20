@@ -1,8 +1,13 @@
 .gba
+.arm
 
 
 ; Store letters and AP logo in some unused space in the tile data near the
 ; jewels and such. WL4 stores graphics data in 4bpp uncompressed 2D format.
+
+sizeof_tile equ 0x20
+.expfunc tile_no_4b(n), n * sizeof_tile
+.expfunc tile_coord_4b(x, y), tile_no_4b(x + 32 * y)
 
 ; Spaces that will be used by text are now filled with empty tiles for clarity.
 .org BasicElementTiles + tile_coord_4b(12, 4)
@@ -157,56 +162,19 @@ CarryingGrab2Tile: .skip sizeof_tile
 HasGrab1Tile: .skip sizeof_tile
 HasGrab2Tile: .skip sizeof_tile
 
+EmptyNonProgressiveAbilityTiles:
 EmptySwimTile: .skip sizeof_tile
 EmptyHeadSmashTile: .skip sizeof_tile
 EmptyDashAttackTile: .skip sizeof_tile
 EmptyEnemyJumpTile: .skip sizeof_tile
 
+FilledNonProgressiveAbilityTiles:
 HasSwimTile:
     .incbin "data/graphics/ability_get.bin", 18 * sizeof_tile, 4 * sizeof_tile
 .org HasSwimTile + sizeof_tile
 HasHeadSmashTile: .skip sizeof_tile
 HasDashAttackTile: .skip sizeof_tile
 HasEnemyJumpTile: .skip sizeof_tile
-
-
-.align 2
-APLogoObj:
-    .halfword 1  ; Length
-    .halfword attr0_square | attr0_4bpp | attr0_y(-8)
-    .halfword attr1_size(1) | attr1_x(-8)
-    .halfword attr2_palette(4) | attr2_priority(0) | attr2_id(0x12E)
-
-HeartObj:
-    .halfword 1  ; Length
-    .halfword attr0_square | attr0_4bpp | attr0_y(-8)
-    .halfword attr1_size(1) | attr1_x(-8)
-    .halfword attr2_palette(7) | attr2_priority(0) | attr2_id(234)
-
-EmptyObj:
-    .halfword 1  ; Length
-    .halfword attr0_square | attr0_4bpp | attr0_hide | attr0_y(0)
-    .halfword attr1_size(0) | attr1_x(0)
-    .halfword attr2_palette(0) | attr2_priority(0) | attr2_id(0)
-
-.align 4
-APLogoAnm:
-    .word APLogoObj  ; Object address
-    .byte 0xFF  ; Timer
-    .fill 3, 0  ; Unused
-    .fill 8, 0  ; Zeroed entry
-
-HeartAnm:
-    .word HeartObj  ; Object address
-    .byte 0xFF  ; Timer
-    .fill 3, 0  ; Unused
-    .fill 8, 0  ; Zeroed entry
-
-EmptyAnm:
-    .word EmptyObj  ; Object address
-    .byte 0xFF  ; Timer
-    .fill 3, 0  ; Unused
-    .fill 8, 0  ; Zeroed entry
 
 
 .endautoregion

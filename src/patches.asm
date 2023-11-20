@@ -3,46 +3,6 @@
 ; Single-line patches.
 
 
-; Save data
-; ---------
-; Use the second byte of each level state word to store the boxes that have been
-; opened and looted, keeping the actual world status in the least significant byte.
-
-; ItemGetFlgSet_LoadSavestateInfo2RAM()
-.org 0x8075E4E  ; Jewel piece 1
-    ldrb r1, [r1, #1]
-.org 0x8075E78  ; Jewel piece 2
-    ldrb r1, [r1, #1]
-.org 0x8075EA0  ; Jewel piece 3
-    ldrb r1, [r1, #1]
-.org 0x8075EC8  ; Jewel piece 4
-    ldrb r1, [r1, #1]
-.org 0x8075EF0  ; CD
-    ldrb r1, [r1, #1]
-
-; SeisanSave()
-.org 0x80811D0  ; Jewel piece 1
-    ldrb r0, [r1, #1]
-    .skip 4
-    strb r0, [r1, #1]
-.org 0x80811F4  ; Jewel piece 2
-    ldrb r0, [r1, #1]
-    .skip 4
-    strb r0, [r1, #1]
-.org 0x8081216  ; Jewel piece 3
-    ldrb r0, [r1, #1]
-    .skip 4
-    strb r0, [r1, #1]
-.org 0x8081238  ; Jewel piece 4
-    ldrb r0, [r1, #1]
-    .skip 4
-    strb r0, [r1, #1]
-.org 0x808125A  ; CD
-    ldrb r0, [r1, #1]
-    .skip 4
-    strb r0, [r1, #1]
-
-
 ; Start with access to the four main passages.
 ; SelectDMapInit()
 .org 0x807B110

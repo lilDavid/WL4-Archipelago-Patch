@@ -1,6 +1,7 @@
 .gba
 
 ; WRAM Variables
+.arm
 .definelabel PassageID, 0x3000002
 .definelabel InPassageLevelID, 0x3000003
 .definelabel CurrentRoomId, 0x3000024
@@ -9,12 +10,15 @@
 .definelabel CurrentEntityInfoList_TEbuf, 0x3000104
 .definelabel EntityLeftOverStateList, 0x3000564
 .definelabel CurrentEnemyData, 0x3000A24
-.definelabel LevelStatusTable, 0x3000A68
+.definelabel W4ItemStatus, 0x3000A68
 .definelabel Scbuf_ucStatus, 0x3000BE0
-.definelabel HasJewelPiece1, 0x3000C07
-.definelabel HasJewelPiece2, 0x3000C08
-.definelabel HasJewelPiece3, 0x3000C09
-.definelabel HasJewelPiece4, 0x3000C0A
+.definelabel Scbuf_ucSeq, 0x3000BE3
+.definelabel Scbuf_ucWork0, 0x3000BE4
+.definelabel Scbuf_usPosX, 0x3000BEA
+.definelabel Has1stGemPiece, 0x3000C07
+.definelabel Has2ndGemPiece, 0x3000C08
+.definelabel Has3rdGemPiece, 0x3000C09
+.definelabel Has4thGemPiece, 0x3000C0A
 .definelabel HasCD, 0x3000C0B
 .definelabel HasKeyzer, 0x3000C0C
 .definelabel sGameSeq, 0x3000C3C
@@ -26,24 +30,19 @@
 .definelabel ucCntObj, 0x300184A
 .definelabel Wario_ucReact, 0x3001898
 .definelabel Wario_ucMiss, 0x300189C
+.definelabel Wario_usMukiX, 0x30018A6
+.definelabel Wario_usPosX, 0x30018AA
+.definelabel Wario_usPosY, 0x30018AC
 .definelabel WarioHeart, 0x3001910
 .definelabel WHit, 0x3001918
 .definelabel WarioLift, 0x3001940
 .definelabel usWarStopFlg, 0x30019F6
+.definelabel ucWarOffFlg, 0x30019F8
 .definelabel ucSeldemoSeq, 0x3003C39
 .definelabel usMojiCount, 0x3004A30  ; ???
 
-; I/O Registers
-.definelabel REG_BG3CNT, 0x400000E
-.definelabel REG_BG0VOFS, 0x4000012
-.definelabel REG_DMA3SAD, 0x40000D4
-
-; PalRAM
-.definelabel ObjectPalette4, 0x5000280
-.definelabel ObjectPalette9, 0x5000320
-.definelabel ObjectPaletteF, 0x50003E0
-
 ; Functions
+.thumb
 .definelabel MainGameLoop, 0x80001CC
 .definelabel ClearOamBuf, 0x8000A0C
 .definelabel m4aSongNumStart, 0x8001DA4
@@ -73,10 +72,11 @@
 .definelabel WarioVoiceSet, 0x8088620
 .definelabel MiniRandomCreate, 0x8089B80
 .definelabel MojiCreate, 0x80904DC
-.definelabel modsi3, 0x8094ED0
-.definelabel WarioChng_React, 0x82DECA0
+.definelabel _modsi3, 0x8094ED0
 
 ; ROM data
+.arm
+.definelabel WarioChng_React, 0x82DECA0
 .definelabel BigBoardEntityTiles, 0x83644F0
 .definelabel BigBoardEntityPalettes, 0x83B1950
 .definelabel takara_Anm_00, 0x83B4BC8
