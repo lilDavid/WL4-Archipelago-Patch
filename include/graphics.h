@@ -66,4 +66,6 @@ extern OBJATTR OamBuf[128];
 void OamBuf_AddObj(u16 attr0, u16 attr1, u16 attr2);
 
 
+extern const u16 PassageTreasurePalettes[4][16];
 extern const u16 PassagePaletteTable[PAL_MAX][5];
+extern const u16 ExtraAbilityPalettes[2][16];

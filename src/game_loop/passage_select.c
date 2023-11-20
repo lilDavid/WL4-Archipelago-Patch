@@ -156,7 +156,6 @@ void PassageSelect_CreateReceivedOAM() {
 extern const u16 PortalPaletteDTable[PASSAGE_MAX][16];
 extern const u16 PortalPaletteETable[4][16];
 extern const Tile4bpp PortalOBJTileset[];
-extern const u16 PassageTreasurePalettes[4][16];
 extern const u16 CommonRoomEntityPalettes4[4][16];
 extern const u16 BigBoardEntityPalettes[][16];
 extern const Tile4bpp BigBoardEntityTiles[];
