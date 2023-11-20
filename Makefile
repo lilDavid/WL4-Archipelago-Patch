@@ -14,7 +14,6 @@ ASM = src/util/vanilla_labels.asm \
 	  src/util/randomizer_variables.asm \
 	  src/util/macros.asm \
 	  src/util/bitfields.asm \
-	  src/items/item_table.asm \
 	  src/items/collect_treasure.asm \
 	  src/items/collection_indicator.asm \
 	  src/shuffle/boxes.asm \
@@ -27,8 +26,8 @@ ASM = src/util/vanilla_labels.asm \
 	  src/init.asm \
 	  src/patches.asm \
 	  src/lib.asm \
-	  src/graphics.asm \
-	  src/string_data.asm
+	  src/data/graphics.asm \
+	  src/data/strings.asm
 
 OBJ = obj/init.o \
 	  obj/game_loop/passage_select.o \
