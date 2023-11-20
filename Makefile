@@ -49,19 +49,19 @@ GRAPHICS = data/graphics/ability_get.bin \
 
 all: basepatch
 
-basepatch: out/basepatch.bsdiff
+basepatch: build/basepatch.bsdiff
 
 debug: CFLAGS += -DDEBUG -g
 debug: ARMIPSFLAGS += -definelabel DEBUG 1
 debug: basepatch
 
-out/basepatch.bsdiff: out/baserom.gba
-	bsdiff "Wario Land 4.gba" out/baserom.gba out/basepatch.bsdiff
+build/basepatch.bsdiff: build/baserom.gba
+	grep -Ev '[0-9A-F]{8} [@.].*' build/baserom.sym > build/basepatch.sym
+	bsdiff "Wario Land 4.gba" build/baserom.gba build/basepatch.bsdiff
 
-out/baserom.gba: $(ASM) $(OBJ) $(GRAPHICS)
-	@mkdir -p out
-	armips src/basepatch.asm -sym out/baserom.sym $(ARMIPSFLAGS)
-	grep -Ev '[0-9A-F]{8} [@.].*' out/baserom.sym > out/basepatch.sym
+build/baserom.gba: $(ASM) $(OBJ) $(GRAPHICS)
+	@mkdir -p build
+	armips src/basepatch.asm -sym build/baserom.sym $(ARMIPSFLAGS)
 
 obj/%.o: src/%.c include/*
 	@mkdir -p $(shell dirname $@)
@@ -78,4 +78,4 @@ remake: clean all
 remake-debug: clean debug
 
 clean:
-	rm -rf obj out
+	rm -rf obj build
