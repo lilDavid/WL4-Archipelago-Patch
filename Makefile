@@ -49,7 +49,7 @@ debug: basepatch
 build/basepatch.bsdiff: build/baserom.gba
 	bsdiff "Wario Land 4.gba" build/baserom.gba build/basepatch.bsdiff
 
-build/baserom.gba: $(ASM) $(OBJ) $(GRAPHICS)
+build/baserom.gba: src/basepatch.asm $(ASM) $(OBJ) $(GRAPHICS)
 	@mkdir -p build
 	armips src/basepatch.asm -sym build/baserom.sym $(ARMIPSFLAGS)
 	grep -Ev '[0-9A-F]{8} [@.].*' build/baserom.sym > build/basepatch.sym
