@@ -34,7 +34,6 @@ ITEM_NONE equ 0xFF
 .include "src/hooks.asm"
 .include "src/limit_abilities.asm"
 
-.include "src/lib.asm"
 .autoregion
 .importobj "obj/init.o"
 .importobj "obj/items/item_table.o"
@@ -47,6 +46,7 @@ ITEM_NONE equ 0xFF
 .importobj "obj/game_loop/level_select.o"
 .importobj "obj/game_loop/game_main.o"
 .importobj "obj/game_loop/level_results.o"
+.importobj "obj/misc.o"
 .importobj "obj/graphics.o"
 .endautoregion
 

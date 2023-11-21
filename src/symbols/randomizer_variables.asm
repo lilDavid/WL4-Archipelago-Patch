@@ -1,15 +1,6 @@
 .gba
 .arm
 
-; Object tiles in VRAM
-.definelabel TilesReceived8, 0x06012180
-.definelabel TilesFrom4, 0x06012280
-.definelabel TilesSenderA8, 0x06012600
-.definelabel TilesSenderB8, 0x06012A00
-.definelabel TilesItemA12, 0x06012180
-.definelabel TilesItemB8, 0x06012600
-.definelabel TilesItemC8, 0x06012A00
-
 ; These extra bits of save data are stored in the upper parts of Entry Passage
 ; levels that don't exist.
 ; Most significant byte of the "third" level

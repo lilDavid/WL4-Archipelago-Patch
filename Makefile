@@ -15,7 +15,6 @@ ASM = src/symbols/vanilla_labels.asm \
 	  src/patches.asm \
 	  src/hooks.asm \
 	  src/limit_abilities.asm \
-	  src/lib.asm \
 	  src/data/graphics.asm \
 	  src/data/strings.asm
 
@@ -30,6 +29,7 @@ OBJ = obj/init.o \
 	  obj/items/collect_junk.o \
 	  obj/shuffle/boxes.o \
 	  obj/shuffle/save_data.o \
+	  obj/misc.o \
 	  obj/graphics.o \
 
 INCLUDE = include/unsorted/functions.h \

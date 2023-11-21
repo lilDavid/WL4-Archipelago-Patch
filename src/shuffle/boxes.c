@@ -168,9 +168,9 @@ void CollectRandomItem() {
 
     if (multi != NULL) {
         const u8* namebytes = multi->item_name;
-        namebytes = LoadSpriteString(namebytes, TilesItemA12, 12);
-        namebytes = LoadSpriteString(namebytes, TilesItemB8, 8);
-        LoadSpriteString(namebytes, TilesItemC8, 8);
+        namebytes = LoadSpriteString(namebytes, (Tile4bpp*) 0x06012180, 12);
+        namebytes = LoadSpriteString(namebytes, (Tile4bpp*) 0x06012600, 8);
+        LoadSpriteString(namebytes, (Tile4bpp*) 0x06012A00, 8);
 
         MultiworldState = MW_TEXT_SENDING_ITEM;
         TextTimer = 120;

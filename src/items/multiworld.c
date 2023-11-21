@@ -36,10 +36,10 @@ u8 ReceiveNextItem() {
 
 // Load the text "Received from <player>" into some sprite tiles in VRAM.
 void LoadReceivedText() {
-    LoadSpriteString(StrItemReceived, TilesReceived8, 8);
-    LoadSpriteString(StrItemFrom, TilesFrom4, 4);
-    const u8* restofstr = LoadSpriteString(IncomingItemSender, TilesSenderA8, 8);
-    LoadSpriteString(restofstr, TilesSenderB8, 8);
+    LoadSpriteString(StrItemReceived, (Tile4bpp*) 0x06012180, 8);
+    LoadSpriteString(StrItemFrom, (Tile4bpp*) 0x06012280, 4);
+    const u8* restofstr = LoadSpriteString(IncomingItemSender, (Tile4bpp*) 0x06012600, 8);
+    LoadSpriteString(restofstr, (Tile4bpp*) 0x06012A00, 8);
 }
 
 

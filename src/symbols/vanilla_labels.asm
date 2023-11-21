@@ -43,36 +43,10 @@
 
 ; Functions
 .thumb
-.definelabel MainGameLoop, 0x80001CC
-.definelabel ClearOamBuf, 0x8000A0C
-.definelabel m4aSongNumStart, 0x8001DA4
-.definelabel WarioHitMain, 0x801009c
-.definelabel GmWarioCreate, 0x801C5D8
-.definelabel WarChng_Flying, 0x8012CC8
-.definelabel EnemyDisplayMain, 0x801D8C4
-.definelabel EnemyChildSet, 0x801E328
 .definelabel ChangeWarioReact_Fire, 0x801EA3C
 .definelabel ChangeWarioReact_Fat, 0x801EA64
-.definelabel ChangeWarioReact_Puffy, 0x801EADC
-.definelabel ChangeWarioReact_Spring, 0x801EB04
 .definelabel ChangeWarioReact_Frozen, 0x801EB54
-.definelabel KillChildWhenParentDies, 0x80268DC
-.definelabel EntityAI_Q_K5_Hip_COM_takarabako, 0x80292BC
-.definelabel EntityAI_INITIAL_takara_kakera, 0x802932C
-.definelabel GmapSceneCreate, 0x806C794
 .definelabel PanelPartWork_Broken_Main, 0x806EE98
-.definelabel AutoSave_EXRead_Work, 0x8073A18
-.definelabel TOptObjSet, 0x80766E8
-.definelabel WarioCoinSet, 0x80768B8
-.definelabel TKakeraComp_SE_Set, 0x8078D60
-.definelabel TKakeraIconDsp_Sub, 0x8078D98
-.definelabel Select_Fade_Init, 0x807A428
-.definelabel MmapHekigaChange, 0x808502C
-.definelabel MmapBestScoreSet, 0x8085178
-.definelabel WarioVoiceSet, 0x8088620
-.definelabel MiniRandomCreate, 0x8089B80
-.definelabel MojiCreate, 0x80904DC
-.definelabel _modsi3, 0x8094ED0
 
 ; ROM data
 .arm

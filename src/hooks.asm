@@ -262,12 +262,7 @@ hook_branch 0x802A378, 0x802A388, 0x802A3E6, LoadRandomItemAnimation  ; 0x8B Ful
 
 
 ; Override the end of this function to instead jump to our code
-.org 0x8074068
-.area 0x8074070-.
-        ldr r0, =@Hook_EXimage_Clear_Work_2Mode | 1
-        bx r0
-    .pool
-.endarea
+hook_manual 0x8074068, 0x8074070, @Hook_EXimage_Clear_Work_2Mode
 
 ; SeisanSave()
 hook 0x80811BA, 0x8081284, CheckLocations

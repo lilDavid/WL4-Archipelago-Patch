@@ -49,16 +49,6 @@ const u8* LoadSpriteString(const u8* w4Str, Tile4bpp* tiles, u32 length);
 extern const Tile4bpp AbilityIconTilesTop[ABILITY_MAX * 2];
 extern const Tile4bpp AbilityIconTilesBottom[ABILITY_MAX * 2];
 
-// Allocation of tiles in VRAM in some formerly unused area in the basic sprite
-// tiles.
-extern Tile4bpp TilesReceived8[];
-extern Tile4bpp TilesFrom4[];
-extern Tile4bpp TilesSenderA8[];
-extern Tile4bpp TilesSenderB8[];
-extern Tile4bpp TilesItemA12[];
-extern Tile4bpp TilesItemB8[];
-extern Tile4bpp TilesItemC8[];
-
 
 extern u8 ucCntObj;
 extern OBJATTR OamBuf[128];
