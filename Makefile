@@ -71,9 +71,6 @@ obj/%.o: src/%.c $(INCLUDE)
 data/graphics/%.bin: data/graphics/%.png data/graphics/%.txt
 	python3 make_graphics.py $@
 
-checkobj/%.c: src/%.c
-	$(CC) $(CFLAGS) -S $< -o- | less
-
 remake: clean all
 
 remake-debug: clean debug
