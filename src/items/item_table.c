@@ -56,7 +56,7 @@ static void GiveItem_Gem(u8 item_id) {
 static void GiveItem_CD(u8 item_id) {
     int passage = (item_id >> 2) & 7;
     int level = item_id & 3;
-    W4ItemStatus[passage][level] |= (1 << ISB_CD);
+    W4ItemStatus[passage][level] |= ISB_CD;
 }
 
 // Ground pound and grab are progressive, so choose a high bit if you already

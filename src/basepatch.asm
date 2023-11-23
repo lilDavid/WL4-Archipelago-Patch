@@ -22,7 +22,7 @@ ITEM_NONE equ 0xFF
     DeathLinkFlag: .byte 0
 
     .align 4
-    ItemLocationTable:              .fill 6 * 4 * 7,     0x40
+    ItemLocationTable:              .fill 6 * 4 * 7,     ITEM_NONE
     ItemExtDataTable:               .fill 6 * 4 * 7 * 4, 0
     StartingInventoryItemStatus:    .fill 6 * 6,         0
     StartingInventoryJunkCounts:    .fill 4,             0
