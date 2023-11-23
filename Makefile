@@ -5,66 +5,42 @@ ifeq ($(strip $(DEVKITARM)),)
 $(error "Please set DEVKITARM in your environment. export DEVKITARM=<path to>devkitARM)
 endif
 
-ARMIPSFLAGS=
+ARMIPSFLAGS =
 CC = $(DEVKITARM)/bin/arm-none-eabi-gcc
 CFLAGS = -mthumb -mthumb-interwork -Wall -Wextra -std=gnu11 -O1 \
 		 -Iinclude -I$(DEVKITPRO)/libgba/include -Lgba
 
-ASM = src/symbols/vanilla_labels.asm \
-	  src/symbols/randomizer_variables.asm \
-	  src/patches.asm \
-	  src/hooks.asm \
-	  src/limit_abilities.asm \
-	  src/data/graphics.asm \
-	  src/data/strings.asm
+SRC = src
+SRCS_ASM = $(shell find $(SRC) -type f -name '*.asm')
+SRCS_C = $(shell find $(SRC) -type f -name '*.c')
 
-OBJ = obj/init.o \
-	  obj/game_loop/passage_select.o \
-	  obj/game_loop/level_select.o \
-	  obj/game_loop/game_main.o \
-	  obj/game_loop/level_results.o \
-	  obj/items/collection_indicator.o \
-	  obj/items/multiworld.o \
-	  obj/items/item_table.o \
-	  obj/items/collect_junk.o \
-	  obj/shuffle/boxes.o \
-	  obj/shuffle/save_data.o \
-	  obj/misc.o \
-	  obj/graphics.o \
+OBJ = obj
+OBJS = $(patsubst $(SRC)/%.c, $(OBJ)/%.o, $(SRCS_C))
 
-INCLUDE = include/unsorted/functions.h \
-          include/unsorted/macros.h \
-          include/unsorted/types.h \
-          include/unsorted/variables.h \
-          include/entity.h \
-          include/graphics.h \
-          include/item_table.h \
-          include/item.h \
-          include/multiworld.h \
+INCLUDE = include
+HEADERS = $(shell find $(INCLUDE) -type f -name '*.h')
 
-GRAPHICS = data/graphics/ability_get.bin \
-		   data/graphics/ability_icons.bin \
-		   data/graphics/ap_logo.bin
+DATA = data
+PNGS = $(shell find $(DATA) -type f -name '*.png')
+BINS = $(patsubst $(DATA)/%.png, $(DATA)/%.bin, $(PNGS))
 
 .PHONY: all clean debug remake remake-debug
 
-all: basepatch
-
-basepatch: build/basepatch.bsdiff
+all: build/basepatch.bsdiff
 
 debug: CFLAGS += -DDEBUG -g
 debug: ARMIPSFLAGS += -definelabel DEBUG 1
-debug: basepatch
+debug: build/basepatch.bsdiff
 
 build/basepatch.bsdiff: build/baserom.gba
 	bsdiff "Wario Land 4.gba" build/baserom.gba build/basepatch.bsdiff
 	grep -Ev '[0-9A-F]{8} [@.].*' build/baserom.sym > build/basepatch.sym
 
-build/baserom.gba: src/basepatch.asm $(ASM) $(OBJ) $(GRAPHICS)
+build/baserom.gba: $(SRCS_ASM) $(OBJS) $(BINS)
 	@mkdir -p build
 	armips src/basepatch.asm -sym build/baserom.sym $(ARMIPSFLAGS)
 
-obj/%.o: src/%.c $(INCLUDE)
+obj/%.o: src/%.c $(HEADERS)
 	@mkdir -p $(shell dirname $@)
 	$(CC) $(CFLAGS) -c $< -o $@
 
