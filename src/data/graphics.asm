@@ -176,5 +176,7 @@ HasHeadSmashTile: .skip sizeof_tile
 HasDashAttackTile: .skip sizeof_tile
 HasEnemyJumpTile: .skip sizeof_tile
 
+MinigameCoinTiles: .incbin "data/graphics/minigame_coin_item.bin"
+
 
 .endautoregion

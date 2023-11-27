@@ -15,6 +15,7 @@ typedef enum {
     PAL_AP,
     PAL_GARLIC,
     PAL_HELMET,
+    PAL_MINGAME_COIN,
     PAL_MAX
 } PassagePalette;
 
@@ -48,6 +49,7 @@ const u8* LoadSpriteString(const u8* w4Str, Tile4bpp* tiles, u32 length);
 
 extern const Tile4bpp AbilityIconTilesTop[ABILITY_MAX * 2];
 extern const Tile4bpp AbilityIconTilesBottom[ABILITY_MAX * 2];
+extern const Tile4bpp MinigameCoinTiles[4];
 
 
 extern u8 ucCntObj;

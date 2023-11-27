@@ -4,6 +4,7 @@
 .arm
 .definelabel PassageID, 0x3000002
 .definelabel InPassageLevelID, 0x3000003
+.definelabel MiniGameCoinNum, 0x3000008
 .definelabel CurrentRoomId, 0x3000024
 .definelabel ucFlashLoop, 0x3000044
 .definelabel ucTimeUp, 0x3000047

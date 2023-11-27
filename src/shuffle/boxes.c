@@ -99,6 +99,16 @@ void LoadRandomItemAnimation() {
             case ITEM_HEART:
                 animation = HeartAnm;
                 break;
+            case ITEM_MINIGAME_COIN:
+                int position = CurrentJewelIconPosition % 4;
+                CurrentJewelIconPosition += 1;
+                Tile4bpp* destination = (Tile4bpp*) (0x6011C40 + 2 * sizeof(Tile4bpp) * position);
+                dmaCopy(MinigameCoinTiles, destination, 2 * sizeof(Tile4bpp));
+                destination += TILE_OFFSET(0, 1);
+                dmaCopy(MinigameCoinTiles + 2, destination, 2 * sizeof(Tile4bpp));
+                SetTreasurePalette(PAL_MINGAME_COIN);
+                animation = gem_animations[position];
+                break;
             default:
                 animation = EmptyAnm;
                 give_immediately = 1;

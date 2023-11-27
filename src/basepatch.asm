@@ -10,7 +10,7 @@ UnusedRomStart equ 0x0878F97C
 .include "src/symbols/vanilla_labels.asm"
 .include "src/symbols/randomizer_variables.asm"
 
-ABILITY_MAX equ 4
+ABILITY_MAX equ 5
 ITEM_NONE equ 0xFF
 
 ; Allocate space at ROM end

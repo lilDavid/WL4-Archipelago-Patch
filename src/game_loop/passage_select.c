@@ -115,6 +115,14 @@ void PassageSelect_CreateReceivedOAM() {
                 );
                 break;
 
+            case ITEM_MINIGAME_COIN:
+                OamBuf_AddObj(
+                    ATTR0_SQUARE | ATTR0_COLOR_16 | OBJ_Y(104),
+                    ATTR1_SIZE_16 | OBJ_X(center_x - 8),
+                    ATTR2_PALETTE(0xF) | ATTR2_PRIORITY(0) | OBJ_CHAR(0x200)
+                );
+                break;
+
             default:
                 OamBuf_AddObj(
                     ATTR0_SQUARE | ATTR0_COLOR_16 | OBJ_Y(104 - 4),
@@ -199,6 +207,18 @@ void PassageSelect_ShowReceivedItem() {
                 dmaCopy(BasicElementTiles + TILE_OFFSET(10, 3),
                         item_dest,
                         34 * sizeof(Tile4bpp));
+                break;
+
+            case ITEM_MINIGAME_COIN:
+                dmaCopy(PassagePaletteTable[PAL_MINGAME_COIN],
+                        palette_dest + (16 - 5),
+                        5 * sizeof(u16));
+                dmaCopy(MinigameCoinTiles,
+                        item_dest,
+                        2 * sizeof(Tile4bpp));
+                dmaCopy(MinigameCoinTiles + 2,
+                        item_dest + TILE_OFFSET(0, 1),
+                        2 * sizeof(Tile4bpp));
                 break;
 
             default:

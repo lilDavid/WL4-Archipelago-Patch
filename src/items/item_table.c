@@ -86,6 +86,9 @@ static void GiveItem_Junk(u8 item_id) {
         case ITEM_LIGHTNING_TRAP:
             QueuedLightningTraps += 1;
             break;
+        case ITEM_MINIGAME_COIN:
+            MiniGameCoinNum += 1;
+            break;
     }
 }
 
