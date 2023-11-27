@@ -25,6 +25,12 @@ import sys
 # BBBBBBBB FFFFFFFF
 
 
+def pixels_to_tiles(pixels: int):
+    if pixels % 8 != 0:
+        raise ValueError(pixels)
+    return pixels // 8
+
+
 # https://docs.python.org/3.11/library/itertools.html
 def batches(iterable, n):
     if n < 1:
@@ -57,7 +63,7 @@ def main():
         open(palette_path, 'w').close()
 
     source_image = Image.open(in_path).convert('RGBA')
-    width, height = map(lambda x: x // 8, source_image.size)
+    width, height = map(pixels_to_tiles, source_image.size)
     pixels = []
     bad_colors = set()
     for row in range(height):
