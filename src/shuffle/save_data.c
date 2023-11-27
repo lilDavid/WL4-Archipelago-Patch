@@ -16,10 +16,10 @@ void CreateStartingInventory() {
         }
     }
 
-    QueuedFullHealthItem = StartingInventoryJunkCounts[0];
-    QueuedFormTraps = StartingInventoryJunkCounts[1];
-    QueuedHearts = StartingInventoryJunkCounts[2];
-    QueuedLightningTraps = StartingInventoryJunkCounts[3];
+    QueuedFullHealthItem = StartingInventoryJunkCounts[JUNK_FULL_HEALTH];
+    QueuedFormTraps = StartingInventoryJunkCounts[JUNK_WARIO_FORM_TRAP];
+    QueuedHearts = StartingInventoryJunkCounts[JUNK_HEART];
+    QueuedLightningTraps = StartingInventoryJunkCounts[JUNK_LIGHTNING_TRAP];
 
     WarioAbilities = StartingInventoryWarioAbilities;
 }

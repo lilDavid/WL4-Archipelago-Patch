@@ -10,6 +10,7 @@ UnusedRomStart equ 0x0878F97C
 .include "src/symbols/vanilla_labels.asm"
 .include "src/symbols/randomizer_variables.asm"
 
+ABILITY_MAX equ 4
 ITEM_NONE equ 0xFF
 
 ; Allocate space at ROM end
@@ -25,7 +26,7 @@ ITEM_NONE equ 0xFF
     ItemLocationTable:              .fill 6 * 4 * 7,     ITEM_NONE
     ItemExtDataTable:               .fill 6 * 4 * 7 * 4, 0
     StartingInventoryItemStatus:    .fill 6 * 6,         0
-    StartingInventoryJunkCounts:    .fill 4,             0
+    StartingInventoryJunkCounts:    .fill ABILITY_MAX,   0
     StartingInventoryWarioAbilities:               .byte 0
     .thumb
 .endregion

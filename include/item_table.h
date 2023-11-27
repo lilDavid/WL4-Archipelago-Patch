@@ -3,6 +3,7 @@
 #include <gba.h>
 
 #include "unsorted/types.h"
+#include "item.h"
 
 typedef enum {
     BOX_GEM1,
@@ -30,7 +31,7 @@ extern const ExtData* ItemExtDataTable[PASSAGE_MAX][LEVEL_MAXLEVEL][BOX_MAX];
 
 // Starting inventory.
 extern const u8 StartingInventoryItemStatus[PASSAGE_MAX][LEVEL_MAX];
-extern const u8 StartingInventoryJunkCounts[4];
+extern const u8 StartingInventoryJunkCounts[JUNK_MAX];
 extern const u8 StartingInventoryWarioAbilities;
 
 
