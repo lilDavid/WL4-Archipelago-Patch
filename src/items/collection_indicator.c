@@ -135,8 +135,8 @@ u32 GemIcons_SetUpAbilities() {
 
 #define TKakeraComp_SE_Set THUMB_FUNCTION(0x8078D60, void, void)
 #define TKakeraIconDsp_sub THUMB_FUNCTION(0x8078D98, void, void)
-static void GemIcons_SetCollectedAbility(u32);
-static void GemIcons_SetCollectedPiece(u32);
+static void GemIcons_SetCollectedAbility();
+static void GemIcons_SetCollectedPiece();
 
 void GemIcons_Update() {
     if (Scbuf_ucWork0 >= 60) {
@@ -149,19 +149,18 @@ void GemIcons_Update() {
 
     if (Scbuf_ucWork0 == 20) {
         TKakeraComp_SE_Set();
-        int position = Scbuf_ucSeq;
         if (LastCollectedItemID & ITEMBIT_ABILITY)
-            GemIcons_SetCollectedAbility(position);
+            GemIcons_SetCollectedAbility();
         else
-            GemIcons_SetCollectedPiece(position);
+            GemIcons_SetCollectedPiece();
     }
 
     TKakeraIconDsp_sub();
 }
 
 
-static void GemIcons_SetCollectedPiece(u32 position) {
-    const GemTiles* piece = &gem_graphics[position];
+static void GemIcons_SetCollectedPiece() {
+    const GemTiles* piece = &gem_graphics[LastCollectedItemID & 3];
     const Tile4bpp* source;
     switch (LastCollectedItemStatus) {
         case 2: source = piece->carrying; break;
@@ -173,7 +172,7 @@ static void GemIcons_SetCollectedPiece(u32 position) {
 }
 
 
-static void GemIcons_SetCollectedAbility(u32 position) {
+static void GemIcons_SetCollectedAbility() {
     const Tile4bpp* ability_tile;
     Tile4bpp* destination_tile;
 
@@ -186,7 +185,7 @@ static void GemIcons_SetCollectedAbility(u32 position) {
     }
 
     destination_tile = (Tile4bpp*) 0x6012000;
-    if (position == 2) {
+    if (Scbuf_ucSeq == 2) {
         ability_tile += &CarryingGrab2Tile - &CarryingGrab1Tile;
         destination_tile += 1;
     }
