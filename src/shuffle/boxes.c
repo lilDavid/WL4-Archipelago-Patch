@@ -56,6 +56,11 @@ void SpawnRandomizedItemFromBox() {
     } else {
         EntityLeftOverStateList[CurrentRoomId].data[CurrentEnemyData.RoomEntitySlotId] = 0x21;
     }
+
+    if (item_id == ITEM_LIGHTNING_TRAP || item_id == ITEM_WARIO_FORM_TRAP)
+        WarioVoiceSet(4);
+    else
+        WarioVoiceSet(1);
 }
 
 
