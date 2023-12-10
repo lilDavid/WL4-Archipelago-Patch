@@ -80,6 +80,18 @@ static TAnmDef* gem_animations[] = {
     takara_Anm_02, takara_Anm_03, takara_Anm_04, takara_Anm_05,
 };
 
+static TAnmDef* RandomItemTilesCreate(const Tile4bpp* top, const Tile4bpp* bottom) {
+    int position = CurrentJewelIconPosition % 4;
+    CurrentJewelIconPosition += 1;
+
+    Tile4bpp* destination = (Tile4bpp*) (0x6011C40 + 2 * sizeof(Tile4bpp) * position);
+    dmaCopy(top, destination, 2 * sizeof(Tile4bpp));
+    destination += TILE_OFFSET(0, 1);
+    dmaCopy(bottom, destination, 2 * sizeof(Tile4bpp));
+
+    return gem_animations[position];
+}
+
 // Load the appropriate animation for a randomized item found in a box. The
 // item used and resulting animation chosen is based on the item's entity ID.
 void LoadRandomItemAnimation() {
@@ -105,14 +117,8 @@ void LoadRandomItemAnimation() {
                 animation = HeartAnm;
                 break;
             case ITEM_MINIGAME_COIN:
-                int position = CurrentJewelIconPosition % 4;
-                CurrentJewelIconPosition += 1;
-                Tile4bpp* destination = (Tile4bpp*) (0x6011C40 + 2 * sizeof(Tile4bpp) * position);
-                dmaCopy(MinigameCoinTiles, destination, 2 * sizeof(Tile4bpp));
-                destination += TILE_OFFSET(0, 1);
-                dmaCopy(MinigameCoinTiles + 2, destination, 2 * sizeof(Tile4bpp));
+                animation = RandomItemTilesCreate(MinigameCoinTiles, MinigameCoinTiles + 2);
                 SetTreasurePalette(PAL_MINGAME_COIN);
-                animation = gem_animations[position];
                 break;
             default:
                 animation = EmptyAnm;
@@ -146,15 +152,7 @@ void LoadRandomItemAnimation() {
             bottom_row_source = top_row_source + TILE_OFFSET(0, 1);
         }
 
-        int position = CurrentJewelIconPosition % 4;
-        CurrentJewelIconPosition += 1;
-        Tile4bpp* destination = (Tile4bpp*) (0x6011C40 + 2 * sizeof(Tile4bpp) * position);
-        dmaCopy(top_row_source, destination, 2 * sizeof(Tile4bpp));
-        destination += TILE_OFFSET(0, 1);
-        dmaCopy(bottom_row_source, destination, 2 * sizeof(Tile4bpp));
-
-        animation = gem_animations[position];
-
+        animation = RandomItemTilesCreate(top_row_source, bottom_row_source);
     } else {  // CD
         SetTreasurePalette((item_id >> 2) & 7);
         animation = takara_Anm_00;
