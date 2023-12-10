@@ -36,11 +36,11 @@ static void GameMain_CollectMultiworld() {
     TextTimer = 120;
     GiveItem(item_id, NULL);
     LoadReceivedText();
+    ItemReceivedFeedbackSound(item_id);
 
     if (item_id & ITEMBIT_JUNK)
         return;
 
-    ItemReceivedFeedbackSound(item_id);
     if (item_id & ITEMBIT_ABILITY) {
         int ability = item_id & 7;
         int progressive = 0;

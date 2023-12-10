@@ -7,10 +7,11 @@
 
 
 void ItemReceivedFeedbackSound(u8 item_id) {
-    if (item_id & ITEMBIT_JUNK)
+    if (item_id == ITEM_MINIGAME_COIN)
+        m4aSongNumStart(0x223);
+    else if (item_id & ITEMBIT_JUNK)
         return;
-
-    if (item_id & ITEMBIT_ABILITY || item_id & ITEMBIT_CD)
+    else if (item_id & ITEMBIT_ABILITY || item_id & ITEMBIT_CD)
         m4aSongNumStart(0x13C);
     else
         m4aSongNumStart(0x13B);
