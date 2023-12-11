@@ -58,9 +58,9 @@ void SpawnRandomizedItemFromBox() {
     }
 
     if (item_id == ITEM_LIGHTNING_TRAP || item_id == ITEM_WARIO_FORM_TRAP)
-        WarioVoiceSet(4);
+        WarioVoiceSet(WV_HURT);
     else
-        WarioVoiceSet(1);
+        WarioVoiceSet(WV_TREASURE);
 }
 
 

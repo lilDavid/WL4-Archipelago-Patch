@@ -15,7 +15,7 @@ void ItemReceivedFeedbackSound(u8 item_id) {
         m4aSongNumStart(SE_CD_GET);
     else
         m4aSongNumStart(SE_GEM_GET);
-    WarioVoiceSet(1);
+    WarioVoiceSet(WV_TREASURE);
 }
 
 // Get the next incoming item. If nothing has been received, return ITEM_NONE.

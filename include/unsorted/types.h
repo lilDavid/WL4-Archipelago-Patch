@@ -30,3 +30,8 @@ typedef enum {
     SE_RESULTS_FOUND_CD = 0x1D0,
     SE_MINIGAME_COIN_GET = 0x223,
 } m4aSongNum;
+
+typedef enum {
+    WV_TREASURE = 1,
+    WV_HURT = 4,
+} WarioVoiceID;

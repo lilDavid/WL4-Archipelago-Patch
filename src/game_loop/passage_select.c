@@ -45,12 +45,12 @@ u32 PassageSelect_Rando() {
         case ITEM_FULL_HEALTH_ITEM:
         case ITEM_HEART:
             m4aSongNumStart(SE_GEM_GET);
-            WarioVoiceSet(1);
+            WarioVoiceSet(WV_TREASURE);
             break;
         case ITEM_WARIO_FORM_TRAP:
         case ITEM_LIGHTNING_TRAP:
             m4aSongNumStart(SE_GEM_GET);
-            WarioVoiceSet(4);
+            WarioVoiceSet(WV_HURT);
             break;
         default:
             ItemReceivedFeedbackSound(item_id);
