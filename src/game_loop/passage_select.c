@@ -3,6 +3,7 @@
 #include "unsorted/variables.h"
 #include "unsorted/functions.h"
 #include "unsorted/macros.h"
+#include "unsorted/types.h"
 #include "graphics.h"
 #include "item.h"
 #include "item_table.h"
@@ -25,7 +26,7 @@ u32 PassageSelect_Rando() {
     if (MultiworldState == MW_TEXT_RECEIVED_ITEM) {
         if (TextTimer == 0) {
             if (usTrg_KeyPress1Frame & KEY_A) {
-                m4aSongNumStart(0x125);
+                m4aSongNumStart(SE_CONFIRM);
                 LoadPyramidBG3();
                 MultiworldState = MW_IDLE;
             }
@@ -43,12 +44,12 @@ u32 PassageSelect_Rando() {
     switch (item_id) {
         case ITEM_FULL_HEALTH_ITEM:
         case ITEM_HEART:
-            m4aSongNumStart(0x13B);
+            m4aSongNumStart(SE_GEM_GET);
             WarioVoiceSet(1);
             break;
         case ITEM_WARIO_FORM_TRAP:
         case ITEM_LIGHTNING_TRAP:
-            m4aSongNumStart(0x13B);
+            m4aSongNumStart(SE_GEM_GET);
             WarioVoiceSet(4);
             break;
         default:
@@ -304,7 +305,7 @@ void PassageSelect_DebugSetFlagsWithL() {
                 }
                 W4ItemStatus[i][LEVEL_BOSS] = 0;
             }
-            m4aSongNumStart(0x1D0);
+            m4aSongNumStart(SE_RESULTS_FOUND_CD);
         }
         if (usTrg_KeyPress1Frame & KEY_SELECT) {
             W4ItemStatus[PASSAGE_ENTRY][LEVEL_1] |= 0xFF;
@@ -315,7 +316,7 @@ void PassageSelect_DebugSetFlagsWithL() {
                 }
                 W4ItemStatus[i][LEVEL_BOSS] = 0;
             }
-            m4aSongNumStart(0x1D0);
+            m4aSongNumStart(SE_RESULTS_FOUND_CD);
         }
         if (usTrg_KeyPress1Frame & KEY_UP) {
             for (int i = PASSAGE_ENTRY; i < PASSAGE_MAX; i++) {
@@ -325,7 +326,7 @@ void PassageSelect_DebugSetFlagsWithL() {
                 W4ItemStatus[i][LEVEL_BOSS] = 0;
             }
             W4ItemStatus[PASSAGE_ENTRY][LEVEL_BOSS] = 0x27;
-            m4aSongNumStart(0x1D0);
+            m4aSongNumStart(SE_RESULTS_FOUND_CD);
         }
         if (usTrg_KeyPress1Frame & KEY_R) {
             for (int i = PASSAGE_ENTRY; i < PASSAGE_GOLDEN; i++) {
@@ -336,7 +337,7 @@ void PassageSelect_DebugSetFlagsWithL() {
             }
             W4ItemStatus[PASSAGE_GOLDEN][LEVEL_1] |= 0xFF;
             W4ItemStatus[PASSAGE_GOLDEN][LEVEL_BOSS] = 0;
-            m4aSongNumStart(0x1D0);
+            m4aSongNumStart(SE_RESULTS_FOUND_CD);
         }
 
         // Rando
@@ -350,7 +351,7 @@ void PassageSelect_DebugSetFlagsWithL() {
                 }
             }
             W4ItemStatus[PASSAGE_GOLDEN][LEVEL_1] &= 0xFF;
-            m4aSongNumStart(0x1D0);
+            m4aSongNumStart(SE_RESULTS_FOUND_CD);
         }
         if (usTrg_KeyPress1Frame & KEY_RIGHT) {
             W4ItemStatus[PASSAGE_ENTRY][LEVEL_1] |= 0xFF << 8;
@@ -360,17 +361,17 @@ void PassageSelect_DebugSetFlagsWithL() {
                 }
             }
             W4ItemStatus[PASSAGE_GOLDEN][LEVEL_1] |= 0xFF << 8;
-            m4aSongNumStart(0x1D0);
+            m4aSongNumStart(SE_RESULTS_FOUND_CD);
         }
 
         // Abilities
         if (usTrg_KeyPress1Frame & KEY_START) {
             WarioAbilities = 0xFF;
-            m4aSongNumStart(0x1D0);
+            m4aSongNumStart(SE_RESULTS_FOUND_CD);
         }
         if (usTrg_KeyPress1Frame & KEY_DOWN) {
             WarioAbilities = 0;
-            m4aSongNumStart(0x1D0);
+            m4aSongNumStart(SE_RESULTS_FOUND_CD);
         }
     }
 }

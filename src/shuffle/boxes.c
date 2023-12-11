@@ -187,7 +187,7 @@ void CollectRandomItem() {
 
         MultiworldState = MW_TEXT_SENDING_ITEM;
         TextTimer = 120;
-        m4aSongNumStart(0x13B);
+        m4aSongNumStart(SE_GEM_GET);
         return;
     }
 
@@ -197,7 +197,7 @@ void CollectRandomItem() {
             case ITEM_WARIO_FORM_TRAP: GiveTransformTrap(); break;
             case ITEM_HEART: GiveWarioHearts(1); break;
             case ITEM_LIGHTNING_TRAP: GiveLightningTrap(); break;
-            case ITEM_MINIGAME_COIN: m4aSongNumStart(0x223); break;
+            case ITEM_MINIGAME_COIN: m4aSongNumStart(SE_MINIGAME_COIN_GET); break;
         }
         return;
     }
@@ -219,15 +219,15 @@ void CollectRandomItem() {
         } else {
             SpawnCollectionIndicator(1, 0);
         }
-        m4aSongNumStart(0x13C);
+        m4aSongNumStart(SE_CD_GET);
         return;
     }
 
     if (item_id & ITEMBIT_CD) {
         SpawnCollectionIndicator(1, 0);
-        m4aSongNumStart(0x13C);
+        m4aSongNumStart(SE_CD_GET);
     } else /* Gem piece */ {
         SpawnCollectionIndicator(0, 0);
-        m4aSongNumStart(0x13B);
+        m4aSongNumStart(SE_GEM_GET);
     }
 }

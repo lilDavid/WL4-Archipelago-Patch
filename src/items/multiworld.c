@@ -8,13 +8,13 @@
 
 void ItemReceivedFeedbackSound(u8 item_id) {
     if (item_id == ITEM_MINIGAME_COIN)
-        m4aSongNumStart(0x223);
+        m4aSongNumStart(SE_MINIGAME_COIN_GET);
     else if (item_id & ITEMBIT_JUNK)
         return;
     else if (item_id & ITEMBIT_ABILITY || item_id & ITEMBIT_CD)
-        m4aSongNumStart(0x13C);
+        m4aSongNumStart(SE_CD_GET);
     else
-        m4aSongNumStart(0x13B);
+        m4aSongNumStart(SE_GEM_GET);
     WarioVoiceSet(1);
 }
 

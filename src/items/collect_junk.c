@@ -1,4 +1,5 @@
 #include "unsorted/functions.h"
+#include "unsorted/types.h"
 #include "unsorted/variables.h"
 #include "item.h"
 
@@ -12,9 +13,9 @@ void GiveWarioHearts(u32 hearts) {
     WarioHeart[2] = WarioHeart[1] << 3;
     WarioHeart[3] = 0;
     if (hearts == 8) {
-        m4aSongNumStart(0x143);
+        m4aSongNumStart(SE_FULL_HEALTH_ITEM_GET);
     } else {
-        m4aSongNumStart(0x140);
+        m4aSongNumStart(SE_HEART_GET);
     }
 }
 

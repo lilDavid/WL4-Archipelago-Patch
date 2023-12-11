@@ -1,6 +1,7 @@
 #include <gba.h>
 
 #include "unsorted/functions.h"
+#include "unsorted/types.h"
 #include "unsorted/variables.h"
 #include "item_table.h"
 #include "graphics.h"
@@ -48,7 +49,7 @@ u32 LevelResults_ShowNextItem() {
 u8 ResultsScreen_SentItemTextBox() {
     if ((usTrg_KeyPress1Frame & KEY_A) == 0)
         return 9;  // This state
-    m4aSongNumStart(0x125);
+    m4aSongNumStart(SE_CONFIRM);
     u32 has_more = LevelResults_ShowNextItem();
     if (!has_more)
         return 7;  // All done, which in this case means fade out
