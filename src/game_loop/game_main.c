@@ -76,7 +76,7 @@ static void GameMain_CollectJunk(void) {
         QueuedHearts -= 1;
     }
 
-    if (Wario_ucMiss == 0 && Wario_ucReact == 0) {
+    if (Wario_ucMiss == 0 && Wario_ucReact <= 1) {
         if (QueuedFormTraps > 0) {
             GiveTransformTrap();
             QueuedFormTraps -= 1;

@@ -23,9 +23,15 @@ void ChangeWarioReact_Fire(void);
 void ChangeWarioReact_Fat(void);
 void ChangeWarioReact_Frozen(void);
 
-// Randomly transform Wario. For compatibility with all levels, only Flaming,
-// Fat and Frozen Wario are allowed right now.
+// If Wario is on land, randomly transform him. If the's swimming, bubble him.
+// For compatibility with all levels, only Flaming, Fat, Frozen, and Bubble
+// Wario are allowed right now.
 void GiveTransformTrap() {
+    if (Wario_ucReact == 1) {
+        WarioChng_React[Wario_ucReact](14);
+        return;
+    }
+
     typedef void (*ChangeWarioReactFunc)(void);
     static ChangeWarioReactFunc reactionList[] = {
         ChangeWarioReact_Fire,
