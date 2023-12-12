@@ -205,20 +205,20 @@ void CollectRandomItem() {
     LastCollectedItemID = item_id;
 
     if (item_id & ITEMBIT_ABILITY) {
+        int new_ability = item_id & 7;
         if (item_id == ITEM_GROUND_POUND || item_id == ITEM_GRAB) {
             int abilities = WarioAbilities | AbilitiesInThisLevel;
-            int new_ability = item_id & 7;
             if (abilities & (1 << new_ability)) {
                 if (item_id == ITEM_GROUND_POUND)
                     new_ability = ABILITY_SUPER_GROUND_POUND;
                 else
                     new_ability = ABILITY_HEAVY_GRAB;
             }
-            AbilitiesInThisLevel |= 1 << new_ability;
             SpawnCollectionIndicator(0, 0);
         } else {
             SpawnCollectionIndicator(1, 0);
         }
+        AbilitiesInThisLevel |= 1 << new_ability;
         m4aSongNumStart(SE_CD_GET);
         return;
     }

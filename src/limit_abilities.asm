@@ -23,7 +23,10 @@ MoveBit_GrabHeavy equ 7
 
 .macro get_wario_move, ability
         ldr r0, =WarioAbilities
+        ldr r1, =AbilitiesInThisLevel
         ldrb r0, [r0]
+        ldrb r1, [r1]
+        orr r0, r1
         get_bit r0, r0, ability
 .endmacro
 
@@ -57,12 +60,12 @@ hook_manual 0x806EE56, 0x806EE60, LimitWarioAbility_HeadSmash         ; WarUpPan
 
 hook_manual 0x801F9E8, 0x801F9F2, LimitWarioAbility_Grab              ; It's complicated
 
-hook_manual 0x80106C0, 0x80106D0, LimitWarioAbility_DashAttack_Left   ; WarKeyWalk()
+hook_manual 0x80106C0, 0x80106D2, LimitWarioAbility_DashAttack_Left   ; WarKeyWalk()
 hook_manual 0x8010640, 0x801064A, LimitWarioAbility_DashAttack_Right  ; WarKeyWalk()
 .org 0x806ECFC :: .word LimitWarioAbility_DashAttack_Roll             ; WarSidePanelAttack() case 14
 .org 0x806ED00 :: .word LimitWarioAbility_DashAttack_Roll             ; WarSidePanelAttack() case 15
 
-hook_manual 0x8012C64, 0x8012C6C, LimitWarioAbility_EnemyJump         ; GmWarioChng()
+hook_manual 0x8012C60, 0x8012C6C, LimitWarioAbility_EnemyJump         ; GmWarioChng()
 
 
 .autoregion
@@ -146,9 +149,9 @@ LimitWarioAbility_Swim_Underwater:
 
 ; Prevent diving if swimming isn't unlocked
 LimitWarioAbility_Swim_Surfaced:
+        get_wario_move MoveBit_Swim
         ldr r1, =KeyPressContinuous
         ldrh r2, [r1]
-        get_wario_move MoveBit_Swim
         cmp r0, #0
         beq @@NoSwim
 
@@ -187,6 +190,8 @@ LimitWarioAbility_Swim_Surfaced:
 ; Prevent swimming with B if swimming isn't unlocked
 LimitWarioAbility_Swim_FloatingB:
         get_wario_move MoveBit_Swim
+        ldr r1, =usTrg_KeyPress1Frame
+        ldrh r1, [r1]
         cmp r0, #0
         beq @@NoSwim
 
@@ -260,7 +265,7 @@ LimitWarioAbility_Swim_GroundPound:
     @@ReplacedCode:
         mov r5, r4
         and r5, r2
-        mov r3, r1
+        ldr r3, =Wario_ucReact
         cmp r5, #0
         beq @@NoSwim
 
@@ -390,7 +395,7 @@ LimitWarioAbility_DashAttack_Left:
         cmp r0, #0
         beq @@NoDashAttack
 
-        ldr r0, =0x80106D0
+        ldr r0, =0x80106D2
         mov pc, r0
 
     @@NoDashAttack:
@@ -415,7 +420,7 @@ LimitWarioAbility_DashAttack_Right:
         cmp r0, #0
         beq @@NoDashAttack
 
-        ldr r0, =0x80106D0
+        ldr r0, =0x80106D2
         mov pc, r0
 
     @@NoDashAttack:
@@ -443,6 +448,8 @@ LimitWarioAbility_DashAttack_Roll:
 
 LimitWarioAbility_EnemyJump:
         get_wario_move MoveBit_EnemyJump
+        ldr r1, =KeyPressContinuous
+        ldrh r1, [r1]
         cmp r0, #0
         beq @@NoHighJump
 
