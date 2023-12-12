@@ -76,7 +76,8 @@ static void GameMain_CollectJunk(void) {
     }
 
     if (Wario_ucMiss == 0 && Wario_ucReact <= 1) {
-        if (QueuedFormTraps > 0) {
+        int is_swimming = Wario_ucReact == 1 && HAS_ABILITY_TEMPORARY(ABILITY_SWIM);
+        if (QueuedFormTraps > 0 && (Wario_ucReact == 0 || is_swimming)) {
             GiveTransformTrap();
             QueuedFormTraps -= 1;
         } else if (QueuedLightningTraps > 0) {
