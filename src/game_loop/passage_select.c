@@ -243,11 +243,11 @@ void PassageSelect_ShowReceivedItem() {
         int ability = IncomingItemID & 7;
         if (ability == ABILITY_GROUND_POUND || ability == ABILITY_GRAB) {
             if (ability == ABILITY_GROUND_POUND &&
-                (WarioAbilities & (1 << ABILITY_SUPER_GROUND_POUND)))
+                (HAS_ABILITY_PERMANENT(ABILITY_SUPER_GROUND_POUND)))
             {
                 ability = ABILITY_SUPER_GROUND_POUND;
             } else if (ability == ABILITY_GRAB &&
-                       (WarioAbilities & (1 << ABILITY_HEAVY_GRAB)))
+                       (HAS_ABILITY_PERMANENT(ABILITY_HEAVY_GRAB)))
             {
                 ability = ABILITY_HEAVY_GRAB;
             }

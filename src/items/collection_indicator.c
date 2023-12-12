@@ -91,12 +91,11 @@ u32 GemIcons_SetUpAbilities() {
              0x6011C00,
              DMA_ENABLE | DMA_SRC_FIXED | DMA16 | 2 * sizeof(Tile4bpp) / 2);
 
-    int abilities = WarioAbilities | AbilitiesInThisLevel;
     int new_seq;
     const Tile4bpp* ability_tile;
     if (LastCollectedItemID == ITEM_GROUND_POUND) {
-        if (abilities & (1 << ABILITY_SUPER_GROUND_POUND)) {
-            if (WarioAbilities & (1 << ABILITY_GROUND_POUND)) {
+        if (HAS_ABILITY_TEMPORARY(ABILITY_SUPER_GROUND_POUND)) {
+            if (HAS_ABILITY_PERMANENT(ABILITY_GROUND_POUND)) {
                 new_seq = 2;
                 ability_tile = &HasGroundPound1Tile;
             } else {
@@ -112,8 +111,8 @@ u32 GemIcons_SetUpAbilities() {
     } else /* Grab */ {
         // Hack to make the blue W work with the red palette active
         SPRITE_PALETTE[4 * 16 + 0xF] = 0x50A5;
-        if (abilities & (1 << ABILITY_HEAVY_GRAB)) {
-            if (WarioAbilities & (1 << ABILITY_GRAB)) {
+        if (HAS_ABILITY_TEMPORARY(ABILITY_HEAVY_GRAB)) {
+            if (HAS_ABILITY_PERMANENT(ABILITY_GRAB)) {
                 new_seq = 2;
                 ability_tile = &HasGrab1Tile;
             } else {

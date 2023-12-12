@@ -131,10 +131,9 @@ void LoadRandomItemAnimation() {
         const Tile4bpp* bottom_row_source;
         if (item_id & ITEMBIT_ABILITY) {
             int ability = item_id & 7;
-            int moves_carried = WarioAbilities | AbilitiesInThisLevel;
-            if (ability == ABILITY_GROUND_POUND && moves_carried & (1 << ABILITY_GROUND_POUND)) {
+            if (ability == ABILITY_GROUND_POUND && HAS_ABILITY_TEMPORARY(ABILITY_GROUND_POUND)) {
                 ability = ABILITY_SUPER_GROUND_POUND;
-            } else if (ability == ABILITY_GRAB && moves_carried & (1 << ABILITY_GRAB)) {
+            } else if (ability == ABILITY_GRAB && HAS_ABILITY_TEMPORARY(ABILITY_GRAB)) {
                 ability = ABILITY_HEAVY_GRAB;
             }
             SetTreasurePalette(AbilityPaletteTable[ability]);
@@ -207,8 +206,7 @@ void CollectRandomItem() {
     if (item_id & ITEMBIT_ABILITY) {
         int new_ability = item_id & 7;
         if (item_id == ITEM_GROUND_POUND || item_id == ITEM_GRAB) {
-            int abilities = WarioAbilities | AbilitiesInThisLevel;
-            if (abilities & (1 << new_ability)) {
+            if (HAS_ABILITY_TEMPORARY(new_ability)) {
                 if (item_id == ITEM_GROUND_POUND)
                     new_ability = ABILITY_SUPER_GROUND_POUND;
                 else

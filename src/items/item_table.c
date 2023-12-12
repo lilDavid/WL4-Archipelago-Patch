@@ -64,7 +64,7 @@ static void GiveItem_CD(u8 item_id) {
 static void GiveItem_Ability(u8 item_id) {
     int ability = item_id & 7;
     if (ability == ABILITY_GROUND_POUND || ability == ABILITY_GRAB) {
-        if (WarioAbilities & (1 << ability)) {
+        if (HAS_ABILITY_PERMANENT(ability)) {
             ability = (ability == ABILITY_GROUND_POUND) ? ABILITY_SUPER_GROUND_POUND
                                                         : ABILITY_HEAVY_GRAB;
         }

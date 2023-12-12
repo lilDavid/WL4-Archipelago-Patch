@@ -42,6 +42,10 @@ typedef enum {
     ABILITY_MAX,
 } Ability;
 
+#define _HAS_ABILITY(collection, ability) ((collection) & (1 << ability))
+#define HAS_ABILITY_PERMANENT(ability) _HAS_ABILITY(WarioAbilities, ability)
+#define HAS_ABILITY_TEMPORARY(ability) _HAS_ABILITY(WarioAbilities | AbilitiesInThisLevel, ability)
+
 typedef enum {
     JUNK_FULL_HEALTH,
     JUNK_WARIO_FORM_TRAP,

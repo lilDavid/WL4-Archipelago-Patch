@@ -46,13 +46,12 @@ static void GameMain_CollectMultiworld() {
         int progressive = 0;
         if (ability == ABILITY_GROUND_POUND || item_id == ITEM_GRAB) {
             progressive = 1;
-            int abilities = WarioAbilities | AbilitiesInThisLevel;
             if (ability == ABILITY_GROUND_POUND &&
-                abilities & (1 << ABILITY_SUPER_GROUND_POUND))
+                HAS_ABILITY_TEMPORARY(ABILITY_SUPER_GROUND_POUND))
             {
                 ability = ABILITY_SUPER_GROUND_POUND;
             } else if (ability == ABILITY_GRAB &&
-                       abilities & (1 << ABILITY_HEAVY_GRAB))
+                       HAS_ABILITY_TEMPORARY(ABILITY_HEAVY_GRAB))
             {
                 ability = ABILITY_HEAVY_GRAB;
             }

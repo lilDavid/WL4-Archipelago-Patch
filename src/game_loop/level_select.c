@@ -29,54 +29,54 @@ void LevelSelect_InitIcons() {
 
 
 void LevelSelect_CreateAbilityOAM() {
-    if (WarioAbilities & (1 << ABILITY_SUPER_GROUND_POUND)) {
+    if (HAS_ABILITY_PERMANENT(ABILITY_SUPER_GROUND_POUND)) {
         OamBuf_AddObj(
             ATTR0_SQUARE | ATTR0_COLOR_16 | OBJ_Y(0),
             ATTR1_SIZE_16 | OBJ_X(8 * 8),
             ATTR2_PALETTE(0x4) | ATTR2_PRIORITY(0) | OBJ_CHAR(0x08C)
         );
-    } else if (WarioAbilities & (1 << ABILITY_GROUND_POUND)) {
+    } else if (HAS_ABILITY_PERMANENT(ABILITY_GROUND_POUND)) {
         OamBuf_AddObj(
             ATTR0_SQUARE | ATTR0_COLOR_16 | OBJ_Y(0),
             ATTR1_SIZE_16 | OBJ_X(8 * 8),
             ATTR2_PALETTE(0x4) | ATTR2_PRIORITY(0) | OBJ_CHAR(0x080)
         );
     }
-    if (WarioAbilities & (1 << ABILITY_SWIM)) {
+    if (HAS_ABILITY_PERMANENT(ABILITY_SWIM)) {
         OamBuf_AddObj(
             ATTR0_SQUARE | ATTR0_COLOR_16 | OBJ_Y(0),
             ATTR1_SIZE_16 | OBJ_X(8 * 10),
             ATTR2_PALETTE(0x8) | ATTR2_PRIORITY(0) | OBJ_CHAR(0x082)
         );
     }
-    if (WarioAbilities & (1 << ABILITY_HEAD_SMASH)) {
+    if (HAS_ABILITY_PERMANENT(ABILITY_HEAD_SMASH)) {
         OamBuf_AddObj(
             ATTR0_SQUARE | ATTR0_COLOR_16 | OBJ_Y(0),
             ATTR1_SIZE_16 | OBJ_X(8 * 12),
             ATTR2_PALETTE(0xA) | ATTR2_PRIORITY(0) | OBJ_CHAR(0x084)
         );
     }
-    if (WarioAbilities & (1 << ABILITY_HEAVY_GRAB)) {
+    if (HAS_ABILITY_PERMANENT(ABILITY_HEAVY_GRAB)) {
         OamBuf_AddObj(
             ATTR0_SQUARE | ATTR0_COLOR_16 | OBJ_Y(0),
             ATTR1_SIZE_16 | OBJ_X(8 * 14),
             ATTR2_PALETTE(0x6) | ATTR2_PRIORITY(0) | OBJ_CHAR(0x08E)
         );
-    } else if (WarioAbilities & (1 << ABILITY_GRAB)) {
+    } else if (HAS_ABILITY_PERMANENT(ABILITY_GRAB)) {
         OamBuf_AddObj(
             ATTR0_SQUARE | ATTR0_COLOR_16 | OBJ_Y(0),
             ATTR1_SIZE_16 | OBJ_X(8 * 14),
             ATTR2_PALETTE(0x8) | ATTR2_PRIORITY(0) | OBJ_CHAR(0x086)
         );
     }
-    if (WarioAbilities & (1 << ABILITY_DASH_ATTACK)) {
+    if (HAS_ABILITY_PERMANENT(ABILITY_DASH_ATTACK)) {
         OamBuf_AddObj(
             ATTR0_SQUARE | ATTR0_COLOR_16 | OBJ_Y(0),
             ATTR1_SIZE_16 | OBJ_X(8 * 16),
             ATTR2_PALETTE(0x9) | ATTR2_PRIORITY(0) | OBJ_CHAR(0x088)
         );
     }
-    if (WarioAbilities & (1 << ABILITY_ENEMY_JUMP)) {
+    if (HAS_ABILITY_PERMANENT(ABILITY_ENEMY_JUMP)) {
         OamBuf_AddObj(
             ATTR0_SQUARE | ATTR0_COLOR_16 | OBJ_Y(0),
             ATTR1_SIZE_16 | OBJ_X(8 * 18),
