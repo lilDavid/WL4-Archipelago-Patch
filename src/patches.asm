@@ -21,6 +21,9 @@
 .org 0x8088D7A
     ldrb r0, [r1, #1]
 
+.org 0x808972A  ; PauseOamCreate(): Show CD with same rule above
+    ldrb r0, [r1, #1]
+
 
 ; EntityAI_0x00_0x01_0x02_0x03_0x04_0x05_Q_K2_COM_takarabako(): Skip voice playing
 .org 0x80292A0
