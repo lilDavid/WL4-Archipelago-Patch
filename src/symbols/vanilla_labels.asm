@@ -22,6 +22,7 @@
 .definelabel Has4thGemPiece, 0x3000C0A
 .definelabel HasCD, 0x3000C0B
 .definelabel HasKeyzer, 0x3000C0C
+.definelabel GlobalGameMode, 0x3000C3A
 .definelabel sGameSeq, 0x3000C3C
 .definelabel GlobalTimer, 0x3000C41
 .definelabel OamBuf, 0x3001444
