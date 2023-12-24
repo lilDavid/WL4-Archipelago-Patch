@@ -35,3 +35,19 @@ typedef enum {
     WV_TREASURE = 1,
     WV_HURT = 4,
 } WarioVoiceID;
+
+typedef enum {
+    REACT_NORMAL,
+    REACT_WATER,
+    REACT_FIRE,
+    REACT_FAT,
+    REACT_FROZEN,
+    REACT_ZOMBIE,
+    REACT_SNOWMAN,
+    REACT_BOUNCY,
+    REACT_PUFFY,
+    REACT_BAT,
+    REACT_FLAT,
+    REACT_MASK,
+    REACT_MAX
+} WarioReact;

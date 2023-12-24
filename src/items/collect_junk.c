@@ -27,7 +27,7 @@ void ChangeWarioReact_Frozen(void);
 // For compatibility with all levels, only Flaming, Fat, Frozen, and Bubble
 // Wario are allowed right now.
 void GiveTransformTrap() {
-    if (Wario_ucReact == 1) {
+    if (Wario_ucReact == REACT_WATER) {
         WarioChng_React[Wario_ucReact](14);
         return;
     }
@@ -48,6 +48,6 @@ void GiveTransformTrap() {
 // If underwater, apply the correct status because it's different
 void GiveLightningTrap() {
     ucFlashLoop = 5;
-    WarioChng_React[Wario_ucReact](Wario_ucReact == 0 ? 19 : 6);
+    WarioChng_React[Wario_ucReact](Wario_ucReact == REACT_NORMAL ? 19 : 6);
     WarioCoinSet(-0x28);
 }
