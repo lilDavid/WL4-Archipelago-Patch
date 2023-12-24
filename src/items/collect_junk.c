@@ -45,8 +45,9 @@ void GiveTransformTrap() {
 }
 
 // Summon lightnining to strike and damage Wario, same as on The Big Board
+// If underwater, apply the correct status because it's different
 void GiveLightningTrap() {
     ucFlashLoop = 5;
-    WarioChng_React[Wario_ucReact](0x13);
+    WarioChng_React[Wario_ucReact](Wario_ucReact == 0 ? 19 : 6);
     WarioCoinSet(-0x28);
 }
