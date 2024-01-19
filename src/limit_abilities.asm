@@ -283,11 +283,11 @@ LimitWarioAbility_Swim_GroundPound:
 ; prevent softlocks
 LimitWarioAbility_Swim_Fat:
         get_wario_move MoveBit_Swim
+        ldrh r1, [r4, #0xE]
         cmp r0, #0
         beq @@NoSwim
 
     ; Replaced code
-        ldrh r1, [r4, #0xE]
         mov r3, r2
         and r3, r1
         cmp r3, #0
