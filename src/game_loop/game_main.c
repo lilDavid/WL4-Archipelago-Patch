@@ -4,6 +4,7 @@
 #include "item.h"
 #include "item_table.h"
 #include "multiworld.h"
+#include "wario.h"
 
 
 static void GameMain_CollectMultiworld();
@@ -75,9 +76,9 @@ static void GameMain_CollectJunk(void) {
         QueuedHearts -= 1;
     }
 
-    if (Wario_ucMiss == 0 && Wario_ucReact <= REACT_WATER) {
-        int is_swimming = Wario_ucReact == REACT_WATER && HAS_ABILITY_TEMPORARY(ABILITY_SWIM);
-        if (QueuedFormTraps > 0 && (Wario_ucReact == REACT_NORMAL || is_swimming)) {
+    if (Wario.ucMiss == 0 && Wario.ucReact <= REACT_WATER) {
+        int is_swimming = Wario.ucReact == REACT_WATER && HAS_ABILITY_TEMPORARY(ABILITY_SWIM);
+        if (QueuedFormTraps > 0 && (Wario.ucReact == REACT_NORMAL || is_swimming)) {
             GiveTransformTrap();
             QueuedFormTraps -= 1;
         } else if (QueuedLightningTraps > 0) {

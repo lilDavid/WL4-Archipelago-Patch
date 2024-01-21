@@ -8,6 +8,7 @@
 #include "item.h"
 #include "item_table.h"
 #include "multiworld.h"
+#include "wario.h"
 
 
 #ifdef DEBUG

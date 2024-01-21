@@ -7,6 +7,7 @@
 #include "item_table.h"
 #include "graphics.h"
 #include "multiworld.h"
+#include "wario.h"
 
 
 void CollectRandomItem(void);

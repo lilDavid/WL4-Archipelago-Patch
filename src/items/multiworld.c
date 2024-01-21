@@ -1,9 +1,10 @@
 #include <gba.h>
 
+#include "unsorted/functions.h"
 #include "graphics.h"
 #include "item.h"
 #include "multiworld.h"
-#include "unsorted/functions.h"
+#include "wario.h"
 
 
 void ItemReceivedFeedbackSound(u8 item_id) {

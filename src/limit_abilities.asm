@@ -161,7 +161,7 @@ LimitWarioAbility_Swim_Surfaced:
         cmp r0, #0
         beq @@CheckDirections
 
-        ldr r1, =Wario_ucReact
+        ldr r1, =Wario
         ldrh r0, [r1, #0x14]  ; Wario_usPosY
         add r0, #0x10
         strh r0, [r1, #0x14]
@@ -225,7 +225,7 @@ LimitWarioAbility_Swim_FloatingD:
         cmp r1, #0
         beq @@CheckVert
 
-        ldr r0, =Wario_ucReact
+        ldr r0, =Wario
         strh r1, [r0, #0xE]  ; Wario_usMukiX
         mov r0, #3
         b @@Swim
@@ -235,7 +235,7 @@ LimitWarioAbility_Swim_FloatingD:
         and r1, r0
         cmp r1, #0
         beq @@NoSwim
-        ldr r0, =Wario_ucReact
+        ldr r0, =Wario
         strh r1, [r0, #0x10]  ; Wario_usMukiY
         mov r0, #3
 
@@ -265,7 +265,7 @@ LimitWarioAbility_Swim_GroundPound:
     @@ReplacedCode:
         mov r5, r4
         and r5, r2
-        ldr r3, =Wario_ucReact
+        ldr r3, =Wario
         cmp r5, #0
         beq @@NoSwim
 
@@ -306,7 +306,7 @@ LimitWarioAbility_Swim_Fat:
 ; Prevent Wario breaking blocks with his head.
 ; Bouncy Wario can still break blocks.
 LimitWarioAbility_HeadSmash:
-        ldr r0, =Wario_ucReact
+        ldr r0, =Wario
         ldrb r0, [r0]
         cmp r0, #7
         beq @@HeadSmash

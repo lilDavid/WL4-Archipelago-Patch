@@ -4,6 +4,7 @@
 #include "unsorted/variables.h"
 #include "graphics.h"
 #include "item.h"
+#include "wario.h"
 
 
 extern const Tile4bpp EmptyJewel1Tile, CarryingJewel1Tile, HasJewel1Tile,
@@ -41,11 +42,11 @@ const GemTiles gem_graphics[4] = {
 // Spawn the jewel piece or CD icon when you've collected one of them.
 void SpawnCollectionIndicator(u32 is_cd, u32 is_permanent) {
     u16 x;
-    if ((Wario_usMukiX & 0x20) == 0)
-        x = Wario_usPosX + 72;
+    if ((Wario.usMukiX & 0x20) == 0)
+        x = Wario.usPosX + 72;
     else
-        x = Wario_usPosX - (is_cd ? 136 : 200);
-    TOptObjSet(Wario_usPosY - 160, x, is_cd + 0x41);
+        x = Wario.usPosX - (is_cd ? 136 : 200);
+    TOptObjSet(Wario.usPosY - 160, x, is_cd + 0x41);
     LastCollectedItemStatus = 2 * is_permanent + 1;
 }
 

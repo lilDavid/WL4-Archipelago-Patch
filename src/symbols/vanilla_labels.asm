@@ -30,11 +30,7 @@
 .definelabel KeyPressPrevious, 0x3001846
 .definelabel usTrg_KeyPress1Frame, 0x3001848
 .definelabel ucCntObj, 0x300184A
-.definelabel Wario_ucReact, 0x3001898
-.definelabel Wario_ucMiss, 0x300189C
-.definelabel Wario_usMukiX, 0x30018A6
-.definelabel Wario_usPosX, 0x30018AA
-.definelabel Wario_usPosY, 0x30018AC
+.definelabel Wario, 0x3001898
 .definelabel WarioHeart, 0x3001910
 .definelabel WHit, 0x3001918
 .definelabel WarioLift, 0x3001940
