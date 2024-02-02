@@ -20,6 +20,7 @@ extern u8 TextTimer;
 
 extern u8 DeathLinkEnabled;
 extern const u8 DeathLinkFlag;
+extern const u8 SendMultiworldItemsImmediately;
 
 extern const u8 StrItemSent[LEN("Sent ")];
 extern const u8 StrItemTo[LEN(" to ")];

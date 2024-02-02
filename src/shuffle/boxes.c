@@ -180,14 +180,34 @@ void CollectRandomItem() {
     const ExtData* multi = BoxExtData[box_type];
 
     if (multi != NULL) {
-        const u8* namebytes = multi->item_name;
-        namebytes = LoadSpriteString(namebytes, (Tile4bpp*) 0x06012180, 12);
-        namebytes = LoadSpriteString(namebytes, (Tile4bpp*) 0x06012600, 8);
-        LoadSpriteString(namebytes, (Tile4bpp*) 0x06012A00, 8);
-
+        m4aSongNumStart(SE_GEM_GET);
         MultiworldState = MW_TEXT_SENDING_ITEM;
         TextTimer = 120;
-        m4aSongNumStart(SE_GEM_GET);
+
+        Tile4bpp* tiles1 = (Tile4bpp*) 0x6012180;  // Row of 12
+        Tile4bpp* tiles2 = (Tile4bpp*) 0x6012600;  // Row of 8
+        Tile4bpp* tiles3 = (Tile4bpp*) 0x6012A00;  // Row of 8
+        if (SendMultiworldItemsImmediately) {
+            if (box_type > BOX_CD)
+                box_type += 1;
+            W4ItemStatus[PassageID][InPassageLevelID] |= (1 << box_type);
+
+            // Sent to <Player name>
+            const u8* namebytes = multi->receiver;
+            int sent_len = sizeof(StrItemSent) - 1;  // trim space
+            int to_len = sizeof(StrItemTo);
+            LoadSpriteString(StrItemSent, tiles1, sent_len);
+            LoadSpriteString(StrItemTo, tiles1 + sent_len, to_len);
+            namebytes = LoadSpriteString(namebytes, tiles1 + sent_len + to_len, 12 - sent_len - to_len);
+            namebytes = LoadSpriteString(namebytes, tiles2, 8);
+            LoadSpriteString(namebytes, tiles3, 8);
+        } else {
+            // Item name
+            const u8* namebytes = multi->item_name;
+            namebytes = LoadSpriteString(namebytes, tiles1, 12);
+            namebytes = LoadSpriteString(namebytes, tiles2, 8);
+            LoadSpriteString(namebytes, tiles3, 8);
+        }
         return;
     }
 

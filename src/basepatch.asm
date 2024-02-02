@@ -18,9 +18,10 @@ ITEM_NONE equ 0xFF
 .region 0x0E000000-.
     .arm
     .align 4
-    PlayerName: .fill 64, 0
-    PlayerID: .halfword 0
-    DeathLinkFlag: .byte 0
+    PlayerName:                     .fill 64, 0
+    PlayerID:                       .halfword 0
+    DeathLinkFlag:                  .byte 0
+    SendMultiworldItemsImmediately: .byte 0
 
     .align 4
     ItemLocationTable:              .fill 6 * 4 * 7,     ITEM_NONE
