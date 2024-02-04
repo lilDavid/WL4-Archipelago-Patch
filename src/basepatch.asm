@@ -48,6 +48,7 @@ ITEM_NONE equ 0xFF
 .importobj "obj/game_loop/level_select.o"
 .importobj "obj/game_loop/game_main.o"
 .importobj "obj/game_loop/level_results.o"
+.importobj "obj/cutscene_skips.o"
 .importobj "obj/misc.o"
 .importobj "obj/graphics.o"
 .endautoregion

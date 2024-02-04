@@ -37,6 +37,7 @@
 .definelabel usWarStopFlg, 0x30019F6
 .definelabel ucWarOffFlg, 0x30019F8
 .definelabel ucSeldemoSeq, 0x3003C39
+.definelabel ucSmapWarioStatus, 0x3003CA0
 .definelabel usMojiCount, 0x3004A30  ; ???
 
 ; Functions

@@ -277,3 +277,52 @@ hook_branch 0x8075E4C, 0x8075F10, 0x8075F38, SetItemCollection
         pop {pc}  ; Returning from hooked function, LR already pushed
     .pool
 .endautoregion
+
+
+; ------------------ Cutscene Skips --------------------
+
+
+.org 0x80799FC :: .word @Hook_GameSelect9
+.org 0x8079A1C :: .word @Hook_GameSelect11
+.org 0x8079A34 :: .word @Hook_GameSelect17
+.org 0x8079A54 :: .word @Hook_GameSelect1F
+
+.autoregion
+.align 2
+@Hook_GameSelect9:
+        bl CutsceneSkip_EnterLevel
+        cmp r0, #0
+        bne @GameSelectDefault
+        ldr r0, =0x8079C14
+        mov pc, r0
+    .pool
+
+@Hook_GameSelect11:
+        bl CutsceneSkip_ThruPortal
+        cmp r0, #0
+        bne @GameSelectDefault
+        ldr r0, =0x8079DB8
+        mov pc, r0
+    .pool
+
+@Hook_GameSelect17:
+        bl CutsceneSkip_GiveUp
+        cmp r0, #0
+        bne @GameSelectDefault
+        ldr r0, =0x8079ED4
+        mov pc, r0
+    .pool
+
+@Hook_GameSelect1F:
+        bl CutsceneSkip_Clear
+        cmp r0, #0
+        bne @GameSelectDefault
+        ldr r0, =0x8079FAC
+        mov pc, r0
+
+@GameSelectDefault:
+        ldr r0, =0x8079DB8
+        mov pc, r0
+    .pool
+
+.endautoregion
