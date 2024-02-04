@@ -190,7 +190,7 @@ void CollectRandomItem() {
         if (SendMultiworldItemsImmediately) {
             if (box_type > BOX_CD)
                 box_type += 1;
-            W4ItemStatus[PassageID][InPassageLevelID] |= (1 << box_type);
+            W4ItemStatus[PassageID][InPassageLevelID] |= (1 << (box_type + 8));
 
             // Sent to <Player name>
             const u8* namebytes = multi->receiver;
