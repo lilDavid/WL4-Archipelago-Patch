@@ -8,14 +8,20 @@
 
 
 void ItemReceivedFeedbackSound(u8 item_id) {
-    if (item_id == ITEM_MINIGAME_COIN)
-        m4aSongNumStart(SE_MINIGAME_COIN_GET);
-    else if (item_id & ITEMBIT_JUNK)
-        return;
-    else if (item_id & ITEMBIT_ABILITY || item_id & ITEMBIT_CD)
-        m4aSongNumStart(SE_CD_GET);
-    else
-        m4aSongNumStart(SE_GEM_GET);
+    switch (Item_GetType(item_id)) {
+        case ITEMTYPE_GEM:
+            m4aSongNumStart(SE_GEM_GET);
+            break;
+        case ITEMTYPE_CD:
+        case ITEMTYPE_ABILITY:
+            m4aSongNumStart(SE_CD_GET);
+            break;
+        case ITEMTYPE_JUNK:
+            if (item_id == ITEM_MINIGAME_COIN) m4aSongNumStart(SE_MINIGAME_COIN_GET);
+            break;
+        default:
+            break;
+    }
     WarioVoiceSet(WV_TREASURE);
 }
 
@@ -29,7 +35,7 @@ u8 ReceiveNextItem() {
     ReceivedItemCount += 1;
 
     u8 incoming_item = IncomingItemID;
-    if (incoming_item & ITEMBIT_JUNK)
+    if (Item_GetType(incoming_item) == ITEMTYPE_JUNK)
         return incoming_item;
 
     LastCollectedItemID = incoming_item;

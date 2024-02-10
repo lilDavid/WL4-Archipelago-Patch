@@ -94,71 +94,76 @@ void PassageSelect_CreateReceivedOAM() {
 
     const int center_x = SCREEN_WIDTH / 2;
 
-    if (IncomingItemID & ITEMBIT_JUNK) {
-        switch (IncomingItemID) {
-            case ITEM_FULL_HEALTH_ITEM:
-                OamBuf_AddObj(
-                    ATTR0_SQUARE | ATTR0_COLOR_16 | OBJ_Y(104),
-                    ATTR1_SIZE_16 | OBJ_X(center_x - 8),
-                    ATTR2_PALETTE(0xF) | ATTR2_PRIORITY(0) | OBJ_CHAR(0x200)
-                );
-                OamBuf_AddObj(
-                    ATTR0_WIDE | ATTR0_COLOR_16 | OBJ_Y(104 - 8),
-                    ATTR1_SIZE_8 | OBJ_X(center_x - 8),
-                    ATTR2_PALETTE(0xF) | ATTR2_PRIORITY(0) | OBJ_CHAR(0x202)
-                );
-                break;
+    switch (Item_GetType(IncomingItemID)) {
+        case ITEMTYPE_JUNK:
+            switch (IncomingItemID) {
+                case ITEM_FULL_HEALTH_ITEM:
+                    OamBuf_AddObj(
+                        ATTR0_SQUARE | ATTR0_COLOR_16 | OBJ_Y(104),
+                        ATTR1_SIZE_16 | OBJ_X(center_x - 8),
+                        ATTR2_PALETTE(0xF) | ATTR2_PRIORITY(0) | OBJ_CHAR(0x200)
+                    );
+                    OamBuf_AddObj(
+                        ATTR0_WIDE | ATTR0_COLOR_16 | OBJ_Y(104 - 8),
+                        ATTR1_SIZE_8 | OBJ_X(center_x - 8),
+                        ATTR2_PALETTE(0xF) | ATTR2_PRIORITY(0) | OBJ_CHAR(0x202)
+                    );
+                    break;
 
-            case ITEM_HEART:
-                OamBuf_AddObj(
-                    ATTR0_SQUARE | ATTR0_COLOR_16 | OBJ_Y(104),
-                    ATTR1_SIZE_16 | OBJ_X(center_x - 8),
-                    ATTR2_PALETTE(0xF) | ATTR2_PRIORITY(0) | OBJ_CHAR(0x200)
-                );
-                break;
+                case ITEM_HEART:
+                    OamBuf_AddObj(
+                        ATTR0_SQUARE | ATTR0_COLOR_16 | OBJ_Y(104),
+                        ATTR1_SIZE_16 | OBJ_X(center_x - 8),
+                        ATTR2_PALETTE(0xF) | ATTR2_PRIORITY(0) | OBJ_CHAR(0x200)
+                    );
+                    break;
 
-            case ITEM_MINIGAME_COIN:
-                OamBuf_AddObj(
-                    ATTR0_SQUARE | ATTR0_COLOR_16 | OBJ_Y(104),
-                    ATTR1_SIZE_16 | OBJ_X(center_x - 8),
-                    ATTR2_PALETTE(0xF) | ATTR2_PRIORITY(0) | OBJ_CHAR(0x200)
-                );
-                break;
+                case ITEM_MINIGAME_COIN:
+                    OamBuf_AddObj(
+                        ATTR0_SQUARE | ATTR0_COLOR_16 | OBJ_Y(104),
+                        ATTR1_SIZE_16 | OBJ_X(center_x - 8),
+                        ATTR2_PALETTE(0xF) | ATTR2_PRIORITY(0) | OBJ_CHAR(0x200)
+                    );
+                    break;
 
-            default:
-                OamBuf_AddObj(
-                    ATTR0_SQUARE | ATTR0_COLOR_16 | OBJ_Y(104 - 4),
-                    ATTR1_SIZE_16 | OBJ_X(center_x - 12),
-                    ATTR2_PALETTE(0xF) | ATTR2_PRIORITY(0) | OBJ_CHAR(0x200)
-                );
-                OamBuf_AddObj(
-                    ATTR0_TALL | ATTR0_COLOR_16 | OBJ_Y(104 - 4),
-                    ATTR1_SIZE_8 | OBJ_X(center_x + 4),
-                    ATTR2_PALETTE(0xF) | ATTR2_PRIORITY(0) | OBJ_CHAR(0x202)
-                );
-                int x = center_x - 12;
-                if (IncomingItemID == ITEM_WARIO_FORM_TRAP)
-                    x -= 8;  // Wario is padded on left, and lightning on right
-                OamBuf_AddObj(
-                    ATTR0_WIDE | ATTR0_COLOR_16 | OBJ_Y(104 - 4 + 16),
-                    ATTR1_SIZE_16 | OBJ_X(x),
-                    ATTR2_PALETTE(0xF) | ATTR2_PRIORITY(0) | OBJ_CHAR(0x203)
-                );
-                break;
-        }
-    } else if ((IncomingItemID & ITEMBIT_CD) &&
-               !(IncomingItemID & ITEMBIT_ABILITY)) {
-        OamBuf_AddObj(
-            ATTR0_SQUARE | ATTR0_COLOR_16 | OBJ_Y(104 - 16),
-            ATTR1_SIZE_32 | OBJ_X(center_x - 8),
-            ATTR2_PALETTE(0xF) | ATTR2_PRIORITY(0) | OBJ_CHAR(0x200)
-        );
-    } else /* Gem piece or ability */ {
-        OamBuf_AddObj(
-            ATTR0_SQUARE | ATTR0_COLOR_16 | OBJ_Y(104),
-            ATTR1_SIZE_16 | OBJ_X(center_x - 8),
-            ATTR2_PALETTE(0xF) | ATTR2_PRIORITY(0) | OBJ_CHAR(0x200)
-        );
+                case ITEM_WARIO_FORM_TRAP:
+                case ITEM_LIGHTNING_TRAP:
+                    OamBuf_AddObj(
+                        ATTR0_SQUARE | ATTR0_COLOR_16 | OBJ_Y(104 - 4),
+                        ATTR1_SIZE_16 | OBJ_X(center_x - 12),
+                        ATTR2_PALETTE(0xF) | ATTR2_PRIORITY(0) | OBJ_CHAR(0x200)
+                    );
+                    OamBuf_AddObj(
+                        ATTR0_TALL | ATTR0_COLOR_16 | OBJ_Y(104 - 4),
+                        ATTR1_SIZE_8 | OBJ_X(center_x + 4),
+                        ATTR2_PALETTE(0xF) | ATTR2_PRIORITY(0) | OBJ_CHAR(0x202)
+                    );
+                    int x = center_x - 12;
+                    if (IncomingItemID == ITEM_WARIO_FORM_TRAP)
+                        x -= 8;  // Wario is padded on left, and lightning on right
+                    OamBuf_AddObj(
+                        ATTR0_WIDE | ATTR0_COLOR_16 | OBJ_Y(104 - 4 + 16),
+                        ATTR1_SIZE_16 | OBJ_X(x),
+                        ATTR2_PALETTE(0xF) | ATTR2_PRIORITY(0) | OBJ_CHAR(0x203)
+                    );
+                    break;
+            }
+            break;
+        case ITEMTYPE_CD:
+            OamBuf_AddObj(
+                ATTR0_SQUARE | ATTR0_COLOR_16 | OBJ_Y(104 - 16),
+                ATTR1_SIZE_32 | OBJ_X(center_x - 8),
+                ATTR2_PALETTE(0xF) | ATTR2_PRIORITY(0) | OBJ_CHAR(0x200)
+            );
+            break;
+        case ITEMTYPE_GEM:
+        case ITEMTYPE_ABILITY:
+            OamBuf_AddObj(
+                ATTR0_SQUARE | ATTR0_COLOR_16 | OBJ_Y(104),
+                ATTR1_SIZE_16 | OBJ_X(center_x - 8),
+                ATTR2_PALETTE(0xF) | ATTR2_PRIORITY(0) | OBJ_CHAR(0x200)
+            );
+        default: break;
     }
 }
 
@@ -188,91 +193,97 @@ void PassageSelect_ShowReceivedItem() {
     // Sprite
     u16* palette_dest = SPRITE_PALETTE + 16 * 0xF;
     Tile4bpp* item_dest = (Tile4bpp*) 0x6014000;
-    if (IncomingItemID & ITEMBIT_JUNK) {
-        switch (IncomingItemID) {
-            case ITEM_FULL_HEALTH_ITEM:
-                dmaCopy(CommonRoomEntityPalettes4[2],  // normally OBP6
-                        palette_dest,
-                        16 * sizeof(u16));
-                dmaCopy(BasicElementTiles + TILE_OFFSET(24, 7),
-                        item_dest,
-                        34 * sizeof(Tile4bpp));
-                dmaCopy(BasicElementTiles + TILE_OFFSET(4, 1),
-                        item_dest + 2,
-                        2 * sizeof(Tile4bpp));
-                break;
+    switch (Item_GetType(IncomingItemID)) {
+        case ITEMTYPE_JUNK:
+            switch (IncomingItemID) {
+                case ITEM_FULL_HEALTH_ITEM:
+                    dmaCopy(CommonRoomEntityPalettes4[2],  // normally OBP6
+                            palette_dest,
+                            16 * sizeof(u16));
+                    dmaCopy(BasicElementTiles + TILE_OFFSET(24, 7),
+                            item_dest,
+                            34 * sizeof(Tile4bpp));
+                    dmaCopy(BasicElementTiles + TILE_OFFSET(4, 1),
+                            item_dest + 2,
+                            2 * sizeof(Tile4bpp));
+                    break;
 
-            case ITEM_HEART:
-                dmaCopy(CommonRoomEntityPalettes4[3],  // normally OBP7
-                        palette_dest,
-                        16 * sizeof(u16));
-                dmaCopy(BasicElementTiles + TILE_OFFSET(10, 3),
-                        item_dest,
-                        34 * sizeof(Tile4bpp));
-                break;
+                case ITEM_HEART:
+                    dmaCopy(CommonRoomEntityPalettes4[3],  // normally OBP7
+                            palette_dest,
+                            16 * sizeof(u16));
+                    dmaCopy(BasicElementTiles + TILE_OFFSET(10, 3),
+                            item_dest,
+                            34 * sizeof(Tile4bpp));
+                    break;
 
-            case ITEM_MINIGAME_COIN:
-                dmaCopy(PassagePaletteTable[PAL_MINGAME_COIN],
-                        palette_dest + (16 - 5),
-                        5 * sizeof(u16));
-                dmaCopy(MinigameCoinTiles,
-                        item_dest,
-                        2 * sizeof(Tile4bpp));
-                dmaCopy(MinigameCoinTiles + 2,
-                        item_dest + TILE_OFFSET(0, 1),
-                        2 * sizeof(Tile4bpp));
-                break;
+                case ITEM_MINIGAME_COIN:
+                    dmaCopy(PassagePaletteTable[PAL_MINGAME_COIN],
+                            palette_dest + (16 - 5),
+                            5 * sizeof(u16));
+                    dmaCopy(MinigameCoinTiles,
+                            item_dest,
+                            2 * sizeof(Tile4bpp));
+                    dmaCopy(MinigameCoinTiles + 2,
+                            item_dest + TILE_OFFSET(0, 1),
+                            2 * sizeof(Tile4bpp));
+                    break;
 
-            default:
-                dmaCopy(BigBoardEntityPalettes[1],
-                        palette_dest,
-                        16 * sizeof(u16));
-                const Tile4bpp* top;
-                const Tile4bpp* bottom;
-                if (IncomingItemID == ITEM_WARIO_FORM_TRAP) {
-                    top = BigBoardEntityTiles + TILE_OFFSET(22, 4);
-                    bottom = BigBoardEntityTiles + TILE_OFFSET(28, 5);
-                } else /* Lightning */ {
-                    top = BigBoardEntityTiles + TILE_OFFSET(12, 4);
-                    bottom = BigBoardEntityTiles + TILE_OFFSET(25, 4);
-                }
-                dmaCopy(top, item_dest, 35 * sizeof(Tile4bpp));
-                dmaCopy(bottom, item_dest + 3, 4 * sizeof(Tile4bpp));
-                break;
-        }
-    } else if (IncomingItemID & ITEMBIT_ABILITY) {
-        int ability = IncomingItemID & 7;
-        if (ability == ABILITY_GROUND_POUND || ability == ABILITY_GRAB) {
-            if (ability == ABILITY_GROUND_POUND &&
-                (HAS_ABILITY_PERMANENT(ABILITY_SUPER_GROUND_POUND)))
-            {
-                ability = ABILITY_SUPER_GROUND_POUND;
-            } else if (ability == ABILITY_GRAB &&
-                       (HAS_ABILITY_PERMANENT(ABILITY_HEAVY_GRAB)))
-            {
-                ability = ABILITY_HEAVY_GRAB;
+                case ITEM_WARIO_FORM_TRAP:
+                case ITEM_LIGHTNING_TRAP:
+                    dmaCopy(BigBoardEntityPalettes[1],
+                            palette_dest,
+                            16 * sizeof(u16));
+                    const Tile4bpp* top;
+                    const Tile4bpp* bottom;
+                    if (IncomingItemID == ITEM_WARIO_FORM_TRAP) {
+                        top = BigBoardEntityTiles + TILE_OFFSET(22, 4);
+                        bottom = BigBoardEntityTiles + TILE_OFFSET(28, 5);
+                    } else /* Lightning */ {
+                        top = BigBoardEntityTiles + TILE_OFFSET(12, 4);
+                        bottom = BigBoardEntityTiles + TILE_OFFSET(25, 4);
+                    }
+                    dmaCopy(top, item_dest, 35 * sizeof(Tile4bpp));
+                    dmaCopy(bottom, item_dest + 3, 4 * sizeof(Tile4bpp));
+                    break;
             }
-        }
-        dmaCopy(PassageTreasurePalettes[0],
-                palette_dest,
-                (16 - 5) * sizeof(u16));
-        dmaCopy(PassagePaletteTable[AbilityPaletteTable[ability]],
-                palette_dest + 16 - 5,
-                5 * sizeof(u16));
-        dmaCopy(AbilityIconTilesTop + 2 * ability,
-                item_dest,
-                2 * sizeof(Tile4bpp));
-        dmaCopy(AbilityIconTilesBottom + 2 * ability,
-                item_dest + TILE_OFFSET(0, 1),
-                2 * sizeof(Tile4bpp));
-    } else {
-        int passage = (IncomingItemID >> 2) & 7;
-        if (IncomingItemID & ITEMBIT_CD) {
+            break;
+        case ITEMTYPE_ABILITY:
+            int ability = IncomingItemID & 7;
+            if (ability == ABILITY_GROUND_POUND || ability == ABILITY_GRAB) {
+                if (ability == ABILITY_GROUND_POUND &&
+                    (HAS_ABILITY_PERMANENT(ABILITY_SUPER_GROUND_POUND)))
+                {
+                    ability = ABILITY_SUPER_GROUND_POUND;
+                } else if (ability == ABILITY_GRAB &&
+                           (HAS_ABILITY_PERMANENT(ABILITY_HEAVY_GRAB)))
+                {
+                    ability = ABILITY_HEAVY_GRAB;
+                }
+            }
+            dmaCopy(PassageTreasurePalettes[0],
+                    palette_dest,
+                    (16 - 5) * sizeof(u16));
+            dmaCopy(PassagePaletteTable[AbilityPaletteTable[ability]],
+                    palette_dest + 16 - 5,
+                    5 * sizeof(u16));
+            dmaCopy(AbilityIconTilesTop + 2 * ability,
+                    item_dest,
+                    2 * sizeof(Tile4bpp));
+            dmaCopy(AbilityIconTilesBottom + 2 * ability,
+                    item_dest + TILE_OFFSET(0, 1),
+                    2 * sizeof(Tile4bpp));
+            break;
+        case ITEMTYPE_CD: {
+            int passage = (IncomingItemID >> 2) & 7;
             dmaCopy(PortalPaletteETable[passage - 1],
                     palette_dest,
                     16 * sizeof(u16));
             dmaCopy(PortalOBJTileset + 0x4A, item_dest, 100 * sizeof(Tile4bpp));
-        } else {
+            break;
+        }
+        case ITEMTYPE_GEM: {
+            int passage = (IncomingItemID >> 2) & 7;
             int piece = IncomingItemID & 3;
             dmaCopy(PortalPaletteDTable[passage],
                     palette_dest,
@@ -281,6 +292,8 @@ void PassageSelect_ShowReceivedItem() {
                     item_dest,
                     34 * sizeof(Tile4bpp));
         }
+        default:
+            break;
     }
 }
 

@@ -43,7 +43,7 @@ void SpawnRandomizedItemFromBox() {
     const ExtData* multi = ExtDataInCurrentLevel(box_contents);
     BoxExtData[box_contents] = multi;
 
-    if (!HAS_BOX(box_contents) || (multi == NULL && (item_id & ITEMBIT_JUNK))) {
+    if (!HAS_BOX(box_contents) || (multi == NULL && Item_GetType(item_id) == ITEMTYPE_JUNK)) {
         EnemyChildSet(ENTITY_TREASURE_GEM1 + box_id,
                       CurrentEnemyData.RoomEntitySlotId,
                       0,
@@ -105,32 +105,33 @@ void LoadRandomItemAnimation() {
     TAnmDef* animation;
     int give_immediately = 0;
 
-    if (item_id == ITEM_ARCHIPELAGO_ITEM) {
-        SetTreasurePalette(PAL_AP);
-        animation = APLogoAnm;
-
-    } else if (item_id & ITEMBIT_JUNK) {
-        switch (item_id) {
-            case ITEM_FULL_HEALTH_ITEM:
-                animation = takara_Anm_01;
-                break;
-            case ITEM_HEART:
-                animation = HeartAnm;
-                break;
-            case ITEM_MINIGAME_COIN:
-                animation = RandomItemTilesCreate(MinigameCoinTiles, MinigameCoinTiles + 2);
-                SetTreasurePalette(PAL_MINGAME_COIN);
-                break;
-            default:
-                animation = EmptyAnm;
-                give_immediately = 1;
-                break;
-        }
-
-    } else if (item_id & ITEMBIT_ABILITY || !(item_id & ITEMBIT_CD)) {
-        const Tile4bpp* top_row_source;
-        const Tile4bpp* bottom_row_source;
-        if (item_id & ITEMBIT_ABILITY) {
+    ItemType item_type = Item_GetType(item_id);
+    switch (item_type) {
+        case ITEMTYPE_AP:
+            SetTreasurePalette(PAL_AP);
+            animation = APLogoAnm;
+            break;
+        case ITEMTYPE_JUNK:
+            switch (item_id) {
+                case ITEM_FULL_HEALTH_ITEM:
+                    animation = takara_Anm_01;
+                    break;
+                case ITEM_HEART:
+                    animation = HeartAnm;
+                    break;
+                case ITEM_MINIGAME_COIN:
+                    animation = RandomItemTilesCreate(MinigameCoinTiles, MinigameCoinTiles + 2);
+                    SetTreasurePalette(PAL_MINGAME_COIN);
+                    break;
+                default:
+                    animation = EmptyAnm;
+                    give_immediately = 1;
+                    break;
+            }
+            break;
+        case ITEMTYPE_ABILITY: {
+            const Tile4bpp* top_row_source;
+            const Tile4bpp* bottom_row_source;
             int ability = item_id & 7;
             if (ability == ABILITY_GROUND_POUND && HAS_ABILITY_TEMPORARY(ABILITY_GROUND_POUND)) {
                 ability = ABILITY_SUPER_GROUND_POUND;
@@ -140,7 +141,12 @@ void LoadRandomItemAnimation() {
             SetTreasurePalette(AbilityPaletteTable[ability]);
             top_row_source = AbilityIconTilesTop + 2 * ability;
             bottom_row_source = AbilityIconTilesBottom + 2 * ability;
-        } else {
+            animation = RandomItemTilesCreate(top_row_source, bottom_row_source);
+            break;
+        }
+        case ITEMTYPE_GEM: {
+            const Tile4bpp* top_row_source;
+            const Tile4bpp* bottom_row_source;
             SetTreasurePalette((item_id >> 2) & 7);
             // HasGemPiece(n) does not agree with the tile order here
             // I could've done this with a table or if-else, but noooo, I haaad
@@ -150,12 +156,16 @@ void LoadRandomItemAnimation() {
             int position = piece ^ ((piece >> 1) | 2);
             top_row_source = BasicElementTiles + TILE_OFFSET(2 * position + 2, 3);
             bottom_row_source = top_row_source + TILE_OFFSET(0, 1);
+            animation = RandomItemTilesCreate(top_row_source, bottom_row_source);
+            break;
         }
-
-        animation = RandomItemTilesCreate(top_row_source, bottom_row_source);
-    } else {  // CD
-        SetTreasurePalette((item_id >> 2) & 7);
-        animation = takara_Anm_00;
+        case ITEMTYPE_CD:
+            SetTreasurePalette((item_id >> 2) & 7);
+            animation = takara_Anm_00;
+            break;
+        default:
+            animation = EmptyAnm;
+            break;
     }
 
     CurrentEnemyData.OAMDataPackPointerForCurrentAnimation = animation;
@@ -211,42 +221,41 @@ void CollectRandomItem() {
         return;
     }
 
-    if (item_id & ITEMBIT_JUNK) {
-        switch (item_id) {
-            case ITEM_FULL_HEALTH_ITEM: GiveWarioHearts(8); break;
-            case ITEM_WARIO_FORM_TRAP: GiveTransformTrap(); break;
-            case ITEM_HEART: GiveWarioHearts(1); break;
-            case ITEM_LIGHTNING_TRAP: GiveLightningTrap(); break;
-            case ITEM_MINIGAME_COIN: m4aSongNumStart(SE_MINIGAME_COIN_GET); break;
-        }
-        return;
-    }
-
-    LastCollectedItemID = item_id;
-
-    if (item_id & ITEMBIT_ABILITY) {
-        int new_ability = item_id & 7;
-        if (item_id == ITEM_GROUND_POUND || item_id == ITEM_GRAB) {
-            if (HAS_ABILITY_TEMPORARY(new_ability)) {
-                if (item_id == ITEM_GROUND_POUND)
-                    new_ability = ABILITY_SUPER_GROUND_POUND;
-                else
-                    new_ability = ABILITY_HEAVY_GRAB;
+    switch(Item_GetType(item_id)) {
+        case ITEMTYPE_JUNK:
+            switch (item_id) {
+                case ITEM_FULL_HEALTH_ITEM: GiveWarioHearts(8); break;
+                case ITEM_WARIO_FORM_TRAP: GiveTransformTrap(); break;
+                case ITEM_HEART: GiveWarioHearts(1); break;
+                case ITEM_LIGHTNING_TRAP: GiveLightningTrap(); break;
+                case ITEM_MINIGAME_COIN: m4aSongNumStart(SE_MINIGAME_COIN_GET); break;
             }
-            SpawnCollectionIndicator(0, 0);
-        } else {
+            return;
+        case ITEMTYPE_ABILITY:
+            int new_ability = item_id & 7;
+            if (item_id == ITEM_GROUND_POUND || item_id == ITEM_GRAB) {
+                if (HAS_ABILITY_TEMPORARY(new_ability)) {
+                    if (item_id == ITEM_GROUND_POUND)
+                        new_ability = ABILITY_SUPER_GROUND_POUND;
+                    else
+                        new_ability = ABILITY_HEAVY_GRAB;
+                }
+                SpawnCollectionIndicator(0, 0);
+            } else {
+                SpawnCollectionIndicator(1, 0);
+            }
+            AbilitiesInThisLevel |= 1 << new_ability;
+            m4aSongNumStart(SE_CD_GET);
+            break;
+        case ITEMTYPE_CD:
             SpawnCollectionIndicator(1, 0);
-        }
-        AbilitiesInThisLevel |= 1 << new_ability;
-        m4aSongNumStart(SE_CD_GET);
-        return;
+            m4aSongNumStart(SE_CD_GET);
+            break;
+        case ITEMTYPE_GEM:
+            SpawnCollectionIndicator(0, 0);
+            m4aSongNumStart(SE_GEM_GET);
+            break;
+        default: return;
     }
-
-    if (item_id & ITEMBIT_CD) {
-        SpawnCollectionIndicator(1, 0);
-        m4aSongNumStart(SE_CD_GET);
-    } else /* Gem piece */ {
-        SpawnCollectionIndicator(0, 0);
-        m4aSongNumStart(SE_GEM_GET);
-    }
+    LastCollectedItemID = item_id;
 }

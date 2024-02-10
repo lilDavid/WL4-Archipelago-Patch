@@ -29,14 +29,13 @@ void GiveItem(u8 item_id, const ExtData* multiworld) {
     if (multiworld != NULL)
         return;
 
-    if (item_id & ITEMBIT_JUNK)
-        GiveItem_Junk(item_id);
-    else if (item_id & ITEMBIT_ABILITY)
-        GiveItem_Ability(item_id);
-    else if (item_id & ITEMBIT_CD)
-        GiveItem_CD(item_id);
-    else
-        GiveItem_Gem(item_id);
+    switch (Item_GetType(item_id)) {
+        case ITEMTYPE_GEM:     GiveItem_Gem(item_id); break;
+        case ITEMTYPE_CD:      GiveItem_CD(item_id); break;
+        case ITEMTYPE_ABILITY: GiveItem_Ability(item_id); break;
+        case ITEMTYPE_JUNK:    GiveItem_Junk(item_id); break;
+        default: break;
+    }
 }
 
 // Loop through the passage's level statuses to find the one with this piece's
@@ -90,6 +89,15 @@ static void GiveItem_Junk(u8 item_id) {
             MiniGameCoinNum += 1;
             break;
     }
+}
+
+ItemType Item_GetType(u8 item_id) {
+    if ((item_id & 0b11100000) == 0b00000000) return ITEMTYPE_GEM;
+    if ((item_id & 0b11100000) == 0b00100000) return ITEMTYPE_CD;
+    if ((item_id & 0b11111000) == 0b01000000) return ITEMTYPE_ABILITY;
+    if ((item_id & 0b11110000) == 0b10000000) return ITEMTYPE_JUNK;
+    if (item_id == ITEM_ARCHIPELAGO_ITEM) return ITEMTYPE_AP;
+    return ITEMTYPE_NONE;
 }
 
 

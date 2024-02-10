@@ -39,29 +39,33 @@ static void GameMain_CollectMultiworld() {
     LoadReceivedText();
     ItemReceivedFeedbackSound(item_id);
 
-    if (item_id & ITEMBIT_JUNK)
-        return;
-
-    if (item_id & ITEMBIT_ABILITY) {
-        int ability = item_id & 7;
-        int progressive = 0;
-        if (ability == ABILITY_GROUND_POUND || item_id == ITEM_GRAB) {
-            progressive = 1;
-            if (ability == ABILITY_GROUND_POUND &&
-                HAS_ABILITY_TEMPORARY(ABILITY_SUPER_GROUND_POUND))
-            {
-                ability = ABILITY_SUPER_GROUND_POUND;
-            } else if (ability == ABILITY_GRAB &&
-                       HAS_ABILITY_TEMPORARY(ABILITY_HEAVY_GRAB))
-            {
-                ability = ABILITY_HEAVY_GRAB;
+    ItemType item_type = Item_GetType(item_id);
+    switch (item_type) {
+        case ITEMTYPE_ABILITY: {
+            int ability = item_id & 7;
+            int progressive = 0;
+            if (ability == ABILITY_GROUND_POUND || item_id == ITEM_GRAB) {
+                progressive = 1;
+                if (ability == ABILITY_GROUND_POUND &&
+                    HAS_ABILITY_TEMPORARY(ABILITY_SUPER_GROUND_POUND))
+                {
+                    ability = ABILITY_SUPER_GROUND_POUND;
+                } else if (ability == ABILITY_GRAB &&
+                           HAS_ABILITY_TEMPORARY(ABILITY_HEAVY_GRAB))
+                {
+                    ability = ABILITY_HEAVY_GRAB;
+                }
             }
+            SetTreasurePalette(AbilityPaletteTable[ability]);
+            SpawnCollectionIndicator(!progressive, 1);
+            break;
         }
-        SetTreasurePalette(AbilityPaletteTable[ability]);
-        SpawnCollectionIndicator(!progressive, 1);
-    } else {
-        SetTreasurePalette((item_id >> 2) & 7);
-        SpawnCollectionIndicator((item_id & ITEMBIT_CD) != 0, 1);
+        case ITEMTYPE_GEM:
+        case ITEMTYPE_CD:
+            SetTreasurePalette((item_id >> 2) & 7);
+            SpawnCollectionIndicator(item_type == ITEMTYPE_CD, 1);
+            break;
+        default: break;
     }
 }
 

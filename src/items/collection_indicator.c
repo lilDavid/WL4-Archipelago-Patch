@@ -58,7 +58,7 @@ void GemIcons_Init() {
     Scbuf_ucStatus |= 4;
     if (LastCollectedItemStatus & 1) {
         int seq;
-        if (LastCollectedItemID & ITEMBIT_ABILITY)
+        if (Item_GetType(LastCollectedItemID) == ITEMTYPE_ABILITY)
             seq = GemIcons_SetUpAbilities();
         else
             seq = GemIcons_SetUpPieces();
@@ -149,7 +149,7 @@ void GemIcons_Update() {
 
     if (Scbuf_ucWork0 == 20) {
         TKakeraComp_SE_Set();
-        if (LastCollectedItemID & ITEMBIT_ABILITY)
+        if (Item_GetType(LastCollectedItemID) == ITEMTYPE_ABILITY)
             GemIcons_SetCollectedAbility();
         else
             GemIcons_SetCollectedPiece();
@@ -214,7 +214,7 @@ static const u8 np_ability_tile_indices[6] = {
 void CDIcon_Init() {
     u8 item_id = LastCollectedItemID;
     const Tile4bpp* icon;
-    if ((item_id & ITEMBIT_ABILITY) == 0) {
+    if (Item_GetType(item_id) == ITEMTYPE_CD) {
         icon = &EmptyCDTile;
     } else {
         icon = EmptyNonProgressiveAbilityTiles + np_ability_tile_indices[item_id & 7];
@@ -228,7 +228,7 @@ void CDIcon_Update() {
         return;
     u8 item_id = LastCollectedItemID;
     const Tile4bpp* icon;
-    if ((item_id & ITEMBIT_ABILITY) == 0) {
+    if (Item_GetType(item_id) == ITEMTYPE_CD) {
         icon = &HasCDTile;
     } else {
         icon = FilledNonProgressiveAbilityTiles + np_ability_tile_indices[item_id & 7];

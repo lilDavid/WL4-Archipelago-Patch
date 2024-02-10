@@ -25,10 +25,13 @@ typedef enum {
 } ItemStatusBit;
 
 typedef enum {
-    ITEMBIT_CD = 1 << 5,
-    ITEMBIT_ABILITY = 1 << 6,
-    ITEMBIT_JUNK = 1 << 7
-} ItemIdBit;
+    ITEMTYPE_GEM,
+    ITEMTYPE_CD,
+    ITEMTYPE_ABILITY,
+    ITEMTYPE_JUNK,
+    ITEMTYPE_AP = 0xFE,
+    ITEMTYPE_NONE = 0xFF
+} ItemType;
 
 typedef enum {
     ABILITY_GROUND_POUND,
@@ -56,9 +59,9 @@ typedef enum {
 } JunkItem;
 
 #define ITEM_JEWEL(passage, quadrant) ((passage << 2) | quadrant)
-#define ITEM_CD(passage, level) (ITEMBIT_CD | (passage << 2) | level)
-#define ITEM_ABILITY(ability) (ITEMBIT_ABILITY | ability)
-#define ITEM_JUNK(junk) (ITEMBIT_JUNK | junk)
+#define ITEM_CD(passage, level) ((1 << 5) | (passage << 2) | level)
+#define ITEM_ABILITY(ability) ((1 << 6) | ability)
+#define ITEM_JUNK(junk) ((1 << 7) | junk)
 
 typedef enum {
     ITEM_GROUND_POUND     = ITEM_ABILITY(ABILITY_GROUND_POUND),
@@ -92,6 +95,8 @@ extern u8 QueuedFormTraps;
 extern u8 QueuedHearts;
 extern u8 QueuedLightningTraps;
 extern u8 AbilitiesInThisLevel;
+
+ItemType Item_GetType(u8 item_id);
 
 void GiveWarioHearts(u32 hearts);
 void GiveTransformTrap(void);
