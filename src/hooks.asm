@@ -291,38 +291,42 @@ hook_branch 0x8075E4C, 0x8075F10, 0x8075F38, SetItemCollection
 .align 2
 @Hook_GameSelect9:
         bl CutsceneSkip_EnterLevel
-        cmp r0, #0
-        bne @GameSelectDefault
-        ldr r0, =0x8079C14
-        mov pc, r0
+        ; Skip 4 bytes if true
+        ldr r1, =0x8079C14
+        lsl r2, r0, #2
+        add r1, r2
+        mov pc, r1
     .pool
 
 @Hook_GameSelect11:
         bl CutsceneSkip_ThruPortal
-        cmp r0, #0
-        bne @GameSelectDefault
-        ldr r0, =0x8079DB8
-        mov pc, r0
+        ; Skip 12 bytes if true
+        ldr r1, =0x8079DB8
+        lsl r2, r0, #1
+        add r2, r0
+        lsl r2, #2
+        add r1, r2
+        mov pc, r1
     .pool
 
 @Hook_GameSelect17:
-        bl CutsceneSkip_GiveUp
-        cmp r0, #0
-        bne @GameSelectDefault
-        ldr r0, =0x8079ED4
-        mov pc, r0
+        bl CutsceneSkip_GiveUp_Clear
+        ; Skip 4 bytes if true
+        ldr r1, =0x8079ED4
+        lsl r2, r0, #2
+        add r1, r2
+        mov pc, r1
+        mov pc, r1
     .pool
 
 @Hook_GameSelect1F:
-        bl CutsceneSkip_Clear
-        cmp r0, #0
-        bne @GameSelectDefault
-        ldr r0, =0x8079FAC
-        mov pc, r0
-
-@GameSelectDefault:
-        ldr r0, =0x8079DB8
-        mov pc, r0
+        bl CutsceneSkip_GiveUp_Clear
+        ; Skip 4 bytes if true
+        ldr r1, =0x8079FAC
+        lsl r2, r0, #2
+        add r1, r2
+        mov pc, r1
+        mov pc, r1
     .pool
 
 .endautoregion

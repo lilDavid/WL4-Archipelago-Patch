@@ -6,20 +6,19 @@
 
 
 extern u8 ucSmapWarioStatus;
+extern u8 ucSelectVector[4];
+extern u8 ucDoraFlg[5];
 
 u32 CutsceneSkip_EnterLevel() {
     if (usTrg_KeyPress1Frame & KEY_A) {
         switch (ucSmapWarioStatus) {
             case 1:  // Entering
-                sGameSeq = 0x0A;
                 return 1;
             case 2:  // Died or gave up
             case 3:  // Died in boss
             case 4:  // Exited without Keyzer
-                sGameSeq = 0x27;
-                return 1;
             case 5:  // Exited with Keyzer
-                sGameSeq = 0x25;
+                ucSelectVector[0] = 1;
                 return 1;
         }
     }
@@ -27,25 +26,15 @@ u32 CutsceneSkip_EnterLevel() {
 }
 
 u32 CutsceneSkip_ThruPortal() {
-    if (usTrg_KeyPress1Frame & KEY_A) {
-        sGameSeq = 0x13;
+    if (ucDoraFlg[0] != 0)
+        return 0;
+    if (usTrg_KeyPress1Frame & KEY_A)
         return 1;
-    }
     return 0;
 }
 
-u32 CutsceneSkip_GiveUp() {
-    if (usTrg_KeyPress1Frame & KEY_A) {
-        sGameSeq = 0x18;
+u32 CutsceneSkip_GiveUp_Clear() {
+    if (usTrg_KeyPress1Frame & KEY_A)
         return 1;
-    }
-    return 0;
-}
-
-u32 CutsceneSkip_Clear() {
-    if (usTrg_KeyPress1Frame & KEY_A) {
-        sGameSeq = 0x20;
-        return 1;
-    }
     return 0;
 }

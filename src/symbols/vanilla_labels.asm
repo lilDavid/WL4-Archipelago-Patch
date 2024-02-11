@@ -36,6 +36,8 @@
 .definelabel WarioLift, 0x3001940
 .definelabel usWarStopFlg, 0x30019F6
 .definelabel ucWarOffFlg, 0x30019F8
+.definelabel ucSelectVector, 0x3003C08
+.definelabel ucDoraFlg, 0x3003C34
 .definelabel ucSeldemoSeq, 0x3003C39
 .definelabel ucSmapWarioStatus, 0x3003CA0
 .definelabel usMojiCount, 0x3004A30  ; ???
