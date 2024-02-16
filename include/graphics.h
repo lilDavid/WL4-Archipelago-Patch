@@ -45,6 +45,7 @@ typedef struct { u8 bytes[0x20]; } Tile4bpp;
 
 extern const Tile4bpp BasicElementTiles[];
 
+void SetTextColor(u16 color);
 const u8* LoadSpriteString(const u8* w4Str, Tile4bpp* tiles, u32 length);
 
 extern const Tile4bpp AbilityIconTilesTop[ABILITY_MAX * 2];

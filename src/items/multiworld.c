@@ -42,8 +42,15 @@ u8 ReceiveNextItem() {
     return incoming_item;
 }
 
+// Override sprite palette 3, color 2 with the desired text color.
+void SetTextColor(u16 color) {
+    // TODO: find usage of overridden purple color and change if needed
+    SPRITE_PALETTE[3 * 16 + 0x2] = color;
+}
+
 // Load the text "Received from <player>" into some sprite tiles in VRAM.
 void LoadReceivedText() {
+    SetTextColor(0x7FFF);
     LoadSpriteString(StrItemReceived, (Tile4bpp*) 0x06012180, 8);
     LoadSpriteString(StrItemFrom, (Tile4bpp*) 0x06012280, 4);
     const u8* restofstr = LoadSpriteString(IncomingItemSender, (Tile4bpp*) 0x06012600, 8);
@@ -59,10 +66,6 @@ extern Tile4bpp* LetterToSpriteTile[256];
 // to additional calls to load more characters or spaces into other tiles in
 // VRAM.
 const u8* LoadSpriteString(const u8* w4Str, Tile4bpp* tiles, u32 length) {
-    // Override OBP3 color 2 with white
-    // TODO: find usage of overridden purple color and change if needed
-    SPRITE_PALETTE[3 * 16 + 0x2] = 0x7FFF;
-
     for (unsigned int i = 0; i < length; i++) {
         const Tile4bpp* source = LetterToSpriteTile[*w4Str];
         dmaCopy(source, tiles, sizeof(Tile4bpp));

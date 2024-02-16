@@ -58,10 +58,18 @@ typedef enum {
     JUNK_MAX,
 } JunkItem;
 
+typedef enum {
+    AP_IC_FILLER = 0,
+    AP_IC_PROGRESSION = 1,
+    AP_IC_USEFUL = 2,
+    AP_IC_TRAP = 4,
+} APItemClassification;
+
 #define ITEM_JEWEL(passage, quadrant) ((passage << 2) | quadrant)
 #define ITEM_CD(passage, level) ((1 << 5) | (passage << 2) | level)
 #define ITEM_ABILITY(ability) ((1 << 6) | ability)
 #define ITEM_JUNK(junk) ((1 << 7) | junk)
+#define ITEM_AP(classification) (0xF0 | classification)
 
 typedef enum {
     ITEM_GROUND_POUND     = ITEM_ABILITY(ABILITY_GROUND_POUND),
@@ -77,9 +85,13 @@ typedef enum {
     ITEM_LIGHTNING_TRAP   = ITEM_JUNK(JUNK_LIGHTNING_TRAP),
     ITEM_MINIGAME_COIN    = ITEM_JUNK(JUNK_MINIGAME_COIN),
 
-    ITEM_ARCHIPELAGO_ITEM = 0xF0,
+    ITEM_AP_FILLER        = ITEM_AP(AP_IC_FILLER),
+    ITEM_AP_PROGRESSION   = ITEM_AP(AP_IC_PROGRESSION),
+    ITEM_AP_USEFUL        = ITEM_AP(AP_IC_USEFUL),
+    ITEM_AP_TRAP          = ITEM_AP(AP_IC_TRAP),
     ITEM_NONE             = 0xFF
 } ItemID;
+
 
 extern const u16 AbilityPaletteTable[];
 

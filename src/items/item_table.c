@@ -96,7 +96,7 @@ ItemType Item_GetType(u8 item_id) {
     if ((item_id & 0b11100000) == 0b00100000) return ITEMTYPE_CD;
     if ((item_id & 0b11111000) == 0b01000000) return ITEMTYPE_ABILITY;
     if ((item_id & 0b11110000) == 0b10000000) return ITEMTYPE_JUNK;
-    if (item_id == ITEM_ARCHIPELAGO_ITEM) return ITEMTYPE_AP;
+    if ((item_id & 0b11111000) == 0b11110000) return ITEMTYPE_AP;
     return ITEMTYPE_NONE;
 }
 
