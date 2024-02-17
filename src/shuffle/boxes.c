@@ -67,21 +67,21 @@ void SpawnRandomizedItemFromBox() {
 
 extern u8 CurrentJewelIconPosition;
 
-extern TAnmDef takara_Anm_00[];  // CD
-extern TAnmDef takara_Anm_01[];  // Full health item
-extern TAnmDef takara_Anm_02[];  // NW gem piece
-extern TAnmDef takara_Anm_03[];  // SW gem piece
-extern TAnmDef takara_Anm_04[];  // NE jewel piece
-extern TAnmDef takara_Anm_05[];  // SE jewel piece
-extern TAnmDef APLogoAnm[];
-extern TAnmDef HeartAnm[];
-extern TAnmDef EmptyAnm[];
+extern const TAnmDef takara_Anm_00[];  // CD
+extern const TAnmDef takara_Anm_01[];  // Full health item
+extern const TAnmDef takara_Anm_02[];  // NW gem piece
+extern const TAnmDef takara_Anm_03[];  // SW gem piece
+extern const TAnmDef takara_Anm_04[];  // NE jewel piece
+extern const TAnmDef takara_Anm_05[];  // SE jewel piece
+extern const TAnmDef APLogoAnm[];
+extern const TAnmDef HeartAnm[];
+extern const TAnmDef EmptyAnm[];
 
-static TAnmDef* gem_animations[] = {
+static const TAnmDef* gem_animations[] = {
     takara_Anm_02, takara_Anm_03, takara_Anm_04, takara_Anm_05,
 };
 
-static TAnmDef* RandomItemTilesCreate(const Tile4bpp* top, const Tile4bpp* bottom) {
+static const TAnmDef* RandomItemTilesCreate(const Tile4bpp* top, const Tile4bpp* bottom) {
     int position = CurrentJewelIconPosition % 4;
     CurrentJewelIconPosition += 1;
 
@@ -102,7 +102,7 @@ void LoadRandomItemAnimation() {
     }
     int item_id = BoxContents[box_type];
 
-    TAnmDef* animation;
+    const TAnmDef* animation;
     int give_immediately = 0;
 
     ItemType item_type = Item_GetType(item_id);
@@ -130,8 +130,6 @@ void LoadRandomItemAnimation() {
             }
             break;
         case ITEMTYPE_ABILITY: {
-            const Tile4bpp* top_row_source;
-            const Tile4bpp* bottom_row_source;
             int ability = item_id & 7;
             if (ability == ABILITY_GROUND_POUND && HAS_ABILITY_TEMPORARY(ABILITY_GROUND_POUND)) {
                 ability = ABILITY_SUPER_GROUND_POUND;
@@ -139,14 +137,12 @@ void LoadRandomItemAnimation() {
                 ability = ABILITY_HEAVY_GRAB;
             }
             SetTreasurePalette(AbilityPaletteTable[ability]);
-            top_row_source = AbilityIconTilesTop + 2 * ability;
-            bottom_row_source = AbilityIconTilesBottom + 2 * ability;
+            const Tile4bpp* top_row_source = AbilityIconTilesTop + 2 * ability;
+            const Tile4bpp* bottom_row_source = AbilityIconTilesBottom + 2 * ability;
             animation = RandomItemTilesCreate(top_row_source, bottom_row_source);
             break;
         }
         case ITEMTYPE_GEM: {
-            const Tile4bpp* top_row_source;
-            const Tile4bpp* bottom_row_source;
             SetTreasurePalette((item_id >> 2) & 7);
             // HasGemPiece(n) does not agree with the tile order here
             // I could've done this with a table or if-else, but noooo, I haaad
@@ -154,8 +150,8 @@ void LoadRandomItemAnimation() {
             // 0 -> 2; 1 -> 3; 2 -> 1; 3 -> 0
             int piece = item_id & 3;
             int position = piece ^ ((piece >> 1) | 2);
-            top_row_source = BasicElementTiles + TILE_OFFSET(2 * position + 2, 3);
-            bottom_row_source = top_row_source + TILE_OFFSET(0, 1);
+            const Tile4bpp* top_row_source = BasicElementTiles + TILE_OFFSET(2 * position + 2, 3);
+            const Tile4bpp* bottom_row_source = top_row_source + TILE_OFFSET(0, 1);
             animation = RandomItemTilesCreate(top_row_source, bottom_row_source);
             break;
         }

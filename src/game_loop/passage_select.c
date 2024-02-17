@@ -88,82 +88,75 @@ static void LoadPyramidBG3() {
 }
 
 
+static const TObjDef msgSmallItem = {
+    1,
+    { ANM_OBJ(-8, -8, ATTR0_SQUARE, ATTR1_SIZE_16, 0x200, 15, 0) }
+};
+static const TObjDef msgCD = {
+    1,
+    { ANM_OBJ(-16, -16, ATTR0_SQUARE, ATTR1_SIZE_32, 0x200, 15, 0) }
+};
+static const TObjDef msgFullHealthItem = {
+    2,
+    { ANM_OBJ(-8,  -4, ATTR0_SQUARE, ATTR1_SIZE_16, 0x200, 15, 0),
+      ANM_OBJ(-8, -12, ATTR0_WIDE,   ATTR1_SIZE_8,  0x202, 15, 0) }
+};
+static const TObjDef msgWarioFormTrap = {
+    3,
+    { ANM_OBJ(-12, -12, ATTR0_SQUARE, ATTR1_SIZE_16, 0x200, 15, 0),
+      ANM_OBJ(  4, -12, ATTR0_TALL,   ATTR1_SIZE_8,  0x202, 15, 0),
+      ANM_OBJ(-20,   4, ATTR0_WIDE,   ATTR1_SIZE_16, 0x203, 15, 0) }
+};
+static const TObjDef msgLightningTrap = {
+    3,
+    { ANM_OBJ(-12, -12, ATTR0_SQUARE, ATTR1_SIZE_16, 0x200, 15, 0),
+      ANM_OBJ(  4, -12, ATTR0_TALL,   ATTR1_SIZE_8,  0x202, 15, 0),
+      ANM_OBJ(-12,   4, ATTR0_WIDE,   ATTR1_SIZE_16, 0x203, 15, 0) }
+};
+
 void PassageSelect_CreateReceivedOAM() {
     if (MultiworldState != MW_TEXT_RECEIVED_ITEM)
         return;
 
-    const int center_x = SCREEN_WIDTH / 2;
-
+    const TObjDef* item_sprite;
     switch (Item_GetType(IncomingItemID)) {
         case ITEMTYPE_JUNK:
             switch (IncomingItemID) {
                 case ITEM_FULL_HEALTH_ITEM:
-                    OamBuf_AddObj(
-                        ATTR0_SQUARE | ATTR0_COLOR_16 | OBJ_Y(104),
-                        ATTR1_SIZE_16 | OBJ_X(center_x - 8),
-                        ATTR2_PALETTE(0xF) | ATTR2_PRIORITY(0) | OBJ_CHAR(0x200)
-                    );
-                    OamBuf_AddObj(
-                        ATTR0_WIDE | ATTR0_COLOR_16 | OBJ_Y(104 - 8),
-                        ATTR1_SIZE_8 | OBJ_X(center_x - 8),
-                        ATTR2_PALETTE(0xF) | ATTR2_PRIORITY(0) | OBJ_CHAR(0x202)
-                    );
+                    item_sprite = &msgFullHealthItem;
                     break;
-
                 case ITEM_HEART:
-                    OamBuf_AddObj(
-                        ATTR0_SQUARE | ATTR0_COLOR_16 | OBJ_Y(104),
-                        ATTR1_SIZE_16 | OBJ_X(center_x - 8),
-                        ATTR2_PALETTE(0xF) | ATTR2_PRIORITY(0) | OBJ_CHAR(0x200)
-                    );
-                    break;
-
                 case ITEM_MINIGAME_COIN:
-                    OamBuf_AddObj(
-                        ATTR0_SQUARE | ATTR0_COLOR_16 | OBJ_Y(104),
-                        ATTR1_SIZE_16 | OBJ_X(center_x - 8),
-                        ATTR2_PALETTE(0xF) | ATTR2_PRIORITY(0) | OBJ_CHAR(0x200)
-                    );
+                    item_sprite = &msgSmallItem;
                     break;
-
                 case ITEM_WARIO_FORM_TRAP:
+                    item_sprite = &msgWarioFormTrap;
+                    break;
                 case ITEM_LIGHTNING_TRAP:
-                    OamBuf_AddObj(
-                        ATTR0_SQUARE | ATTR0_COLOR_16 | OBJ_Y(104 - 4),
-                        ATTR1_SIZE_16 | OBJ_X(center_x - 12),
-                        ATTR2_PALETTE(0xF) | ATTR2_PRIORITY(0) | OBJ_CHAR(0x200)
-                    );
-                    OamBuf_AddObj(
-                        ATTR0_TALL | ATTR0_COLOR_16 | OBJ_Y(104 - 4),
-                        ATTR1_SIZE_8 | OBJ_X(center_x + 4),
-                        ATTR2_PALETTE(0xF) | ATTR2_PRIORITY(0) | OBJ_CHAR(0x202)
-                    );
-                    int x = center_x - 12;
-                    if (IncomingItemID == ITEM_WARIO_FORM_TRAP)
-                        x -= 8;  // Wario is padded on left, and lightning on right
-                    OamBuf_AddObj(
-                        ATTR0_WIDE | ATTR0_COLOR_16 | OBJ_Y(104 - 4 + 16),
-                        ATTR1_SIZE_16 | OBJ_X(x),
-                        ATTR2_PALETTE(0xF) | ATTR2_PRIORITY(0) | OBJ_CHAR(0x203)
-                    );
+                    item_sprite = &msgLightningTrap;
                     break;
             }
             break;
         case ITEMTYPE_CD:
-            OamBuf_AddObj(
-                ATTR0_SQUARE | ATTR0_COLOR_16 | OBJ_Y(104 - 16),
-                ATTR1_SIZE_32 | OBJ_X(center_x - 8),
-                ATTR2_PALETTE(0xF) | ATTR2_PRIORITY(0) | OBJ_CHAR(0x200)
-            );
+            item_sprite = &msgCD;
             break;
         case ITEMTYPE_GEM:
         case ITEMTYPE_ABILITY:
-            OamBuf_AddObj(
-                ATTR0_SQUARE | ATTR0_COLOR_16 | OBJ_Y(104),
-                ATTR1_SIZE_16 | OBJ_X(center_x - 8),
-                ATTR2_PALETTE(0xF) | ATTR2_PRIORITY(0) | OBJ_CHAR(0x200)
-            );
-        default: break;
+            item_sprite = &msgSmallItem;
+            break;
+        default:
+            return;
+    }
+
+    const int sprite_x = SCREEN_WIDTH / 2;
+    const int sprite_y = 112;
+    for (int i = 0; i < item_sprite->length; i++) {
+        const TObjDef_Attr* attr = &item_sprite->objects[i];
+        int y = OBJ_Y(attr->attr0 + sprite_y);
+        int x = OBJ_X(attr->attr1 + sprite_x);
+        int attr0 = (attr->attr0 & ~OBJ_Y(-1)) | y;
+        int attr1 = (attr->attr1 & ~OBJ_X(-1)) | x;
+        OamBuf_AddObj(attr0, attr1, attr->attr2);
     }
 }
 

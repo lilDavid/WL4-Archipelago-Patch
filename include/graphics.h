@@ -53,6 +53,17 @@ extern const Tile4bpp AbilityIconTilesBottom[ABILITY_MAX * 2];
 extern const Tile4bpp MinigameCoinTiles[4];
 
 
+#define ANM_OBJ_ATTR(shape, y, size, x, palette, priority, tile) {\
+    (shape) | ATTR0_COLOR_16 | OBJ_Y(y),\
+    (size) | OBJ_X(x),\
+    ATTR2_PALETTE(palette) | ATTR2_PRIORITY(priority) | OBJ_CHAR(tile)\
+}
+#define ANM_OBJ(x, y, shape, size, tile, palette, priority) \
+    ANM_OBJ_ATTR(shape, y, size, x, palette, priority, tile)
+
+#define ANM_DEF(obj_ptr, timer) {(obj_ptr), (timer), {0}}
+#define ANM_END ANM_DEF(NULL, 0)
+
 extern u8 ucCntObj;
 extern OBJATTR OamBuf[128];
 

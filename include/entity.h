@@ -33,7 +33,7 @@ typedef struct {
     /* 0x00 */ u16 usStatus;
     /* 0x02 */ u8 field2;
     /* 0x03 */ u8 field3;
-    /* 0x04 */ TAnmDef* OAMDataPackPointerForCurrentAnimation;
+    /* 0x04 */ const TAnmDef* OAMDataPackPointerForCurrentAnimation;
     /* 0x08 */ u16 YPos;
     /* 0x0A */ u16 XPos;
     /* 0x0C */ u16 AffinePA;

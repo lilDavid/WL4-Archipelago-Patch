@@ -45,18 +45,12 @@ void OamBuf_AddObj(u16 attr0, u16 attr1, u16 attr2) {
 
 const TObjDef APLogoObj = {
     1,
-    { { ATTR0_SQUARE | ATTR0_COLOR_16 | OBJ_Y(-8),
-        ATTR1_SIZE_16 | OBJ_X(-8),
-        ATTR2_PALETTE(4) | ATTR2_PRIORITY(0) | OBJ_CHAR(0x12E), },
-    }
+    { ANM_OBJ(-8, -8, ATTR0_SQUARE, ATTR1_SIZE_16, 0x12E, 4, 0) }
 };
 
 const TObjDef HeartObj = {
     1,
-    { { ATTR0_SQUARE | ATTR0_COLOR_16 | OBJ_Y(-8),
-        ATTR1_SIZE_16 | OBJ_X(-8),
-        ATTR2_PALETTE(7) | ATTR2_PRIORITY(0) | OBJ_CHAR(234), },
-    }
+    { ANM_OBJ(-8, -8, ATTR0_SQUARE, ATTR1_SIZE_16, 234, 7, 0) }
 };
 
 const TObjDef EmptyObj = {
@@ -69,16 +63,16 @@ const TObjDef EmptyObj = {
 
 
 const TAnmDef APLogoAnm[] = {
-    { &APLogoObj, 0xFF, {0}},
-    { NULL,       0,    {0}}
+    ANM_DEF(&APLogoObj, 0xFF),
+    ANM_END
 };
 
 const TAnmDef HeartAnm[] = {
-    { &HeartObj, 0xFF, {0}},
-    { NULL,      0,    {0}}
+    ANM_DEF(&HeartObj, 0xFF),
+    ANM_END
 };
 
 const TAnmDef EmptyAnm[] = {
-    { &EmptyObj, 0xFF, {0}},
-    { NULL,      0,    {0}}
+    ANM_DEF(&EmptyObj, 0xFF),
+    ANM_END
 };
