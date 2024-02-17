@@ -67,30 +67,19 @@ void SpawnRandomizedItemFromBox() {
 
 extern u8 CurrentJewelIconPosition;
 
-extern const TAnmDef takara_Anm_00[];  // CD
-extern const TAnmDef takara_Anm_01[];  // Full health item
-extern const TAnmDef takara_Anm_02[];  // NW gem piece
-extern const TAnmDef takara_Anm_03[];  // SW gem piece
-extern const TAnmDef takara_Anm_04[];  // NE jewel piece
-extern const TAnmDef takara_Anm_05[];  // SE jewel piece
-extern const TAnmDef APLogoAnm[];
-extern const TAnmDef HeartAnm[];
-extern const TAnmDef EmptyAnm[];
-
-static const TAnmDef* gem_animations[] = {
-    takara_Anm_02, takara_Anm_03, takara_Anm_04, takara_Anm_05,
-};
+static Tile4bpp* ItemOAM[] = { (Tile4bpp*) 0x60125C0, (Tile4bpp*) 0x6017BC0 };
+static const TAnmDef* ItemAnimations[] = { Item1Anm, Item2Anm };
 
 static const TAnmDef* RandomItemTilesCreate(const Tile4bpp* top, const Tile4bpp* bottom) {
-    int position = CurrentJewelIconPosition % 4;
+    int position = CurrentJewelIconPosition % 2;
     CurrentJewelIconPosition += 1;
 
-    Tile4bpp* destination = (Tile4bpp*) (0x6011C40 + 2 * sizeof(Tile4bpp) * position);
+    Tile4bpp* destination = ItemOAM[position];
     dmaCopy(top, destination, 2 * sizeof(Tile4bpp));
     destination += TILE_OFFSET(0, 1);
     dmaCopy(bottom, destination, 2 * sizeof(Tile4bpp));
 
-    return gem_animations[position];
+    return ItemAnimations[position];
 }
 
 // Load the appropriate animation for a randomized item found in a box. The
@@ -109,7 +98,7 @@ void LoadRandomItemAnimation() {
     switch (item_type) {
         case ITEMTYPE_AP:
             SetTreasurePalette(PAL_AP);
-            animation = APLogoAnm;
+            animation = RandomItemTilesCreate(APLogoTilesTop, APLogoTilesBottom);
             break;
         case ITEMTYPE_JUNK:
             switch (item_id) {
@@ -158,6 +147,24 @@ void LoadRandomItemAnimation() {
         case ITEMTYPE_CD:
             SetTreasurePalette((item_id >> 2) & 7);
             animation = takara_Anm_00;
+            break;
+        case ITEMTYPE_TREASURE:
+            dmaCopy(GoldenTreasurePalette,
+                    &SPRITE_PALETTE[1 * 16],
+                    16 * sizeof(u16));
+            dmaCopy(GoldenTreasureTiles[item_id & 0xF],
+                    (Tile4bpp*) 0x6011C40,
+                    4 * sizeof(Tile4bpp));
+            dmaCopy(GoldenTreasureTiles[item_id & 0xF] + 4,
+                    (Tile4bpp*) 0x6012040,
+                    4 * sizeof(Tile4bpp));
+            dmaCopy(GoldenTreasureTiles[item_id & 0xF] + 8,
+                    (Tile4bpp*) 0x6011CC0,
+                    4 * sizeof(Tile4bpp));
+            dmaCopy(GoldenTreasureTiles[item_id & 0xF] + 12,
+                    (Tile4bpp*) 0x60120C0,
+                    4 * sizeof(Tile4bpp));
+            animation = GoldenTreasureAnm;
             break;
         default:
             animation = EmptyAnm;
@@ -258,6 +265,9 @@ void CollectRandomItem() {
         case ITEMTYPE_GEM:
             SpawnCollectionIndicator(0, 0);
             m4aSongNumStart(SE_GEM_GET);
+            break;
+        case ITEMTYPE_TREASURE:
+            m4aSongNumStart(SE_HIGH_SCORE);
             break;
         default: return;
     }

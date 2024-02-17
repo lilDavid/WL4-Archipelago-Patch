@@ -44,12 +44,16 @@ typedef struct { u8 bytes[0x20]; } Tile4bpp;
 #define TILE_COORD_4B(x, y) (TILE_NO_4B(TILE_OFFSET(x, y)))
 
 extern const Tile4bpp BasicElementTiles[];
+extern const Tile4bpp* GoldenTreasureTiles[15];
+extern const u16 GoldenTreasurePalette[16];
 
 void SetTextColor(u16 color);
 const u8* LoadSpriteString(const u8* w4Str, Tile4bpp* tiles, u32 length);
 
 extern const Tile4bpp AbilityIconTilesTop[ABILITY_MAX * 2];
 extern const Tile4bpp AbilityIconTilesBottom[ABILITY_MAX * 2];
+extern const Tile4bpp APLogoTilesTop[2];
+extern const Tile4bpp APLogoTilesBottom[2];
 extern const Tile4bpp MinigameCoinTiles[4];
 
 
@@ -63,6 +67,14 @@ extern const Tile4bpp MinigameCoinTiles[4];
 
 #define ANM_DEF(obj_ptr, timer) {(obj_ptr), (timer), {0}}
 #define ANM_END ANM_DEF(NULL, 0)
+
+extern const TAnmDef takara_Anm_00[];  // CD
+extern const TAnmDef takara_Anm_01[];  // Full health item
+extern const TAnmDef Item1Anm[];
+extern const TAnmDef Item2Anm[];
+extern const TAnmDef HeartAnm[];
+extern const TAnmDef EmptyAnm[];
+extern const TAnmDef GoldenTreasureAnm[];
 
 extern u8 ucCntObj;
 extern OBJATTR OamBuf[128];

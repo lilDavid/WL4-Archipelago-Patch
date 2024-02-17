@@ -92,7 +92,7 @@ static const TObjDef msgSmallItem = {
     1,
     { ANM_OBJ(-8, -8, ATTR0_SQUARE, ATTR1_SIZE_16, 0x200, 15, 0) }
 };
-static const TObjDef msgCD = {
+static const TObjDef msgLargeItem = {
     1,
     { ANM_OBJ(-16, -16, ATTR0_SQUARE, ATTR1_SIZE_32, 0x200, 15, 0) }
 };
@@ -138,7 +138,8 @@ void PassageSelect_CreateReceivedOAM() {
             }
             break;
         case ITEMTYPE_CD:
-            item_sprite = &msgCD;
+        case ITEMTYPE_TREASURE:
+            item_sprite = &msgLargeItem;
             break;
         case ITEMTYPE_GEM:
         case ITEMTYPE_ABILITY:
@@ -284,6 +285,26 @@ void PassageSelect_ShowReceivedItem() {
             dmaCopy(PortalOBJTileset + gem_tile_offsets[piece],
                     item_dest,
                     34 * sizeof(Tile4bpp));
+            break;
+        }
+        case ITEMTYPE_TREASURE: {
+            int treasure = IncomingItemID & 0xF;
+            dmaCopy(GoldenTreasurePalette,
+                    palette_dest,
+                    16 * sizeof(u16));
+            dmaCopy(GoldenTreasureTiles[treasure],
+                    item_dest,
+                    4 * sizeof(Tile4bpp));
+            dmaCopy(GoldenTreasureTiles[treasure] + 4,
+                    item_dest + TILE_OFFSET(0, 1),
+                    4 * sizeof(Tile4bpp));
+            dmaCopy(GoldenTreasureTiles[treasure] + 8,
+                    item_dest + TILE_OFFSET(0, 2),
+                    4 * sizeof(Tile4bpp));
+            dmaCopy(GoldenTreasureTiles[treasure] + 12,
+                    item_dest + TILE_OFFSET(0, 3),
+                    4 * sizeof(Tile4bpp));
+            break;
         }
         default:
             break;

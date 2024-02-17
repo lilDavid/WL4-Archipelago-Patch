@@ -29,6 +29,7 @@ typedef enum {
     SE_FULL_HEALTH_ITEM_GET = 0x143,
     SE_RESULTS_FOUND_CD = 0x1D0,
     SE_MINIGAME_COIN_GET = 0x223,
+    SE_HIGH_SCORE = 0x252,
 } m4aSongNum;
 
 typedef enum {

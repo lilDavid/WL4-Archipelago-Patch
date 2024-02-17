@@ -86,3 +86,5 @@
 .definelabel PortalPaletteDTable, 0x868A81C
 .definelabel PortalPaletteETable, 0x868A8DC
 .definelabel PassageRoomTileSet, 0x869CE48
+.definelabel GoldenTreasureTiles, 0x87471B0
+.definelabel GoldenTreasurePalette, 0x8781750

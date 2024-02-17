@@ -11,18 +11,11 @@ sizeof_tile equ 0x20
 
 ; Spaces that will be used by text are now filled with empty tiles for clarity.
 .org BasicElementTiles + tile_coord_4b(12, 4)
-EmptyTile:
-    .fill 12 * sizeof_tile, 0
-
+EmptyTile: .fill 12 * sizeof_tile, 0
 .org BasicElementTiles + tile_coord_4b(14, 5)
-APLogoTop: .incbin "data/graphics/ap_logo.bin", 0x00, 2 * sizeof_tile
-
-.fill 8 * sizeof_tile, 0
-
+.fill 10 * sizeof_tile, 0
 .org BasicElementTiles + tile_coord_4b(14, 6)
-APLogoBottom: .incbin "data/graphics/ap_logo.bin", 2 * sizeof_tile, 2 * sizeof_tile
-
-.fill 8 * sizeof_tile, 0
+.fill 10 * sizeof_tile, 0
 
 .org 0x0869FC88
 Text8x8_0: .skip sizeof_tile
@@ -145,6 +138,10 @@ AbilityIconTilesTop:
 AbilityIconTilesBottom:
     .incbin "data/graphics/ability_icons.bin", 48 * sizeof_tile, 16 * sizeof_tile
 
+APLogoTilesTop:
+    .incbin "data/graphics/ap_logo.bin", 0x00, 2 * sizeof_tile
+APLogoTilesBottom:
+    .incbin "data/graphics/ap_logo.bin", 2 * sizeof_tile, 2 * sizeof_tile
 
 EmptyGroundPound1Tile:
     .incbin "data/graphics/ability_get.bin", 0, 16 * sizeof_tile

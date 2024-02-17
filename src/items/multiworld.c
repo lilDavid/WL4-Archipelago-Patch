@@ -16,6 +16,9 @@ void ItemReceivedFeedbackSound(u8 item_id) {
         case ITEMTYPE_ABILITY:
             m4aSongNumStart(SE_CD_GET);
             break;
+        case ITEMTYPE_TREASURE:
+            m4aSongNumStart(SE_HIGH_SCORE);
+            break;
         case ITEMTYPE_JUNK:
             if (item_id == ITEM_MINIGAME_COIN) m4aSongNumStart(SE_MINIGAME_COIN_GET);
             break;

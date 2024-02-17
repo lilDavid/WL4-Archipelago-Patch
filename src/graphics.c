@@ -43,14 +43,25 @@ void OamBuf_AddObj(u16 attr0, u16 attr1, u16 attr2) {
 // ------------- Graphics data ----------------
 
 
-const TObjDef APLogoObj = {
+const TObjDef Item1Obj = {
     1,
-    { ANM_OBJ(-8, -8, ATTR0_SQUARE, ATTR1_SIZE_16, 0x12E, 4, 0) }
+    { ANM_OBJ(-8, -8, ATTR0_SQUARE, ATTR1_SIZE_16, 302, 4, 0) }
+};
+
+const TObjDef Item2Obj = {
+    1,
+    { ANM_OBJ(-8, -8, ATTR0_SQUARE, ATTR1_SIZE_16, 990, 4, 0) }
 };
 
 const TObjDef HeartObj = {
     1,
     { ANM_OBJ(-8, -8, ATTR0_SQUARE, ATTR1_SIZE_16, 234, 7, 0) }
+};
+
+const TObjDef GoldenTreasureObj = {
+    2,
+    { ANM_OBJ(-16, -16, ATTR0_WIDE, ATTR1_SIZE_32, 226, 1, 0),
+      ANM_OBJ(-16,   0, ATTR0_WIDE, ATTR1_SIZE_32, 230, 1, 0) },
 };
 
 const TObjDef EmptyObj = {
@@ -62,13 +73,23 @@ const TObjDef EmptyObj = {
 };
 
 
-const TAnmDef APLogoAnm[] = {
-    ANM_DEF(&APLogoObj, 0xFF),
+const TAnmDef Item1Anm[] = {
+    ANM_DEF(&Item1Obj, 0xFF),
+    ANM_END
+};
+
+const TAnmDef Item2Anm[] = {
+    ANM_DEF(&Item2Obj, 0xFF),
     ANM_END
 };
 
 const TAnmDef HeartAnm[] = {
     ANM_DEF(&HeartObj, 0xFF),
+    ANM_END
+};
+
+const TAnmDef GoldenTreasureAnm[] = {
+    ANM_DEF(&GoldenTreasureObj, 0xFF),
     ANM_END
 };
 

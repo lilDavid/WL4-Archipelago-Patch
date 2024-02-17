@@ -1,5 +1,6 @@
 #include <gba.h>
 
+#include "unsorted/functions.h"
 #include "unsorted/types.h"
 #include "unsorted/variables.h"
 #include "item.h"
@@ -19,6 +20,7 @@ static void GiveItem_Gem(u8 item_id);
 static void GiveItem_CD(u8 item_id);
 static void GiveItem_Ability(u8 item_id);
 static void GiveItem_Junk(u8 item_id);
+static void GiveItem_Treasure(u8 item_id);
 
 void GiveItem(u8 item_id, const ExtData* multiworld) {
     if (item_id == ITEM_NONE)
@@ -30,11 +32,12 @@ void GiveItem(u8 item_id, const ExtData* multiworld) {
         return;
 
     switch (Item_GetType(item_id)) {
-        case ITEMTYPE_GEM:     GiveItem_Gem(item_id); break;
-        case ITEMTYPE_CD:      GiveItem_CD(item_id); break;
-        case ITEMTYPE_ABILITY: GiveItem_Ability(item_id); break;
-        case ITEMTYPE_JUNK:    GiveItem_Junk(item_id); break;
-        default: break;
+        case ITEMTYPE_GEM:      GiveItem_Gem(item_id); break;
+        case ITEMTYPE_CD:       GiveItem_CD(item_id); break;
+        case ITEMTYPE_ABILITY:  GiveItem_Ability(item_id); break;
+        case ITEMTYPE_JUNK:     GiveItem_Junk(item_id); break;
+        case ITEMTYPE_TREASURE: GiveItem_Treasure(item_id); break;
+        default:                break;
     }
 }
 
@@ -91,10 +94,18 @@ static void GiveItem_Junk(u8 item_id) {
     }
 }
 
+static void GiveItem_Treasure(u8 item_id) {
+    int flag = item_id & 0xF;
+    int passage = _divsi3(flag, 3);
+    int chest = _modsi3(flag, 3);
+    W4ItemStatus[passage][LEVEL_BOSS] |= (1 << chest);
+}
+
 ItemType Item_GetType(u8 item_id) {
     if ((item_id & 0b11100000) == 0b00000000) return ITEMTYPE_GEM;
     if ((item_id & 0b11100000) == 0b00100000) return ITEMTYPE_CD;
     if ((item_id & 0b11111000) == 0b01000000) return ITEMTYPE_ABILITY;
+    if ((item_id & 0b11110000) == 0b01110000) return ITEMTYPE_TREASURE;
     if ((item_id & 0b11110000) == 0b10000000) return ITEMTYPE_JUNK;
     if ((item_id & 0b11111000) == 0b11110000) return ITEMTYPE_AP;
     return ITEMTYPE_NONE;
