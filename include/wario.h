@@ -54,5 +54,5 @@ extern u8 WarioHeart[4];
 extern u16 usWarStopFlg;
 extern u8 ucWarOffFlg;
 
-#define WarioCoinSet                   THUMB_FUNCTION(0x80768B8, void, s32)
-#define WarioVoiceSet                  THUMB_FUNCTION(0x8088620, void, s32)
+LONGCALL void WarioCoinSet(s32);
+LONGCALL void WarioVoiceSet(s32);

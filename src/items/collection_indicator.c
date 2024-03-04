@@ -37,7 +37,7 @@ const GemTiles gem_graphics[4] = {
 };
 
 
-#define TOptObjSet THUMB_FUNCTION(0x80766E8, void, u16, u16, u8)
+LONGCALL void TOptObjSet(u16, u16, u8);
 
 // Spawn the jewel piece or CD icon when you've collected one of them.
 void SpawnCollectionIndicator(u32 is_cd, u32 is_permanent) {
@@ -133,8 +133,8 @@ u32 GemIcons_SetUpAbilities() {
 }
 
 
-#define TKakeraComp_SE_Set THUMB_FUNCTION(0x8078D60, void, void)
-#define TKakeraIconDsp_sub THUMB_FUNCTION(0x8078D98, void, void)
+LONGCALL void TKakeraComp_SE_Set(void);
+LONGCALL void TKakeraIconDsp_sub(void);
 static void GemIcons_SetCollectedAbility();
 static void GemIcons_SetCollectedPiece();
 

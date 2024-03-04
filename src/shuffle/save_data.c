@@ -5,7 +5,7 @@
 #include "item.h"
 #include "item_table.h"
 
-#define AutoSave_ExRead_Work THUMB_FUNCTION(0x8073A18, void, void)
+LONGCALL void AutoSave_ExRead_Work(void);
 
 void CreateStartingInventory() {
     AutoSave_ExRead_Work();

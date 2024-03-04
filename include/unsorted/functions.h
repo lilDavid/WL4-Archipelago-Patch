@@ -3,27 +3,25 @@
 #include <gba.h>
 
 
-// Declare a function's address. Necessary because we're not in the usual text
-// segment, so to call it we need to load its address and jump to that.
-#define THUMB_FUNCTION(addr, return_t, ...)  ((return_t (*)(__VA_ARGS__)) (addr | 1))
+#define LONGCALL __attribute__((long_call))
 
-#define _divsi3                        THUMB_FUNCTION(0x8094E38, s32, s32, s32)
-#define _modsi3                        THUMB_FUNCTION(0x8094ED0, s32, s32, s32)
+LONGCALL s32 _divsi3(s32, s32);
+LONGCALL s32 _modsi3(s32, s32);
 
-#define m4aSongNumStart                THUMB_FUNCTION(0x8001DA4, void, u32)
-#define MiniRandomCreate               THUMB_FUNCTION(0x8089B80, u16, void)
+LONGCALL void m4aSongNumStart(u32);
+LONGCALL u16 MiniRandomCreate(void);
 
-#define EnemyChildSet                  THUMB_FUNCTION(0x801E328, void, u8, u8, u8, s16, s16)
-#define EntityAI_INITIAL_takara_kakera THUMB_FUNCTION(0x802932C, void, void)
+LONGCALL void EnemyChildSet(u8, u8, u8, s16, s16);
+LONGCALL void EntityAI_INITIAL_takara_kakera(void);
 
-#define MojiCreate                     THUMB_FUNCTION(0x80904DC, void, const u8*, u32, u8)
-#define GmWarioCreate                  THUMB_FUNCTION(0x801C5D8, void, void)
-#define EnemyDisplayMain               THUMB_FUNCTION(0x801D8C4, void, void)
-#define ClearOamBuf                    THUMB_FUNCTION(0x8000A0C, void, void)
-#define Select_Fade_Init               THUMB_FUNCTION(0x807A428, void, void)
+LONGCALL void MojiCreate(const u8*, u32, u8);
+LONGCALL void GmWarioCreate(void);
+LONGCALL void EnemyDisplayMain(void);
+LONGCALL void ClearOamBuf(void);
+LONGCALL void Select_Fade_Init(void);
 
-#define GmapSceneCreate                THUMB_FUNCTION(0x806C794, void, void)
-#define MmapHekigaChange               THUMB_FUNCTION(0x808502C, void, void)
-#define MmapBestScoreSet               THUMB_FUNCTION(0x8085178, void, void)
+LONGCALL void GmapSceneCreate(void);
+LONGCALL void MmapHekigaChange(void);
+LONGCALL void MmapBestScoreSet(void);
 
 u32 W4strlen(const u8* str);
