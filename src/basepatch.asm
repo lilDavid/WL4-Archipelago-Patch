@@ -32,6 +32,8 @@ ITEM_NONE equ 0xFF
     .thumb
 .endregion
 
+.sym off
+
 .include "src/patches.asm"
 .include "src/hooks.asm"
 .include "src/limit_abilities.asm"
@@ -54,6 +56,9 @@ ITEM_NONE equ 0xFF
 .endautoregion
 
 .include "src/data/graphics.asm"
+
+.sym on
+
 .include "src/data/strings.asm"
 
 .close

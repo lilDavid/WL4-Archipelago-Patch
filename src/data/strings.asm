@@ -2,6 +2,7 @@
 
 .autoregion
 .align 2
+.sym off
 
 
 .loadtable "data/charset.tbl"
@@ -50,6 +51,7 @@ StrItemFrom: .string "from "
 ; The ExtData tables will point into this area, which is intended to take up the
 ; rest of the space in the ROM.
 .align 4
+.sym on
 MultiworldStringDump: .byte 0
 
 

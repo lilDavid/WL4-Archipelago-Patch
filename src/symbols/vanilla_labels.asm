@@ -42,6 +42,8 @@
 .definelabel ucSmapWarioStatus, 0x3003CA0
 .definelabel usMojiCount, 0x3004A30  ; ???
 
+.sym off
+
 ; Functions
 .thumb
 .definelabel ClearOamBuf, 0x8000A0C
@@ -108,3 +110,5 @@
 .definelabel PassageRoomTileSet, 0x869CE48
 .definelabel GoldenTreasureTiles, 0x87471B0
 .definelabel GoldenTreasurePalette, 0x8781750
+
+.sym on
