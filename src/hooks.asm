@@ -71,6 +71,8 @@ hook 0x801BB7A, 0x801BB90, GameMain_RandoGraphics
 ; GameSelect() case 2
 .org 0x80799E0
 .word @Hook_GameSelect2
+.org 0x8079A90
+.word @Hook_GameSelect2E
 
 ; SelectDmapOamCreate() returning
 .org 0x807CA64
@@ -101,6 +103,19 @@ hook 0x801BB7A, 0x801BB90, GameMain_RandoGraphics
         pop {r0}
         bx r0
     .pool
+
+@Hook_GameSelect2E:
+        bl EnterSoundRoom
+        cmp r0, #1
+        beq @@SkipCase2
+    ; Run case 2E
+        ldr r0, =0x807A2F4
+        mov pc, r0
+    @@SkipCase2:
+        ldr r0, =0x807A36A
+        mov pc, r0
+    .pool
+
 .endautoregion
 
 

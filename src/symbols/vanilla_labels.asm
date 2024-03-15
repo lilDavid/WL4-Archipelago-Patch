@@ -22,6 +22,7 @@
 .definelabel Has4thGemPiece, 0x3000C0A
 .definelabel HasCD, 0x3000C0B
 .definelabel HasKeyzer, 0x3000C0C
+.definelabel ucTakaraCount, 0x3000C34
 .definelabel GlobalGameMode, 0x3000C3A
 .definelabel sGameSeq, 0x3000C3C
 .definelabel GlobalTimer, 0x3000C41
@@ -48,6 +49,7 @@
 .definelabel ChangeWarioReact_Fat, 0x801EA64
 .definelabel ChangeWarioReact_Frozen, 0x801EB54
 .definelabel PanelPartWork_Broken_Main, 0x806EE98
+.definelabel ItemGetFlgSet_LoadSavestateInfo2RAM, 0x8075B50
 
 ; ROM data
 .arm

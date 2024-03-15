@@ -22,6 +22,8 @@ ITEM_NONE equ 0xFF
     PlayerID:                       .halfword 0
     DeathLinkFlag:                  .byte 0
     SendMultiworldItemsImmediately: .byte 0
+    GoalType:                       .byte 0
+    GoldenTreasuresNeeded:          .byte 0
 
     .align 4
     ItemLocationTable:              .fill 6 * 4 * 7,     ITEM_NONE
@@ -44,6 +46,7 @@ ITEM_NONE equ 0xFF
 .importobj "obj/items/collection_indicator.o"
 .importobj "obj/shuffle/boxes.o"
 .importobj "obj/shuffle/save_data.o"
+.importobj "obj/shuffle/golden_treasure_hunt.o"
 .importobj "obj/game_loop/passage_select.o"
 .importobj "obj/game_loop/level_select.o"
 .importobj "obj/game_loop/game_main.o"

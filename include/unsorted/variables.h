@@ -5,7 +5,8 @@
 extern u8 PassageID;
 extern u8 InPassageLevelID;
 
-extern u8 sGameSeq;
+extern s16 GlobalGameMode;
+extern s16 sGameSeq;
 extern u8 GlobalTimer;
 extern u8 CurrentRoomId;
 extern u8 ucTimeUp;
