@@ -30,6 +30,7 @@ typedef enum {
     SE_RESULTS_FOUND_CD = 0x1D0,
     SE_MINIGAME_COIN_GET = 0x223,
     SE_HIGH_SCORE = 0x252,
+    BGM_AFTER_DIVA_ESCAPE = 0x320,
 } m4aSongNum;
 
 typedef enum {
@@ -52,3 +53,9 @@ typedef enum {
     REACT_MASK,
     REACT_MAX
 } WarioReact;
+
+typedef enum {
+    GOAL_GOLDEN_DIVA,
+    GOAL_TREASURE_HUNT,
+    GOAL_MAX
+} RandoGoal;

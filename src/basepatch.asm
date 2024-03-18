@@ -34,6 +34,8 @@ ITEM_NONE equ 0xFF
     ; Settings
     DeathLinkFlag:                  .byte 0
     SendMultiworldItemsImmediately: .byte 0
+    GoalType:                       .byte 0
+    GoldenTreasuresNeeded:          .byte 0
     .thumb
 .endregion
 
@@ -51,6 +53,7 @@ ITEM_NONE equ 0xFF
 .importobj "obj/items/collection_indicator.o"
 .importobj "obj/shuffle/boxes.o"
 .importobj "obj/shuffle/save_data.o"
+.importobj "obj/shuffle/golden_treasure_hunt.o"
 .importobj "obj/game_loop/passage_select.o"
 .importobj "obj/game_loop/level_select.o"
 .importobj "obj/game_loop/game_main.o"

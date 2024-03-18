@@ -96,7 +96,7 @@ static void GiveItem_Junk(u8 item_id) {
 
 static void GiveItem_Treasure(u8 item_id) {
     int flag = item_id & 0xF;
-    int passage = _divsi3(flag, 3);
+    int passage = _divsi3(flag, 3) + 1;
     int chest = _modsi3(flag, 3);
     W4ItemStatus[passage][LEVEL_BOSS] |= (1 << chest);
 }

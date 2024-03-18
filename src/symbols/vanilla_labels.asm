@@ -22,6 +22,7 @@
 .definelabel Has4thGemPiece, 0x3000C0A
 .definelabel HasCD, 0x3000C0B
 .definelabel HasKeyzer, 0x3000C0C
+.definelabel ucTakaraCount, 0x3000C34
 .definelabel GlobalGameMode, 0x3000C3A
 .definelabel sGameSeq, 0x3000C3C
 .definelabel GlobalTimer, 0x3000C41
@@ -58,6 +59,7 @@
 .definelabel GmapSceneCreate, 0x806C794
 .definelabel PanelPartWork_Broken_Main, 0x806EE98
 .definelabel AutoSave_ExRead_Work, 0x8073A18
+.definelabel ItemGetFlgSet_LoadSavestateInfo2RAM, 0x8075B50
 .definelabel TOptObjSet, 0x80766E8
 .definelabel WarioCoinSet, 0x80768B8
 .definelabel TKakeraComp_SE_Set, 0x8078D60
