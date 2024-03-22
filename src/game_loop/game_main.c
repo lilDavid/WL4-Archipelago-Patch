@@ -107,6 +107,7 @@ void GameMain_RandoGraphics() {
             TextTimer -= 1;
         } else {
             MultiworldState = MW_IDLE;
+            SetTextColor(0x3D30);  // Return this color to normal
         }
     }
 

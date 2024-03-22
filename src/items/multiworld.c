@@ -46,8 +46,8 @@ u8 ReceiveNextItem() {
 }
 
 // Override sprite palette 3, color 2 with the desired text color.
+// This is the darkest shade for the rubble created by smashing blocks
 void SetTextColor(u16 color) {
-    // TODO: find usage of overridden purple color and change if needed
     SPRITE_PALETTE[3 * 16 + 0x2] = color;
 }
 
