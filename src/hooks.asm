@@ -54,6 +54,10 @@ hook 0x8000728, 0x8000738, InitializeVariables
 ; GameMain() case 2 (near the end)
 hook 0x801BB7A, 0x801BB90, GameMain_RandoGraphics
 
+; GameVBlkSet() parameter to SetVBlkInterruptHandler
+.org 0x801BC08
+        .word GameMain_ReceivedTextVBlk | 1
+
 .autoregion
 .align 2
 ; Receive multiworld items and collect junk (in level)
@@ -81,6 +85,10 @@ hook 0x801BB7A, 0x801BB90, GameMain_RandoGraphics
         bx r0
     .pool
 .endarea
+
+; SelectVBlankIntr01 case 2
+.org 0x807A574
+        .word @Hook_SelectDmapVblk  ; Case 2
 
 .autoregion
 .align 2
@@ -113,6 +121,11 @@ hook 0x801BB7A, 0x801BB90, GameMain_RandoGraphics
         mov pc, r0
     @@SkipCase2:
         ldr r0, =0x807A36A
+        mov pc, r0
+
+@Hook_SelectDmapVblk:
+        bl PassageSelect_Vblk
+        ldr r0, =0x807A662
         mov pc, r0
     .pool
 

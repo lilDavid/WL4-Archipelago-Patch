@@ -7,6 +7,7 @@ void InitializeVariables() {
     DeathLinkEnabled = DeathLinkFlag;
     MultiworldState = 0;
     TextTimer = 0;
+    VblkStatus = 0;
 
     // From vanilla
     KeyPressContinuous = 0;

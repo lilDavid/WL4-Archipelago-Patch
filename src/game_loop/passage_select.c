@@ -15,27 +15,12 @@
 void PassageSelect_DebugSetFlagsWithL();
 #endif
 
-static void LoadPyramidBG3();
-static void LoadMessageBG();
-void PassageSelect_ShowReceivedItem();
-
 u32 PassageSelect_Rando() {
 #ifdef DEBUG
     PassageSelect_DebugSetFlagsWithL();
 #endif
-
-    if (MultiworldState == MW_TEXT_RECEIVED_ITEM) {
-        if (TextTimer == 0) {
-            if (usTrg_KeyPress1Frame & KEY_A) {
-                m4aSongNumStart(SE_CONFIRM);
-                LoadPyramidBG3();
-                MultiworldState = MW_IDLE;
-            }
-        } else {
-            TextTimer -= 1;
-        }
+    if (MultiworldState == MW_TEXT_RECEIVED_ITEM)
         return 1;
-    }
 
     int item_id = ReceiveNextItem();
     if (item_id == ITEM_NONE)
@@ -57,34 +42,10 @@ u32 PassageSelect_Rando() {
             ItemReceivedFeedbackSound(item_id);
             break;
     }
-    LoadMessageBG();
-    PassageSelect_ShowReceivedItem();
     TextTimer = 15;
+    VblkStatus = VBLK_DMAP_UPDATE;
 
     return 0;
-}
-
-
-extern u16 SaveTutorialTilemap[];
-extern Tile4bpp PortalTileset2[];
-
-// Load the background for the vanilla autosave tutorial
-static void LoadMessageBG() {
-    REG_BG3CNT = BG_SIZE_0 | SCREEN_BASE(0x1E) | BG_16_COLOR | CHAR_BASE(2) | BG_PRIORITY(0);
-    // Miraculously, BGP 6 color 2 isn't used at all as far as I can tell
-    BG_PALETTE[6 * 16 + 2] = 0x7FFF;
-
-    dmaCopy(SaveTutorialTilemap, SCREEN_BASE_BLOCK(0x1E), 0x1000);
-    dmaCopy(PortalTileset2, CHAR_BASE_BLOCK(2), 0x4000);
-}
-
-
-extern u16 PortalTilemap3[];
-
-// Load the original pyramid background 3 graphics
-static void LoadPyramidBG3() {
-    REG_BG3CNT = BG_SIZE_0 | SCREEN_BASE(0x1E) | BG_16_COLOR | CHAR_BASE(0) | BG_PRIORITY(0);
-    dmaCopy(PortalTilemap3, SCREEN_BASE_BLOCK(0x1E), 0x1000);
 }
 
 
@@ -135,6 +96,8 @@ void PassageSelect_CreateReceivedOAM() {
                 case ITEM_LIGHTNING_TRAP:
                     item_sprite = &msgLightningTrap;
                     break;
+                default:
+                    return;
             }
             break;
         case ITEMTYPE_CD:
@@ -159,6 +122,38 @@ void PassageSelect_CreateReceivedOAM() {
         int attr1 = (attr->attr1 & ~OBJ_X(-1)) | x;
         OamBuf_AddObj(attr0, attr1, attr->attr2);
     }
+}
+
+
+static void LoadPyramidBG3(void);
+static void LoadMessageBG(void);
+static void PassageSelect_ShowReceivedItem(void);
+LONGCALL void SelectVblkIntr01();
+
+static void PassageSelect_RandoVblk(void) {
+    if (MultiworldState != MW_TEXT_RECEIVED_ITEM)
+        return;
+
+    if (VblkStatus == VBLK_DMAP_UPDATE) {
+        LoadMessageBG();
+        PassageSelect_ShowReceivedItem();
+        VblkStatus = 0;
+    }
+
+    if (TextTimer == 0) {
+        if (usTrg_KeyPress1Frame & KEY_A) {
+            m4aSongNumStart(SE_CONFIRM);
+            LoadPyramidBG3();
+            MultiworldState = MW_IDLE;
+        }
+    } else {
+        TextTimer -= 1;
+    }
+}
+
+void PassageSelect_Vblk() {
+    PassageSelect_RandoVblk();
+    SelectVblkIntr01();
 }
 
 
@@ -309,6 +304,29 @@ void PassageSelect_ShowReceivedItem() {
         default:
             break;
     }
+}
+
+
+extern u16 SaveTutorialTilemap[];
+extern Tile4bpp PortalTileset2[];
+
+// Load the background for the vanilla autosave tutorial
+static void LoadMessageBG() {
+    REG_BG3CNT = BG_SIZE_0 | SCREEN_BASE(0x1E) | BG_16_COLOR | CHAR_BASE(2) | BG_PRIORITY(0);
+    // Miraculously, BGP 6 color 2 isn't used at all as far as I can tell
+    BG_PALETTE[6 * 16 + 2] = 0x7FFF;
+
+    dmaCopy(SaveTutorialTilemap, SCREEN_BASE_BLOCK(0x1E), 0x1000);
+    dmaCopy(PortalTileset2, CHAR_BASE_BLOCK(2), 0x4000);
+}
+
+
+extern u16 PortalTilemap3[];
+
+// Load the original pyramid background 3 graphics
+static void LoadPyramidBG3() {
+    REG_BG3CNT = BG_SIZE_0 | SCREEN_BASE(0x1E) | BG_16_COLOR | CHAR_BASE(0) | BG_PRIORITY(0);
+    dmaCopy(PortalTilemap3, SCREEN_BASE_BLOCK(0x1E), 0x1000);
 }
 
 

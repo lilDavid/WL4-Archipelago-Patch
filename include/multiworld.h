@@ -17,6 +17,7 @@ extern u8 IncomingItemID;
 extern u8 MultiworldState;
 extern u8 IncomingItemSender[17];
 extern u8 TextTimer;
+extern u8 VblkStatus;
 
 extern u8 DeathLinkEnabled;
 extern const u8 DeathLinkFlag;

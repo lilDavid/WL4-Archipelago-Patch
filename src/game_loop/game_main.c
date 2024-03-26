@@ -36,7 +36,7 @@ static void GameMain_CollectMultiworld() {
 
     TextTimer = 120;
     GiveItem(item_id, NULL);
-    LoadReceivedText();
+    VblkStatus |= VBLK_MAIN_UPDATE_TEXT;
     ItemReceivedFeedbackSound(item_id);
 
     ItemType item_type = Item_GetType(item_id);
@@ -56,13 +56,13 @@ static void GameMain_CollectMultiworld() {
                     ability = ABILITY_HEAVY_GRAB;
                 }
             }
-            SetTreasurePalette(AbilityPaletteTable[ability]);
+            VblkStatus |= VBLK_MAIN_SET_PALETTE | AbilityPaletteTable[ability];
             SpawnCollectionIndicator(!progressive, 1);
             break;
         }
         case ITEMTYPE_GEM:
         case ITEMTYPE_CD:
-            SetTreasurePalette((item_id >> 2) & 7);
+            VblkStatus |= VBLK_MAIN_SET_PALETTE | ((item_id >> 2) & 7);
             SpawnCollectionIndicator(item_type == ITEMTYPE_CD, 1);
             break;
         default: break;
@@ -107,12 +107,78 @@ void GameMain_RandoGraphics() {
             TextTimer -= 1;
         } else {
             MultiworldState = MW_IDLE;
-            SetTextColor(0x3D30);  // Return this color to normal
+            VblkStatus |= VBLK_MAIN_UPDATE_TEXT;
         }
     }
 
     ClearOamBuf();
     GmapSceneCreate();
+}
+
+
+LONGCALL void GmVblkIntr1_InGameUpdateWarioOAMAndSpritesTiles(void);
+
+void GameMain_ReceivedTextVBlk() {
+    if (VblkStatus & VBLK_MAIN_UPDATE_TEXT) {
+        switch (MultiworldState) {
+            case MW_IDLE:
+                SetTextColor(0x3D30);  // Return this color to normal
+                break;
+
+            case MW_TEXT_RECEIVED_ITEM:
+                LoadReceivedText();
+                break;
+
+            case MW_TEXT_SENDING_ITEM: {
+                int box_type = LastCollectedBox;
+                int item_id = BoxContents[box_type];
+                const ExtData* multi = BoxExtData[box_type];
+
+                Tile4bpp* tiles1 = (Tile4bpp*) 0x6012180;  // Row of 12
+                Tile4bpp* tiles2 = (Tile4bpp*) 0x6012600;  // Row of 8
+                Tile4bpp* tiles3 = (Tile4bpp*) 0x6012A00;  // Row of 8
+                if (SendMultiworldItemsImmediately) {
+                    const ExtData* multi = BoxExtData[box_type];
+                    if (box_type > BOX_CD)
+                        box_type += 1;
+                    W4ItemStatus[PassageID][InPassageLevelID] |= (1 << (box_type + 8));
+
+                    // Sent to <Player name>
+                    const u8* namebytes = multi->receiver;
+                    int sent_len = sizeof(StrItemSent) - 1;  // trim space
+                    int to_len = sizeof(StrItemTo);
+                    SetTextColor(0x7FFF);
+                    LoadSpriteString(StrItemSent, tiles1, sent_len);
+                    LoadSpriteString(StrItemTo, tiles1 + sent_len, to_len);
+                    namebytes = LoadSpriteString(namebytes, tiles1 + sent_len + to_len, 12 - sent_len - to_len);
+                    namebytes = LoadSpriteString(namebytes, tiles2, 8);
+                    LoadSpriteString(namebytes, tiles3, 8);
+                } else {
+                    // Item name
+                    switch (item_id & 7) {
+                        case AP_IC_FILLER:      SetTextColor(0x7B6B /* cyan */); break;
+                        case AP_IC_PROGRESSION: SetTextColor(0x51D5 /* plum */); break;
+                        case AP_IC_USEFUL:      SetTextColor(0x7DC6 /* slate blue */); break;
+                        case AP_IC_TRAP:        SetTextColor(0x39DF /* salmon */); break;
+                        default:                SetTextColor(0x7FFF /* white */); break;
+                    }
+                    const u8* namebytes = multi->item_name;
+                    namebytes = LoadSpriteString(namebytes, tiles1, 12);
+                    namebytes = LoadSpriteString(namebytes, tiles2, 8);
+                    LoadSpriteString(namebytes, tiles3, 8);
+                }
+                break;
+            }
+        }
+        VblkStatus &= ~VBLK_MAIN_UPDATE_TEXT;
+    }
+
+    if (VblkStatus & VBLK_MAIN_SET_PALETTE) {
+        SetTreasurePalette(VblkStatus & ~VBLK_MAIN_SET_PALETTE);
+        VblkStatus = 0;
+    }
+
+    GmVblkIntr1_InGameUpdateWarioOAMAndSpritesTiles();
 }
 
 

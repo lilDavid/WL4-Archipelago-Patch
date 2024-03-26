@@ -49,6 +49,7 @@
 .thumb
 .definelabel ClearOamBuf, 0x8000A0C
 .definelabel m4aSongNumStart, 0x8001DA4
+.definelabel GmVblkIntr1_InGameUpdateWarioOAMAndSpritesTiles, 0x801BEA8
 .definelabel GmWarioCreate, 0x801C5D8
 .definelabel EnemyDisplayMain, 0x801D8C4
 .definelabel EnemyChildSet, 0x801E328
@@ -65,6 +66,7 @@
 .definelabel TKakeraComp_SE_Set, 0x8078D60
 .definelabel TKakeraIconDsp_sub, 0x8078D98
 .definelabel Select_Fade_Init, 0x807A428
+.definelabel SelectVBlkIntr01, 0x807B758
 .definelabel MmapHekigaChange, 0x808502C
 .definelabel MmapBestScoreSet, 0x8085178
 .definelabel WarioVoiceSet, 0x8088620

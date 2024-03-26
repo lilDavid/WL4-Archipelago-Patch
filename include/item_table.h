@@ -39,6 +39,7 @@ extern u8* boxPosessionVariables[BOX_MAX];
 #define HAS_BOX(box) (*boxPosessionVariables[box])
 extern u8 BoxContents[BOX_MAX];
 extern const ExtData* BoxExtData[BOX_MAX];
+extern u8 LastCollectedBox;
 
 u8 ItemInCurrentLevel(u32 boxtype);
 const ExtData* ExtDataInCurrentLevel(u32 boxtype);

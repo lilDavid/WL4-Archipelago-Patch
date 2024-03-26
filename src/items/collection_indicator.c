@@ -51,18 +51,14 @@ void SpawnCollectionIndicator(u32 is_cd, u32 is_permanent) {
 }
 
 
-static u32 GemIcons_SetUpPieces();
-static u32 GemIcons_SetUpAbilities();
+static u32 GemIcons_DecideSeq(void);
+static void GemIcons_SetUpGraphics(void);
 
 void GemIcons_Init() {
     Scbuf_ucStatus |= 4;
     if (LastCollectedItemStatus & 1) {
-        int seq;
-        if (Item_GetType(LastCollectedItemID) == ITEMTYPE_ABILITY)
-            seq = GemIcons_SetUpAbilities();
-        else
-            seq = GemIcons_SetUpPieces();
-        Scbuf_ucSeq = seq;
+        Scbuf_ucSeq = GemIcons_DecideSeq();
+        GemIcons_SetUpGraphics();
         LastCollectedItemStatus += 1;
     } else {
         if (ucTimeUp < 8)
@@ -74,37 +70,57 @@ void GemIcons_Init() {
     Scbuf_ucWork0 = 0;
 }
 
+static u32 GemIcons_DecideSeq(void) {
+    if (Item_GetType(LastCollectedItemID) != ITEMTYPE_ABILITY)
+        return (LastCollectedItemID & 3) + 1;
+
+    int ability;
+    if (LastCollectedItemID == ITEM_GROUND_POUND)
+        ability = ABILITY_SUPER_GROUND_POUND;
+    else
+        ability = ABILITY_HEAVY_GRAB;
+
+    if (HAS_ABILITY_TEMPORARY(ability))
+        return 2;
+
+    return 3;
+}
+
+static void GemIcons_SetUpPieces();
+static void GemIcons_SetUpAbilities();
+
+void GemIcons_SetUpGraphics(void) {
+    if (Item_GetType(LastCollectedItemID) == ITEMTYPE_ABILITY)
+        GemIcons_SetUpAbilities();
+    else
+        GemIcons_SetUpPieces();
+}
+
 // Initializes the collection indicator for jewels. Unlike vanilla, this looks
 // at what was just grabbed and causes it to display only that. This is done
 // because we want it to reflect the item, not the level state. Since jewel
 // pieces are progressive in the randomizer, it's meaningless to display
 // anything in the other three parts anyway.
-static u32 GemIcons_SetUpPieces() {
+static void GemIcons_SetUpPieces() {
     dmaCopy(&EmptyJewel4Tile, (void*) 0x6011C00, 2 * sizeof(Tile4bpp));
     dmaCopy(&EmptyJewel3Tile, (void*) 0x6012000, 2 * sizeof(Tile4bpp));
-    return (LastCollectedItemID & 3) + 1;
 }
 
-
-u32 GemIcons_SetUpAbilities() {
+static void GemIcons_SetUpAbilities() {
     // Make the top two tiles empty by DMA-ing in zeros.
     DMA3COPY(&EmptyTile,
              0x6011C00,
              DMA_ENABLE | DMA_SRC_FIXED | DMA16 | 2 * sizeof(Tile4bpp) / 2);
 
-    int new_seq;
     const Tile4bpp* ability_tile;
     if (LastCollectedItemID == ITEM_GROUND_POUND) {
         if (HAS_ABILITY_TEMPORARY(ABILITY_SUPER_GROUND_POUND)) {
             if (HAS_ABILITY_PERMANENT(ABILITY_GROUND_POUND)) {
-                new_seq = 2;
                 ability_tile = &HasGroundPound1Tile;
             } else {
-                new_seq = 2;
                 ability_tile = &CarryingGroundPound1Tile;
             }
         } else {
-            new_seq = 3;
             ability_tile = &EmptyGroundPound1Tile;
         }
         dmaCopy(ability_tile, (void*) 0x6012000, sizeof(Tile4bpp));
@@ -114,14 +130,11 @@ u32 GemIcons_SetUpAbilities() {
         SPRITE_PALETTE[4 * 16 + 0xF] = 0x50A5;
         if (HAS_ABILITY_TEMPORARY(ABILITY_HEAVY_GRAB)) {
             if (HAS_ABILITY_PERMANENT(ABILITY_GRAB)) {
-                new_seq = 2;
                 ability_tile = &HasGrab1Tile;
             } else {
-                new_seq = 2;
                 ability_tile = &CarryingGrab1Tile;
             }
         } else {
-            new_seq = 3;
             ability_tile = &EmptyGrab1Tile;
         }
         dmaCopy(ability_tile, (void*) 0x6012000, sizeof(Tile4bpp));
@@ -129,7 +142,6 @@ u32 GemIcons_SetUpAbilities() {
     }
 
     dmaCopy(ability_tile, (void*) 0x6012020, sizeof(Tile4bpp));
-    return new_seq;
 }
 
 
@@ -219,7 +231,6 @@ void CDIcon_Init() {
     } else {
         icon = EmptyNonProgressiveAbilityTiles + np_ability_tile_indices[item_id & 7];
     }
-    // BUG: I made it do this every frame?
     dmaCopy(icon, (void*) 0x60114C0, sizeof(Tile4bpp));
 }
 

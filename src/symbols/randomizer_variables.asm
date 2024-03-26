@@ -43,6 +43,8 @@
 ; Pinball Zone has an extra one
 .definelabel HasFullHealthItem2, UnusedRamStart + 26  ; byte
 
+.definelabel LastCollectedBox, UnusedRamStart + 27  ; byte
+
 .definelabel QueuedJunk, UnusedRamStart + 28  ; bytes
     .definelabel QueuedFullHealthItem, QueuedJunk + 0
     .definelabel QueuedFormTraps, QueuedJunk + 1
@@ -66,3 +68,5 @@
     .definelabel CDBoxExtData, BoxExtData + 16
     .definelabel HealthBoxExtData, BoxExtData + 20
     .definelabel HealthBox2ExtData, BoxExtData + 24
+
+.definelabel VblkStatus, BoxExtData + 28  ; byte
