@@ -105,7 +105,7 @@ hook 0x801BB7A, 0x801BB90, GameMain_RandoGraphics
     .pool
 
 @Hook_SelectDmapOamCreate:
-        bl PassageSelect_CreateReceivedOAM
+        bl PassageSelect_CreateMessageBoxOAM
     ; Return from SelectDmapOamCreate
         pop {r4-r7}
         pop {r0}
@@ -294,6 +294,13 @@ hook_manual 0x8074068, 0x8074070, @Hook_EXimage_Clear_Work_2Mode
 
 ; SeisanSave()
 hook 0x80811BA, 0x8081284, CheckLocations
+
+; BossSave()
+hook 0x80813DC, 0x80813F8, CheckBossLocations
+.org 0x80813F8
+        ldr r3, =W4ItemStatus
+        b 0x8081458
+    .pool
 
 ; ItemGetFlgSet_LoadSavestateInfo2RAM()
 hook_branch 0x8075E4C, 0x8075F10, 0x8075F38, SetItemCollection

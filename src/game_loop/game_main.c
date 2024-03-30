@@ -25,8 +25,10 @@ void GameMain_Rando() {
     if (usWarStopFlg != 0)
         return;
 
-    GameMain_CollectMultiworld();
-    GameMain_CollectJunk();
+    if (MultiworldState == MW_IDLE)
+        GameMain_CollectMultiworld();
+    if (MultiworldState != MW_TEXT_FOUND_BOSS_ITEMS)
+        GameMain_CollectJunk();
 }
 
 static void GameMain_CollectMultiworld() {
@@ -100,7 +102,7 @@ void GameMain_RandoGraphics() {
         GmWarioCreate();
     EnemyDisplayMain();
 
-    if (MultiworldState >= MW_TEXT_RECEIVED_ITEM) {
+    if (MultiworldState == MW_TEXT_RECEIVED_ITEM || MultiworldState == MW_TEXT_SENDING_ITEM) {
         int text_type = MW_TEXT_SENDING_ITEM - MultiworldState;
         GameMain_CreateTextOAM(text_type);
         if (TextTimer != 0) {

@@ -4,6 +4,7 @@
 #include "unsorted/variables.h"
 #include "item.h"
 #include "item_table.h"
+#include "multiworld.h"
 
 LONGCALL void AutoSave_ExRead_Work(void);
 
@@ -60,6 +61,43 @@ void CheckLocations() {
         if (!((Item_GetType(item_id) == ITEMTYPE_JUNK && item_id != ITEM_MINIGAME_COIN) &&
               multiworld_data == NULL))
             GiveItem(item_id, multiworld_data);
+    }
+}
+
+void CheckBossLocations() {
+    unsigned int current_status = W4ItemStatus[PassageID][InPassageLevelID];
+    unsigned int new_status = 0;
+    if (Has1stGemPiece) {
+        new_status |= ISB_GEM1;
+    }
+    if (Has2ndGemPiece) {
+        new_status |= ISB_GEM2;
+    }
+    if (Has3rdGemPiece) {
+        new_status |= ISB_GEM3;
+    }
+    if (HasKeyzer) {
+        W4ItemStatus[PassageID][InPassageLevelID] |= ISB_KEYZER;
+    }
+    LastCollectedBox = (current_status >> 8) ^ new_status;
+    W4ItemStatus[PassageID][InPassageLevelID] |= new_status << 8;
+
+    if (LastCollectedBox) {
+        MultiworldState = MW_TEXT_FOUND_BOSS_ITEMS;
+        TextTimer = 15;
+        VblkStatus = VBLK_DMAP_UPDATE;
+    } else {
+        return;
+    }
+
+    for (int i = 0; i < 3; i++) {
+        int flag = (1 << i);
+        if (!(LastCollectedBox & flag))
+            continue;
+
+        int item = ItemLocationTable[PassageID][InPassageLevelID][i];
+        const ExtData* multi = ItemExtDataTable[PassageID][InPassageLevelID][i];
+        GiveItem(item, multi);
     }
 }
 

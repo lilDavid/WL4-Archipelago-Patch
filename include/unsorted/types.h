@@ -22,6 +22,7 @@ typedef enum {
 } InPassageLevel;
 
 typedef enum {
+    SE_BOX_OPEN = 0xDC,
     SE_CONFIRM = 0x125,
     SE_GEM_GET = 0x13B,
     SE_CD_GET = 0x13C,

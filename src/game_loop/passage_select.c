@@ -19,7 +19,7 @@ u32 PassageSelect_Rando() {
 #ifdef DEBUG
     PassageSelect_DebugSetFlagsWithL();
 #endif
-    if (MultiworldState == MW_TEXT_RECEIVED_ITEM)
+    if (MultiworldState == MW_TEXT_RECEIVED_ITEM || MultiworldState == MW_TEXT_FOUND_BOSS_ITEMS)
         return 1;
 
     int item_id = ReceiveNextItem();
@@ -75,42 +75,40 @@ static const TObjDef msgLightningTrap = {
       ANM_OBJ(-12,   4, ATTR0_WIDE,   ATTR1_SIZE_16, 0x203, 15, 0) }
 };
 
-void PassageSelect_CreateReceivedOAM() {
-    if (MultiworldState != MW_TEXT_RECEIVED_ITEM)
-        return;
-
-    const TObjDef* item_sprite;
-    switch (Item_GetType(IncomingItemID)) {
+static const TObjDef* PassageSelect_GetItemSprite(u8 item_id) {
+    switch (Item_GetType(item_id)) {
         case ITEMTYPE_JUNK:
-            switch (IncomingItemID) {
+            switch (item_id) {
                 case ITEM_FULL_HEALTH_ITEM:
-                    item_sprite = &msgFullHealthItem;
-                    break;
+                    return &msgFullHealthItem;
                 case ITEM_HEART:
                 case ITEM_MINIGAME_COIN:
-                    item_sprite = &msgSmallItem;
-                    break;
+                    return &msgSmallItem;
                 case ITEM_WARIO_FORM_TRAP:
-                    item_sprite = &msgWarioFormTrap;
-                    break;
+                    return &msgWarioFormTrap;
                 case ITEM_LIGHTNING_TRAP:
-                    item_sprite = &msgLightningTrap;
-                    break;
+                    return &msgLightningTrap;
                 default:
-                    return;
+                    return NULL;
             }
-            break;
         case ITEMTYPE_CD:
         case ITEMTYPE_TREASURE:
-            item_sprite = &msgLargeItem;
-            break;
+            return &msgLargeItem;
         case ITEMTYPE_GEM:
         case ITEMTYPE_ABILITY:
-            item_sprite = &msgSmallItem;
-            break;
+            return &msgSmallItem;
         default:
-            return;
+            return NULL;
     }
+}
+
+void PassageSelect_CreateMessageBoxOAM() {
+    if (MultiworldState != MW_TEXT_RECEIVED_ITEM && MultiworldState != MW_TEXT_FOUND_BOSS_ITEMS)
+        return;
+
+    const TObjDef* item_sprite = PassageSelect_GetItemSprite(IncomingItemID);
+    if (!item_sprite)
+        return;
 
     const int sprite_x = SCREEN_WIDTH / 2;
     const int sprite_y = 112;
@@ -128,23 +126,31 @@ void PassageSelect_CreateReceivedOAM() {
 static void LoadPyramidBG3(void);
 static void LoadMessageBG(void);
 static void PassageSelect_ShowReceivedItem(void);
+static void PassageSelect_ShowFoundBossItem(void);
 LONGCALL void SelectVblkIntr01();
 
 static void PassageSelect_RandoVblk(void) {
-    if (MultiworldState != MW_TEXT_RECEIVED_ITEM)
+    if (MultiworldState != MW_TEXT_RECEIVED_ITEM && MultiworldState != MW_TEXT_FOUND_BOSS_ITEMS)
         return;
 
     if (VblkStatus == VBLK_DMAP_UPDATE) {
         LoadMessageBG();
-        PassageSelect_ShowReceivedItem();
+        if (MultiworldState == MW_TEXT_RECEIVED_ITEM)
+            PassageSelect_ShowReceivedItem();
+        else
+            PassageSelect_ShowFoundBossItem();
         VblkStatus = 0;
     }
 
     if (TextTimer == 0) {
         if (usTrg_KeyPress1Frame & KEY_A) {
             m4aSongNumStart(SE_CONFIRM);
-            LoadPyramidBG3();
-            MultiworldState = MW_IDLE;
+            if (MultiworldState == MW_TEXT_RECEIVED_ITEM || LastCollectedBox == 0) {
+                LoadPyramidBG3();
+                MultiworldState = MW_IDLE;
+            } else {
+                PassageSelect_ShowFoundBossItem();
+            }
         }
     } else {
         TextTimer -= 1;
@@ -165,26 +171,12 @@ extern const u16 BigBoardEntityPalettes[][16];
 extern const Tile4bpp BigBoardEntityTiles[];
 static const u8 gem_tile_offsets[4] = {0x31, 0x35, 0x39, 0x3D};
 
-void PassageSelect_ShowReceivedItem() {
-    // Text
-    int char_size = 2 * sizeof(Tile4bpp);  // Each character is 2 tiles
-    int next_tile = 0x9000;
-
-    MojiCreate(StrItemReceived, next_tile, sizeof(StrItemReceived));
-    next_tile += sizeof(StrItemReceived) * char_size;
-    MojiCreate(StrItemFrom, next_tile, sizeof(StrItemFrom));
-    next_tile += sizeof(StrItemFrom) * char_size;
-    int length = W4strlen(IncomingItemSender);
-    MojiCreate(IncomingItemSender, next_tile, length);
-    next_tile += length * char_size;
-    MojiCreate(StrScreenFiller, next_tile, (0xA180 - next_tile) / char_size);
-
-    // Sprite
+void PassageSelect_SpriteCopy(u8 item_id) {
     u16* palette_dest = SPRITE_PALETTE + 16 * 0xF;
     Tile4bpp* item_dest = (Tile4bpp*) 0x6014000;
-    switch (Item_GetType(IncomingItemID)) {
+    switch (Item_GetType(item_id)) {
         case ITEMTYPE_JUNK:
-            switch (IncomingItemID) {
+            switch (item_id) {
                 case ITEM_FULL_HEALTH_ITEM:
                     dmaCopy(CommonRoomEntityPalettes4[2],  // normally OBP6
                             palette_dest,
@@ -225,7 +217,7 @@ void PassageSelect_ShowReceivedItem() {
                             16 * sizeof(u16));
                     const Tile4bpp* top;
                     const Tile4bpp* bottom;
-                    if (IncomingItemID == ITEM_WARIO_FORM_TRAP) {
+                    if (item_id == ITEM_WARIO_FORM_TRAP) {
                         top = BigBoardEntityTiles + TILE_OFFSET(22, 4);
                         bottom = BigBoardEntityTiles + TILE_OFFSET(28, 5);
                     } else /* Lightning */ {
@@ -238,7 +230,7 @@ void PassageSelect_ShowReceivedItem() {
             }
             break;
         case ITEMTYPE_ABILITY:
-            int ability = IncomingItemID & 7;
+            int ability = item_id & 7;
             if (ability == ABILITY_GROUND_POUND || ability == ABILITY_GRAB) {
                 if (ability == ABILITY_GROUND_POUND &&
                     (HAS_ABILITY_PERMANENT(ABILITY_SUPER_GROUND_POUND)))
@@ -264,7 +256,7 @@ void PassageSelect_ShowReceivedItem() {
                     2 * sizeof(Tile4bpp));
             break;
         case ITEMTYPE_CD: {
-            int passage = (IncomingItemID >> 2) & 7;
+            int passage = (item_id >> 2) & 7;
             dmaCopy(PortalPaletteETable[passage - 1],
                     palette_dest,
                     16 * sizeof(u16));
@@ -272,8 +264,8 @@ void PassageSelect_ShowReceivedItem() {
             break;
         }
         case ITEMTYPE_GEM: {
-            int passage = (IncomingItemID >> 2) & 7;
-            int piece = IncomingItemID & 3;
+            int passage = (item_id >> 2) & 7;
+            int piece = item_id & 3;
             dmaCopy(PortalPaletteDTable[passage],
                     palette_dest,
                     16 * sizeof(u16));
@@ -283,7 +275,7 @@ void PassageSelect_ShowReceivedItem() {
             break;
         }
         case ITEMTYPE_TREASURE: {
-            int treasure = IncomingItemID & 0xF;
+            int treasure = item_id & 0xF;
             dmaCopy(GoldenTreasurePalette,
                     palette_dest,
                     16 * sizeof(u16));
@@ -304,6 +296,87 @@ void PassageSelect_ShowReceivedItem() {
         default:
             break;
     }
+}
+
+static void PassageSelect_ShowReceivedItem() {
+    int char_size = 2 * sizeof(Tile4bpp);  // Each character is 2 tiles
+    int next_tile = 0x9000;
+
+    MojiCreate(StrItemReceived, next_tile, sizeof(StrItemReceived));
+    next_tile += sizeof(StrItemReceived) * char_size;
+    MojiCreate(StrItemFrom, next_tile, sizeof(StrItemFrom));
+    next_tile += sizeof(StrItemFrom) * char_size;
+    int length = W4strlen(IncomingItemSender);
+    MojiCreate(IncomingItemSender, next_tile, length);
+    next_tile += length * char_size;
+    MojiCreate(StrScreenFiller, next_tile, (0xA180 - next_tile) / char_size);
+
+    PassageSelect_SpriteCopy(IncomingItemID);
+}
+
+static const u8* PaddedBossNames[] = {
+    (const u8*) 0x865CF12,  // Spoiled Rotten
+    (const u8*) 0x865D04A,  // Cractus
+    (const u8*) 0x865D182,  // Cuckoo Condor
+    (const u8*) 0x865D2BA,  // Aerodent
+    (const u8*) 0x865D3F2,  // Catbat
+};
+
+static void PassageSelect_ShowFoundBossItem() {
+    int chest;
+    for (chest = 0; chest < 3; chest++) {
+        if (LastCollectedBox & (1 << chest)) {
+            LastCollectedBox &= ~(1 << chest);
+            break;
+        }
+    }
+
+    int char_size = 2 * sizeof(Tile4bpp);  // Each character is 2 tiles
+    int next_tile = 0x9000;
+    usMojiCount = 1000;  // Fixed text position (?)
+
+    // Boss names are centered, so center them on the top of the window.
+    // Coincidentally, the longest, Spoiled Rotten, is exactly 14 chars.
+    MojiCreate(PaddedBossNames[PassageID] + 6, next_tile, 14);
+    next_tile += 14 * char_size;
+
+    const ExtData* multi = ItemExtDataTable[PassageID][LEVEL_BOSS][chest];
+    if (multi) {
+        MojiCreate(StrItemSent, next_tile, sizeof(StrItemSent));
+        next_tile += sizeof(StrItemSent) * char_size;
+
+        const u8* item_name = multi->item_name;
+        u32 length = W4strlen(item_name);
+        MojiCreate(item_name, next_tile, length);
+        next_tile += length * char_size;
+
+        MojiCreate(StrItemTo, next_tile, sizeof(StrItemTo));
+        next_tile += sizeof(StrItemTo) * char_size;
+
+        const u8* receiver = multi->receiver;
+        length = W4strlen(receiver);
+        MojiCreate(receiver, next_tile, length);
+        next_tile += length * char_size;
+
+        IncomingItemID = ITEM_NONE;
+        WarioVoiceSet(WV_TREASURE);
+    } else {
+        u8 item = ItemLocationTable[PassageID][LEVEL_BOSS][chest];
+        IncomingItemID = item;
+        PassageSelect_SpriteCopy(item);
+
+        if (item == ITEM_LIGHTNING_TRAP || item == ITEM_WARIO_FORM_TRAP)
+            WarioVoiceSet(WV_HURT);
+        else
+            WarioVoiceSet(WV_TREASURE);
+    }
+
+    int chars_remaining = (0xA180 - next_tile) / char_size;
+    if (chars_remaining <= 0)
+        return;
+    MojiCreate(StrScreenFiller, next_tile, chars_remaining);
+
+    m4aSongNumStart(SE_BOX_OPEN);
 }
 
 
