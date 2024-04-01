@@ -40,8 +40,8 @@
     mov r0, #1
 .org 0x8091944  ; GameReady(): Stop title music
     nop
-.org 0x8091DA8  ; ReadySet_SelectKey(): Don't play car engine sound
-    .word 0x8091DD8
+.org 0x8091A46  ; ReadyMain_SelectDef(): Skip difficulty selection
+    b 0x8091A58
 
 ; Jewel cutscene and jewel door opening
 .org 0x8080FA8  ; DoraGetItemHantei()
