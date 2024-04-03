@@ -25,10 +25,8 @@ void GameMain_Rando() {
     if (usWarStopFlg != 0)
         return;
 
-    if (MultiworldState == MW_IDLE)
-        GameMain_CollectMultiworld();
-    if (MultiworldState != MW_TEXT_FOUND_BOSS_ITEMS)
-        GameMain_CollectJunk();
+    GameMain_CollectMultiworld();
+    GameMain_CollectJunk();
 }
 
 static void GameMain_CollectMultiworld() {
@@ -74,6 +72,9 @@ static void GameMain_CollectMultiworld() {
 // Give and apply queued junk items given by, for example, another player in the
 // multiworld.
 static void GameMain_CollectJunk(void) {
+    if (MultiworldState == MW_TEXT_FOUND_BOSS_ITEMS)
+        return;
+
     if (QueuedFullHealthItem) {
         GiveWarioHearts(8);
         QueuedFullHealthItem = 0;
