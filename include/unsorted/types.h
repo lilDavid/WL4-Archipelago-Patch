@@ -56,12 +56,6 @@ typedef enum {
 } WarioReact;
 
 typedef enum {
-    GOAL_GOLDEN_DIVA,
-    GOAL_TREASURE_HUNT,
-    GOAL_MAX
-} RandoGoal;
-
-typedef enum {
     VBLK_MAIN_SET_PALETTE = 1 << 6,
     VBLK_MAIN_UPDATE_TEXT = 1 << 7,
 

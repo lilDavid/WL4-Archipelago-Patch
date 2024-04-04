@@ -3,6 +3,7 @@
 #include "unsorted/functions.h"
 #include "graphics.h"
 #include "item.h"
+#include "randomizer.h"
 
 
 void LevelSelect_InitIcons() {
@@ -20,6 +21,61 @@ void LevelSelect_InitIcons() {
     dmaCopy(ExtraAbilityPalettes,
             SPRITE_PALETTE + 9 * 16,
             2 * 16 * sizeof(u16));
+
+    if (GoalType == GOAL_TREASURE_HUNT) {
+        // TODO: Make slash and treasure graphics
+
+        u16* top = (u16*) 0x600C000;
+        top[0] = 0xE14A;  // E10A
+        top[1] = 0xE14B;
+        top[32] = 0xE16A;
+        top[33] = 0xE16B;
+        for (int i = 0; i < 5; i++) {
+            top[i + 2] = 0xE100 + i;
+            top[i + 34] = 0xE120 + i;
+        }
+
+        u16* bottom = (u16*) 0x600C480;
+        bottom[1] = 0xC105;
+        bottom[2] = 0xC106;
+        bottom[33] = 0xC125;
+        bottom[34] = 0xC126;
+        for (int i = 0; i < 3; i++) {
+            bottom[i + 3] = 0xE107 + i;
+            bottom[i + 35] = 0xE127 + i;
+        }
+
+        int treasures_required = GoldenTreasuresNeeded;
+        int treasure_count = 0;
+        for (int i = PASSAGE_EMERALD; i <= PASSAGE_SAPPHIRE; i++) {
+            for (int j = 0; j < 3; j++) {
+                int flag = 1 << j;
+                if (W4ItemStatus[i][LEVEL_BOSS] & flag)
+                    treasure_count += 1;
+            }
+        }
+
+        Tile4bpp* screenblock = (Tile4bpp*) 0x6000000;
+        for (int i = 0; i < 2; i++) {
+            int digit = _modsi3(treasure_count, 10);
+            treasure_count = _divsi3(treasure_count, 10);
+            dmaCopy(screenblock + TILE_OFFSET(digit, 10),
+                    screenblock + TILE_OFFSET(1 - i, 8),
+                    sizeof(Tile4bpp));
+            dmaCopy(screenblock + TILE_OFFSET(digit, 11),
+                    screenblock + TILE_OFFSET(1 - i, 9),
+                    sizeof(Tile4bpp));
+
+            digit = _modsi3(treasures_required, 10);
+            treasures_required = _divsi3(treasures_required, 10);
+            dmaCopy(screenblock + TILE_OFFSET(digit, 10),
+                    screenblock + TILE_OFFSET(4 - i, 8),
+                    sizeof(Tile4bpp));
+            dmaCopy(screenblock + TILE_OFFSET(digit, 11),
+                    screenblock + TILE_OFFSET(4 - i, 9),
+                    sizeof(Tile4bpp));
+        }
+    }
 
     // Replaced code
     MmapHekigaChange();

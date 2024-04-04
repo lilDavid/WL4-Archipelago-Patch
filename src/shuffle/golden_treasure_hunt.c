@@ -4,11 +4,10 @@
 #include "unsorted/types.h"
 #include "unsorted/variables.h"
 #include "item.h"
+#include "randomizer.h"
 
-__attribute__((long_call)) void ItemGetFlgSet_LoadSavestateInfo2RAM(void);
+LONGCALL void ItemGetFlgSet_LoadSavestateInfo2RAM(void);
 extern u8 ucTakaraCount;
-extern const u8 GoalType;
-extern const u8 GoldenTreasuresNeeded;
 
 u32 EnterSoundRoom() {
     if (GoalType != GOAL_TREASURE_HUNT)
