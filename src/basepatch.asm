@@ -25,8 +25,9 @@ ITEM_NONE equ 0xFF
 
     ; Location setup
     .align 4
-    ItemLocationTable:              .fill 6 * 4 * 7,     ITEM_NONE
-    ItemExtDataTable:               .fill 6 * 4 * 7 * 4, 0
+    ItemLocationTable:              .fill 6 * 5 * 7,     ITEM_NONE
+    .align 4
+    ItemExtDataTable:               .fill 6 * 5 * 7 * 4, 0
     StartingInventoryItemStatus:    .fill 6 * 6,         0
     StartingInventoryJunkCounts:    .fill ABILITY_MAX,   0
     StartingInventoryWarioAbilities:               .byte 0

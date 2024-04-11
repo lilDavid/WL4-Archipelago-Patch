@@ -24,10 +24,10 @@ typedef struct {
 // Maps locations to the 8-bit IDs of the items they contain.
 // After Archipelago patches the ROM, the value 0xFE should be in every
 // location that doesn't exist and only those locations.
-extern const u8 ItemLocationTable[PASSAGE_MAX][LEVEL_MAXLEVEL][BOX_MAX];
+extern const u8 ItemLocationTable[PASSAGE_MAX][LEVEL_BOSS + 1][BOX_MAX];
 
 // Maps locations to pointers toward the item's multiworld data.
-extern const ExtData* ItemExtDataTable[PASSAGE_MAX][LEVEL_MAXLEVEL][BOX_MAX];
+extern const ExtData* ItemExtDataTable[PASSAGE_MAX][LEVEL_BOSS + 1][BOX_MAX];
 
 // Starting inventory.
 extern const u8 StartingInventoryItemStatus[PASSAGE_MAX][LEVEL_MAX];
