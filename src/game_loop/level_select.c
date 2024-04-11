@@ -23,13 +23,11 @@ void LevelSelect_InitIcons() {
             2 * 16 * sizeof(u16));
 
     if (GoalType == GOAL_TREASURE_HUNT) {
-        // TODO: Make slash and treasure graphics
-
         u16* top = (u16*) 0x600C000;
-        top[0] = 0xE14A;  // E10A
-        top[1] = 0xE14B;
-        top[32] = 0xE16A;
-        top[33] = 0xE16B;
+        top[0] = 0xD10A;
+        top[1] = 0xD10B;
+        top[32] = 0xD12A;
+        top[33] = 0xD12B;
         for (int i = 0; i < 5; i++) {
             top[i + 2] = 0xE100 + i;
             top[i + 34] = 0xE120 + i;
@@ -75,6 +73,9 @@ void LevelSelect_InitIcons() {
                     screenblock + TILE_OFFSET(4 - i, 9),
                     sizeof(Tile4bpp));
         }
+
+        // Copy treasure chest palette
+        dmaCopy((void*) 0x83B29B0, &BG_PALETTE[16 * 13], 16 * sizeof(u16));
     }
 
     // Replaced code

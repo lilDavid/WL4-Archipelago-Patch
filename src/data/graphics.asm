@@ -120,6 +120,14 @@ TextBoxCharCount equ 14 * (11 / 2)
     .incbin "data/graphics/ability_icons.bin", 0x00, 12 * sizeof_tile
 .org 0x869CE48 + tile_coord_4b(16, 7)
     .incbin "data/graphics/ability_icons.bin", 16 * sizeof_tile, 12 * sizeof_tile
+.org 0x869CE48 + tile_coord_4b(2, 8)
+    .incbin "data/graphics/slash.bin", 0x00, sizeof_tile
+.org 0x869CE48 + tile_coord_4b(2, 9)
+    .incbin "data/graphics/slash.bin", sizeof_tile, sizeof_tile
+.org 0x869CE48 + tile_coord_4b(10, 8)
+    .incbin "data/graphics/chest.bin", 0x00, 2 * sizeof_tile
+.org 0x869CE48 + tile_coord_4b(10, 9)
+    .incbin "data/graphics/chest.bin", 2 * sizeof_tile, 2 * sizeof_tile
 
 .org 0x86A2648 + 0x10
     .halfword 0x50D0, 0x50D1, 0x50D2, 0x50D3, 0x50D4, 0x50D5
