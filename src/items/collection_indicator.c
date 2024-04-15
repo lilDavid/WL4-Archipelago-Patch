@@ -160,7 +160,6 @@ void GemIcons_Update() {
     }
 
     if (Scbuf_ucWork0 == 20) {
-        TKakeraComp_SE_Set();
         if (Item_GetType(LastCollectedItemID) == ITEMTYPE_ABILITY)
             GemIcons_SetCollectedAbility();
         else

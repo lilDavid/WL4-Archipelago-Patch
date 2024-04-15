@@ -13,8 +13,10 @@ void ItemReceivedFeedbackSound(u8 item_id) {
             m4aSongNumStart(SE_GEM_GET);
             break;
         case ITEMTYPE_CD:
-        case ITEMTYPE_ABILITY:
             m4aSongNumStart(SE_CD_GET);
+            break;
+        case ITEMTYPE_ABILITY:
+            m4aSongNumStart(SE_ALL_BOXES_GET);
             break;
         case ITEMTYPE_TREASURE:
             m4aSongNumStart(SE_HIGH_SCORE);

@@ -230,7 +230,7 @@ void CollectRandomItem() {
                 SpawnCollectionIndicator(1, 0);
             }
             AbilitiesInThisLevel |= 1 << new_ability;
-            m4aSongNumStart(SE_CD_GET);
+            m4aSongNumStart(SE_ALL_BOXES_GET);
             break;
         case ITEMTYPE_CD:
             SpawnCollectionIndicator(1, 0);
