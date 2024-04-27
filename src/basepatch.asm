@@ -65,6 +65,7 @@ ITEM_NONE equ 0xFF
 .endautoregion
 
 .include "src/data/graphics.asm"
+.include "src/data/credits.asm"
 
 .sym on
 
