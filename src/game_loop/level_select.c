@@ -22,7 +22,7 @@ void LevelSelect_InitIcons() {
             SPRITE_PALETTE + 9 * 16,
             2 * 16 * sizeof(u16));
 
-    if (GoalType == GOAL_TREASURE_HUNT) {
+    if (GoalType == GOAL_TREASURE_HUNT || GoalType == GOAL_DIVA_HUNT) {
         u16* top = (u16*) 0x600C000;
         top[0] = 0xD10A;
         top[1] = 0xD10B;

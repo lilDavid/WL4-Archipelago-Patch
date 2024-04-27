@@ -3,6 +3,7 @@
 typedef enum {
     GOAL_GOLDEN_DIVA,
     GOAL_TREASURE_HUNT,
+    GOAL_DIVA_HUNT,
     GOAL_MAX
 } RandoGoal;
 

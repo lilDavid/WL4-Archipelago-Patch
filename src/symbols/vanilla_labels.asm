@@ -5,6 +5,8 @@
 .definelabel PassageID, 0x3000002
 .definelabel InPassageLevelID, 0x3000003
 .definelabel MiniGameCoinNum, 0x3000008
+.definelabel ucWorldNumBak, 0x3000010
+.definelabel ucSaveFlg, 0x3000013
 .definelabel CurrentRoomId, 0x3000024
 .definelabel ucFlashLoop, 0x3000044
 .definelabel ucTimeUp, 0x3000047
@@ -22,6 +24,14 @@
 .definelabel Has4thGemPiece, 0x3000C0A
 .definelabel HasCD, 0x3000C0B
 .definelabel HasKeyzer, 0x3000C0C
+.definelabel HasTreasure5, 0x3000C2C
+.definelabel HasTreasure6, 0x3000C2D
+.definelabel HasTreasure7, 0x3000C2E
+.definelabel HasTreasure8, 0x3000C2F
+.definelabel HasTreasure9, 0x3000C30
+.definelabel HasTreasure10, 0x3000C31
+.definelabel HasTreasure11, 0x3000C32
+.definelabel HasTreasure12, 0x3000C33
 .definelabel ucTakaraCount, 0x3000C34
 .definelabel GlobalGameMode, 0x3000C3A
 .definelabel sGameSeq, 0x3000C3C
@@ -60,6 +70,7 @@
 .definelabel GmapSceneCreate, 0x806C794
 .definelabel PanelPartWork_Broken_Main, 0x806EE98
 .definelabel AutoSave_ExRead_Work, 0x8073A18
+.definelabel SramBackup_Auto_Write, 0x8073880
 .definelabel ItemGetFlgSet_LoadSavestateInfo2RAM, 0x8075B50
 .definelabel TOptObjSet, 0x80766E8
 .definelabel WarioCoinSet, 0x80768B8
@@ -67,6 +78,8 @@
 .definelabel TKakeraIconDsp_sub, 0x8078D98
 .definelabel Select_Fade_Init, 0x807A428
 .definelabel SelectVBlkIntr01, 0x807B758
+.definelabel BossSave, 0x80813D0
+.definelabel EndingSave, 0x80814F0
 .definelabel MmapHekigaChange, 0x808502C
 .definelabel MmapBestScoreSet, 0x8085178
 .definelabel WarioVoiceSet, 0x8088620
