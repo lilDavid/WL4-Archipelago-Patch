@@ -87,6 +87,7 @@ void CheckBossLocations() {
         MultiworldState = MW_TEXT_FOUND_BOSS_ITEMS;
         TextTimer = 15;
         VblkStatus = VBLK_DMAP_UPDATE;
+        LastCollectedBox |= PassageID << 4;
     } else {
         return;
     }

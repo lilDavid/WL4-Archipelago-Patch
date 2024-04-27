@@ -145,7 +145,7 @@ static void PassageSelect_RandoVblk(void) {
     if (TextTimer == 0) {
         if (usTrg_KeyPress1Frame & KEY_A) {
             m4aSongNumStart(SE_CONFIRM);
-            if (MultiworldState == MW_TEXT_RECEIVED_ITEM || LastCollectedBox == 0) {
+            if (MultiworldState == MW_TEXT_RECEIVED_ITEM || (LastCollectedBox & 0xF) == 0) {
                 LoadPyramidBG3();
                 MultiworldState = MW_IDLE;
             } else {
@@ -323,6 +323,7 @@ static const u8* PaddedBossNames[] = {
 };
 
 static void PassageSelect_ShowFoundBossItem() {
+    int passage = LastCollectedBox >> 4;
     int chest;
     for (chest = 0; chest < 3; chest++) {
         if (LastCollectedBox & (1 << chest)) {
@@ -337,10 +338,10 @@ static void PassageSelect_ShowFoundBossItem() {
 
     // Boss names are centered, so center them on the top of the window.
     // Coincidentally, the longest, Spoiled Rotten, is exactly 14 chars.
-    MojiCreate(PaddedBossNames[PassageID] + 6, next_tile, 14);
+    MojiCreate(PaddedBossNames[passage] + 6, next_tile, 14);
     next_tile += 14 * char_size;
 
-    const ExtData* multi = ItemExtDataTable[PassageID][LEVEL_BOSS][chest];
+    const ExtData* multi = ItemExtDataTable[passage][LEVEL_BOSS][chest];
     if (multi) {
         MojiCreate(StrItemSent, next_tile, sizeof(StrItemSent));
         next_tile += sizeof(StrItemSent) * char_size;
@@ -361,7 +362,7 @@ static void PassageSelect_ShowFoundBossItem() {
         IncomingItemID = ITEM_NONE;
         WarioVoiceSet(WV_TREASURE);
     } else {
-        u8 item = ItemLocationTable[PassageID][LEVEL_BOSS][chest];
+        u8 item = ItemLocationTable[passage][LEVEL_BOSS][chest];
         IncomingItemID = item;
         PassageSelect_SpriteCopy(item);
 
