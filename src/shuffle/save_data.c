@@ -174,7 +174,7 @@ void BossDefeated_Save() {
     }
 
     ucWorldNumBak[0] = PassageID;
-    PassageID = PASSAGE_MAX;
+    PassageID = PASSAGE_GOLDEN;
     InPassageLevelID = LEVEL_MAX;
     HasKeyzer = 0;
     SramBackup_Auto_Write();
