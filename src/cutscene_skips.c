@@ -15,6 +15,8 @@ u32 CutsceneSkip_EnterLevel() {
             case 1:  // Entering
                 return 1;
             case 2:  // Died or gave up
+                HasKeyzer = 0;
+                // fallthrough
             case 3:  // Died in boss
             case 4:  // Exited without Keyzer
             case 5:  // Exited with Keyzer
