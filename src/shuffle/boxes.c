@@ -196,13 +196,8 @@ void CollectRandomItem() {
     if (multi != NULL) {
         m4aSongNumStart(SE_GEM_GET);
         MultiworldState = MW_TEXT_SENDING_ITEM;
+        VblkStatus |= VBLK_MAIN_UPDATE_TEXT;
         TextTimer = 120;
-
-        if (SendMultiworldItemsImmediately) {
-            if (box_type > BOX_CD)
-                box_type += 1;
-            W4ItemStatus[PassageID][InPassageLevelID] |= (1 << (box_type + 8));
-        }
         return;
     }
 
