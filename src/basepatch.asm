@@ -37,6 +37,7 @@ ITEM_NONE equ 0xFF
     SendMultiworldItemsImmediately: .byte 0
     GoalType:                       .byte 0
     GoldenTreasuresNeeded:          .byte 0
+    TrapBehavior:                   .byte 0
     .thumb
 .endregion
 

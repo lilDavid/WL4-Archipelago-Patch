@@ -7,5 +7,12 @@ typedef enum {
     GOAL_MAX
 } RandoGoal;
 
+typedef enum {
+    TB_ACCUMULATE,
+    TB_APPLY_ONCE,
+    TB_MAX
+} TrapQueueBehavior;
+
 extern const u8 GoalType;
 extern const u8 GoldenTreasuresNeeded;
+extern const u8 TrapBehavior;

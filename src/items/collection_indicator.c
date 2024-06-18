@@ -37,8 +37,6 @@ const GemTiles gem_graphics[4] = {
 };
 
 
-LONGCALL void TOptObjSet(u16, u16, u8);
-
 // Spawn the jewel piece or CD icon when you've collected one of them.
 void SpawnCollectionIndicator(u32 is_cd, u32 is_permanent) {
     u16 x;

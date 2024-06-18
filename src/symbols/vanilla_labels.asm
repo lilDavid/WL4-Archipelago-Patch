@@ -79,6 +79,7 @@
 .definelabel Select_Fade_Init, 0x807A428
 .definelabel SelectVBlkIntr01, 0x807B758
 .definelabel BossSave, 0x80813D0
+.definelabel LoseSave, 0x80814DC
 .definelabel EndingSave, 0x80814F0
 .definelabel MmapHekigaChange, 0x808502C
 .definelabel MmapBestScoreSet, 0x8085178

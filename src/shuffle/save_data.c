@@ -6,6 +6,7 @@
 #include "item_table.h"
 #include "multiworld.h"
 #include "randomizer.h"
+#include "wario.h"
 
 LONGCALL void AutoSave_ExRead_Work(void);
 
@@ -142,6 +143,7 @@ extern u8 ucSTEndType;
 
 LONGCALL void BossSave();
 LONGCALL void EndingSave();
+LONGCALL void LoseSave();
 LONGCALL void SramBackup_Auto_Write();
 
 void BossDefeated_Save() {
@@ -179,4 +181,16 @@ void BossDefeated_Save() {
     HasKeyzer = 0;
     SramBackup_Auto_Write();
     ucSaveFlg = 1;
+}
+
+void ResetTraps() {
+    // Limit traps so you don't get looped
+    if (QueuedFormTraps > 1)
+        QueuedFormTraps = 1;
+    if (QueuedLightningTraps > 1)
+        QueuedLightningTraps = 1;
+
+    TOptObjSet(Wario.usPosY, Wario.usPosX, 0x4D);
+    if (InPassageLevelID == LEVEL_BOSS)
+        LoseSave();
 }

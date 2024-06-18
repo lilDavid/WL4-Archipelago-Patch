@@ -304,6 +304,9 @@ hook 0x80813DC, 0x80813F8, CheckBossLocations
         b 0x8081458
     .pool
 
+; GmWarioLifeZero()
+hook 0x8075900, 0x8075910, ResetTraps
+
 ; ItemGetFlgSet_LoadSavestateInfo2RAM()
 hook_branch 0x8075E4C, 0x8075F10, 0x8075F38, SetItemCollection
 

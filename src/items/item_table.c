@@ -6,6 +6,7 @@
 #include "item.h"
 #include "item_table.h"
 #include "graphics.h"
+#include "randomizer.h"
 
 
 u8 ItemInCurrentLevel(u32 boxtype) {
@@ -80,13 +81,19 @@ static void GiveItem_Junk(u8 item_id) {
             QueuedFullHealthItem = 1;
             break;
         case ITEM_WARIO_FORM_TRAP:
-            QueuedFormTraps += 1;
+            if (TrapBehavior == TB_APPLY_ONCE)
+                QueuedFormTraps = 1;
+            else
+                QueuedFormTraps += 1;
             break;
         case ITEM_HEART:
             QueuedHearts += 1;
             break;
         case ITEM_LIGHTNING_TRAP:
-            QueuedLightningTraps += 1;
+            if (TrapBehavior == TB_APPLY_ONCE)
+                QueuedLightningTraps = 1;
+            else
+                QueuedLightningTraps += 1;
             break;
         case ITEM_MINIGAME_COIN:
             MiniGameCoinNum += 1;
