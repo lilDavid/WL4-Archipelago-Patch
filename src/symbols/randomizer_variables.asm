@@ -24,26 +24,26 @@
 ; Same values as "Has X" variables
 .definelabel LastCollectedItemStatus, UnusedRamStart + 20  ; byte
 
-.definelabel DeathlinkEnabled, UnusedRamStart + 21  ; byte
-
-.definelabel TextTimer, UnusedRamStart + 22  ; byte
+.definelabel TextTimer, UnusedRamStart + 21  ; byte
 
 ; Indicates which icon is next to be selected and changed when a box is opened
 ; with treasure in it. Loops around four values, values of upper six bits
 ; unspecified and ignored.
-.definelabel CurrentJewelIconPosition, UnusedRamStart + 23  ; byte
+.definelabel CurrentJewelIconPosition, UnusedRamStart + 22  ; byte
 
 ; Tracks what abilities you've found in this level but haven't properly
 ; collected yet.
-.definelabel AbilitiesInThisLevel, UnusedRamStart + 24  ; byte
+.definelabel AbilitiesInThisLevel, UnusedRamStart + 23  ; byte
 
 ; Extends the existing box system to include full health boxes
-.definelabel HasFullHealthItem, UnusedRamStart + 25  ; byte
+.definelabel HasFullHealthItem, UnusedRamStart + 24  ; byte
 
 ; Pinball Zone has an extra one
-.definelabel HasFullHealthItem2, UnusedRamStart + 26  ; byte
+.definelabel HasFullHealthItem2, UnusedRamStart + 25  ; byte
 
-.definelabel LastCollectedBox, UnusedRamStart + 27  ; byte
+.definelabel LastCollectedBox, UnusedRamStart + 26  ; byte
+
+.definelabel VblkStatus, UnusedRamStart + 27  ; byte
 
 .definelabel QueuedJunk, UnusedRamStart + 28  ; bytes
     .definelabel QueuedFullHealthItem, QueuedJunk + 0
@@ -68,5 +68,3 @@
     .definelabel CDBoxExtData, BoxExtData + 16
     .definelabel HealthBoxExtData, BoxExtData + 20
     .definelabel HealthBox2ExtData, BoxExtData + 24
-
-.definelabel VblkStatus, BoxExtData + 28  ; byte

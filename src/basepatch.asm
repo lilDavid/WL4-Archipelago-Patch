@@ -33,7 +33,6 @@ ITEM_NONE equ 0xFF
     StartingInventoryWarioAbilities:               .byte 0
 
     ; Settings
-    DeathLinkFlag:                  .byte 0
     SendMultiworldItemsImmediately: .byte 0
     GoalType:                       .byte 0
     GoldenTreasuresNeeded:          .byte 0

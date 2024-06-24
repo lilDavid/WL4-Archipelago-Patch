@@ -20,8 +20,6 @@ extern u8 IncomingItemSender[17];
 extern u8 TextTimer;
 extern u8 VblkStatus;
 
-extern u8 DeathLinkEnabled;
-extern const u8 DeathLinkFlag;
 extern const u8 SendMultiworldItemsImmediately;
 
 extern const u8 StrItemSent[LEN("Sent ")];
