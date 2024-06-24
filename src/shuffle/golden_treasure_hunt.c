@@ -15,6 +15,7 @@ u32 EnterSoundRoom() {
 
     PassageID = PASSAGE_GOLDEN;
     InPassageLevelID = LEVEL_BOSS;
+    ucTakaraCount = 0;
     ItemGetFlgSet_LoadSavestateInfo2RAM();
     PassageID = PASSAGE_MAX;  // Sound room
     InPassageLevelID = 0;
