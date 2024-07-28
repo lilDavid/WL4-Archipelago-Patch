@@ -67,6 +67,9 @@ void CheckLocations() {
 }
 
 void CheckBossLocations() {
+    if (GoalType == GOAL_GOLDEN_DIVA)
+        return;
+
     unsigned int current_status = W4ItemStatus[PassageID][InPassageLevelID];
     unsigned int new_status = 0;
     if (Has1stGemPiece) {
