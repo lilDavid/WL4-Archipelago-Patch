@@ -67,9 +67,6 @@ void CheckLocations() {
 }
 
 void CheckBossLocations() {
-    if (GoalType == GOAL_GOLDEN_DIVA)
-        return;
-
     unsigned int current_status = W4ItemStatus[PassageID][InPassageLevelID];
     unsigned int new_status = 0;
     if (Has1stGemPiece) {
@@ -84,8 +81,14 @@ void CheckBossLocations() {
     if (HasKeyzer) {
         W4ItemStatus[PassageID][InPassageLevelID] |= ISB_KEYZER;
     }
-    LastCollectedBox = (current_status >> 8) ^ new_status;
-    W4ItemStatus[PassageID][InPassageLevelID] |= new_status << 8;
+
+    if (GoalType == GOAL_GOLDEN_DIVA) {
+        W4ItemStatus[PassageID][InPassageLevelID] |= new_status;
+        return;
+    } else {
+        LastCollectedBox = (current_status >> 8) ^ new_status;
+        W4ItemStatus[PassageID][InPassageLevelID] |= new_status << 8;
+    }
 
     if (LastCollectedBox) {
         MultiworldState = MW_TEXT_FOUND_BOSS_ITEMS;
