@@ -16,7 +16,7 @@ typedef enum {
 extern u16 ReceivedItemCount;
 extern u8 IncomingItemID;
 extern u8 MultiworldState;
-extern u8 IncomingItemSender[17];
+extern u8 IncomingItemSender[2 * 16 + sizeof(" ()")];
 extern u8 TextTimer;
 extern u8 VblkStatus;
 

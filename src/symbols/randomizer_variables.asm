@@ -17,35 +17,35 @@
 ; 3 = Displaying text after collecting someone else's item
 .definelabel MultiworldState, UnusedRamStart + 1  ; byte
 
-.definelabel IncomingItemSender, UnusedRamStart + 2 ; 17 bytes
+.definelabel IncomingItemSender, UnusedRamStart + 2 ; 36 bytes
 
 ; The jewel piece or CD that you've most recently received or grabbed from a box
-.definelabel LastCollectedItemID, UnusedRamStart + 19  ; byte
+.definelabel LastCollectedItemID, UnusedRamStart + 38  ; byte
 ; Same values as "Has X" variables
-.definelabel LastCollectedItemStatus, UnusedRamStart + 20  ; byte
+.definelabel LastCollectedItemStatus, UnusedRamStart + 39  ; byte
 
-.definelabel TextTimer, UnusedRamStart + 21  ; byte
+.definelabel TextTimer, UnusedRamStart + 40  ; byte
 
 ; Indicates which icon is next to be selected and changed when a box is opened
 ; with treasure in it. Loops around four values, values of upper six bits
 ; unspecified and ignored.
-.definelabel CurrentJewelIconPosition, UnusedRamStart + 22  ; byte
+.definelabel CurrentJewelIconPosition, UnusedRamStart + 41  ; byte
 
 ; Tracks what abilities you've found in this level but haven't properly
 ; collected yet.
-.definelabel AbilitiesInThisLevel, UnusedRamStart + 23  ; byte
+.definelabel AbilitiesInThisLevel, UnusedRamStart + 42  ; byte
 
 ; Extends the existing box system to include full health boxes
-.definelabel HasFullHealthItem, UnusedRamStart + 24  ; byte
+.definelabel HasFullHealthItem, UnusedRamStart + 43  ; byte
 
 ; Pinball Zone has an extra one
-.definelabel HasFullHealthItem2, UnusedRamStart + 25  ; byte
+.definelabel HasFullHealthItem2, UnusedRamStart + 44  ; byte
 
-.definelabel LastCollectedBox, UnusedRamStart + 26  ; byte
+.definelabel LastCollectedBox, UnusedRamStart + 45  ; byte
 
-.definelabel VblkStatus, UnusedRamStart + 27  ; byte
+.definelabel VblkStatus, UnusedRamStart + 46  ; byte
 
-.definelabel QueuedJunk, UnusedRamStart + 28  ; bytes
+.definelabel QueuedJunk, UnusedRamStart + 48  ; bytes
     .definelabel QueuedFullHealthItem, QueuedJunk + 0
     .definelabel QueuedFormTraps, QueuedJunk + 1
     .definelabel QueuedHearts, QueuedJunk + 2
