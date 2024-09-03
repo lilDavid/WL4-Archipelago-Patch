@@ -23,11 +23,12 @@ void LevelSelect_InitIcons() {
             2 * 16 * sizeof(u16));
 
     if (GoalType == GOAL_TREASURE_HUNT || GoalType == GOAL_DIVA_HUNT) {
+        u16 goal_chest = GoalType == GOAL_DIVA_HUNT ? 32 : 0;
         u16* top = (u16*) 0x600C000;
-        top[0] = 0xD10A;
-        top[1] = 0xD10B;
-        top[32] = 0xD12A;
-        top[33] = 0xD12B;
+        top[0] = 0xD0C0 + goal_chest;
+        top[1] = 0xD0C1 + goal_chest;
+        top[32] = 0xD0C2 + goal_chest;
+        top[33] = 0xD0C3 + goal_chest;
         for (int i = 0; i < 5; i++) {
             top[i + 2] = 0xE100 + i;
             top[i + 34] = 0xE120 + i;
@@ -75,7 +76,9 @@ void LevelSelect_InitIcons() {
         }
 
         // Copy treasure chest palette
-        dmaCopy((void*) 0x83B29B0, &BG_PALETTE[16 * 13], 16 * sizeof(u16));
+        dmaCopy((void*) (GoalType == GOAL_DIVA_HUNT ? 0x83B14F0 : 0x83B29B0),
+                &BG_PALETTE[16 * 13],
+                16 * sizeof(u16));
     }
 
     // Replaced code
