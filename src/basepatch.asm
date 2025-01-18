@@ -10,8 +10,13 @@ UnusedRomStart equ 0x0878F97C
 .include "src/symbols/vanilla_labels.asm"
 .include "src/symbols/randomizer_variables.asm"
 
-ABILITY_MAX equ 5
+JUNK_MAX equ 5
 ITEM_NONE equ 0xFF
+
+PASSAGES equ 6
+LEVELS_PER_PASSAGE equ 5
+CHECKS_PER_LEVEL equ (4 + 1 + 2)  ; 4 gem pieces, up to 1 CD, up to 2 health refills
+TOTAL_LOCATIONS equ (PASSAGES * LEVELS_PER_PASSAGE * CHECKS_PER_LEVEL)
 
 ; Allocate space at ROM end
 .org UnusedRomStart
@@ -25,12 +30,12 @@ ITEM_NONE equ 0xFF
 
     ; Location setup
     .align 4
-    ItemLocationTable:              .fill 6 * 5 * 7,     ITEM_NONE
+    ItemLocationTable:              .fill TOTAL_LOCATIONS,     ITEM_NONE
     .align 4
-    ItemExtDataTable:               .fill 6 * 5 * 7 * 4, 0
-    StartingInventoryItemStatus:    .fill 6 * 6,         0
-    StartingInventoryJunkCounts:    .fill ABILITY_MAX,   0
-    StartingInventoryWarioAbilities:               .byte 0
+    ItemExtDataTable:               .fill TOTAL_LOCATIONS * 4, 0
+    StartingInventoryItemStatus:    .fill PASSAGES * 6,        0
+    StartingInventoryJunkCounts:    .fill JUNK_MAX,            0
+    StartingInventoryWarioAbilities:                     .byte 0
 
     ; Settings
     SendMultiworldItemsImmediately: .byte 0
