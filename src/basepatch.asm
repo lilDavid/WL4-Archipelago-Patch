@@ -15,7 +15,7 @@ ITEM_NONE equ 0xFF
 
 PASSAGES equ 6
 LEVELS_PER_PASSAGE equ 5
-CHECKS_PER_LEVEL equ (4 + 1 + 2)  ; 4 gem pieces, up to 1 CD, up to 2 health refills
+CHECKS_PER_LEVEL equ (4 + 1 + 2 + 11)  ; 4 gem pieces, up to 1 CD, up to 2 health refills, up to 11 diamonds
 TOTAL_LOCATIONS equ (PASSAGES * LEVELS_PER_PASSAGE * CHECKS_PER_LEVEL)
 
 ; Allocate space at ROM end

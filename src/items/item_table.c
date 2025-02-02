@@ -7,6 +7,7 @@
 #include "item_table.h"
 #include "graphics.h"
 #include "randomizer.h"
+#include "wario.h"
 
 
 u8 ItemInCurrentLevel(u32 boxtype) {
@@ -20,7 +21,7 @@ const ExtData* ExtDataInCurrentLevel(u32 boxtype) {
 static void GiveItem_Gem(u8 item_id);
 static void GiveItem_CD(u8 item_id);
 static void GiveItem_Ability(u8 item_id);
-static void GiveItem_Junk(u8 item_id);
+static void GiveItem_JunkQueue(u8 item_id);
 static void GiveItem_Treasure(u8 item_id);
 
 void GiveItem(u8 item_id, const ExtData* multiworld) {
@@ -36,9 +37,61 @@ void GiveItem(u8 item_id, const ExtData* multiworld) {
         case ITEMTYPE_GEM:      GiveItem_Gem(item_id); break;
         case ITEMTYPE_CD:       GiveItem_CD(item_id); break;
         case ITEMTYPE_ABILITY:  GiveItem_Ability(item_id); break;
-        case ITEMTYPE_JUNK:     GiveItem_Junk(item_id); break;
         case ITEMTYPE_TREASURE: GiveItem_Treasure(item_id); break;
-        default:                break;
+        case ITEMTYPE_JUNK:
+            GiveItem_JunkQueue(item_id);
+            if (item_id == ITEM_MINIGAME_COIN)
+                MiniGameCoinNum += 1;
+            if (item_id == ITEM_DIAMOND)
+                iGmTotalScore += 100;
+            break;
+        default:
+            break;
+    }
+}
+
+void GiveItem_LevelEnd(u8 item_id, const ExtData* multiworld) {
+    if (item_id == ITEM_NONE)
+        return;
+
+    if (multiworld != NULL)
+        return;
+
+    switch (Item_GetType(item_id)) {
+        case ITEMTYPE_GEM:      GiveItem_Gem(item_id); break;
+        case ITEMTYPE_CD:       GiveItem_CD(item_id); break;
+        case ITEMTYPE_ABILITY:  GiveItem_Ability(item_id); break;
+        case ITEMTYPE_TREASURE: GiveItem_Treasure(item_id); break;
+        case ITEMTYPE_JUNK:
+            GiveItem_JunkQueue(item_id);
+            if (item_id == ITEM_MINIGAME_COIN)
+                MiniGameCoinNum += 1;
+            break;
+        default:
+            break;
+    }
+}
+
+void GiveItem_InGame(u8 item_id, const ExtData* multiworld) {
+    if (item_id == ITEM_NONE)
+        return;
+
+    if (multiworld != NULL)
+        return;
+
+    switch (Item_GetType(item_id)) {
+        case ITEMTYPE_GEM:      GiveItem_Gem(item_id); break;
+        case ITEMTYPE_CD:       GiveItem_CD(item_id); break;
+        case ITEMTYPE_ABILITY:  GiveItem_Ability(item_id); break;
+        case ITEMTYPE_TREASURE: GiveItem_Treasure(item_id); break;
+        case ITEMTYPE_JUNK:
+            GiveItem_JunkQueue(item_id);
+            if (item_id != ITEM_DIAMOND)
+                break;
+            GmStScoreCalc(100);
+            TOptObjSet(Wario.usPosY, Wario.usPosX, 4);
+        default:
+            break;
     }
 }
 
@@ -75,7 +128,7 @@ static void GiveItem_Ability(u8 item_id) {
     WarioAbilities |= (1 << ability);
 }
 
-static void GiveItem_Junk(u8 item_id) {
+static void GiveItem_JunkQueue(u8 item_id) {
     switch (item_id) {
         case ITEM_FULL_HEALTH_ITEM:
             QueuedFullHealthItem = 1;
@@ -94,9 +147,6 @@ static void GiveItem_Junk(u8 item_id) {
                 QueuedLightningTraps = 1;
             else
                 QueuedLightningTraps += 1;
-            break;
-        case ITEM_MINIGAME_COIN:
-            MiniGameCoinNum += 1;
             break;
     }
 }

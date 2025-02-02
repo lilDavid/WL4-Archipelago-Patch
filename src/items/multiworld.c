@@ -23,6 +23,8 @@ void ItemReceivedFeedbackSound(u8 item_id) {
             break;
         case ITEMTYPE_JUNK:
             if (item_id == ITEM_MINIGAME_COIN) m4aSongNumStart(SE_MINIGAME_COIN_GET);
+            // TODO: Underwater
+            if (item_id == ITEM_DIAMOND) m4aSongNumStart(SE_DIAMOND_GET);
             break;
         default:
             break;

@@ -18,6 +18,8 @@
 .definelabel Scbuf_ucSeq, 0x3000BE3
 .definelabel Scbuf_ucWork0, 0x3000BE4
 .definelabel Scbuf_usPosX, 0x3000BEA
+.definelabel iGmTotalScore, 0x3000BF4
+.definelabel iGmStageScore, 0x3000BF8
 .definelabel Has1stGemPiece, 0x3000C07
 .definelabel Has2ndGemPiece, 0x3000C08
 .definelabel Has3rdGemPiece, 0x3000C09
@@ -72,6 +74,7 @@
 .definelabel AutoSave_ExRead_Work, 0x8073A18
 .definelabel SramBackup_Auto_Write, 0x8073880
 .definelabel ItemGetFlgSet_LoadSavestateInfo2RAM, 0x8075B50
+.definelabel GmStScoreCalc, 0x8076658
 .definelabel TOptObjSet, 0x80766E8
 .definelabel WarioCoinSet, 0x80768B8
 .definelabel TKakeraComp_SE_Set, 0x8078D60
@@ -102,6 +105,7 @@
 .definelabel takara_Anm_05, 0x83B4C30
 .definelabel zako_takara_box_Anm_02, 0x83B4F34
 .definelabel zako_takara_box_Anm_11, 0x83B5004
+.definelabel DiamondAnm, 0x83B62AC
 .definelabel CommonRoomEntityPalettes4, 0x8400A68
 .definelabel EmptyCDTile, 0x8400FA8
 .definelabel HasCDTile, 0x8404648

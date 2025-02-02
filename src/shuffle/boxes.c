@@ -25,6 +25,7 @@ u32 GetHeartBoxID() {
 
 extern TAnmDef zako_takara_box_Anm_02[];
 extern TAnmDef zako_takara_box_Anm_11[];
+extern TAnmDef DiamondAnm[];
 
 // Check if this box has been opened before and release the item if it has.
 // Unless it contains a junk item, in which case always open it.
@@ -111,6 +112,10 @@ void LoadRandomItemAnimation() {
                 case ITEM_MINIGAME_COIN:
                     animation = RandomItemTilesCreate(MinigameCoinTiles, MinigameCoinTiles + 2);
                     SetTreasurePalette(PAL_MINGAME_COIN);
+                    break;
+                case ITEM_DIAMOND:
+                    animation = DiamondAnm;
+                    CurrentEnemyData.YPos += 48;
                     break;
                 default:
                     animation = EmptyAnm;
@@ -209,6 +214,14 @@ void CollectRandomItem() {
                 case ITEM_HEART: GiveWarioHearts(1); break;
                 case ITEM_LIGHTNING_TRAP: GiveLightningTrap(); break;
                 case ITEM_MINIGAME_COIN: m4aSongNumStart(SE_MINIGAME_COIN_GET); break;
+                case ITEM_DIAMOND:
+                    GmStScoreCalc(100);
+                    TOptObjSet(CurrentEnemyData.YPos - 100, CurrentEnemyData.XPos - 64, 4);
+                    if (Wario.ucReact == REACT_WATER)
+                        m4aSongNumStart(SE_DIAMOND_GET_UNDERWATER);
+                    else
+                        m4aSongNumStart(SE_DIAMOND_GET);
+                    break;
             }
             return;
         case ITEMTYPE_ABILITY:

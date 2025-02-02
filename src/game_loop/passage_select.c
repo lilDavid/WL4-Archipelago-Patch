@@ -62,6 +62,11 @@ static const TObjDef msgFullHealthItem = {
     { ANM_OBJ(-8,  -4, ATTR0_SQUARE, ATTR1_SIZE_16, 0x200, 15, 0),
       ANM_OBJ(-8, -12, ATTR0_WIDE,   ATTR1_SIZE_8,  0x202, 15, 0) }
 };
+static const TObjDef msgDiamond = {
+    2,
+    { ANM_OBJ(-16, -12, ATTR0_WIDE, ATTR1_SIZE_32, 0x202, 15, 0),
+      ANM_OBJ( -8,   4, ATTR0_WIDE, ATTR1_SIZE_8,  0x200, 15, 0) }
+};
 static const TObjDef msgWarioFormTrap = {
     3,
     { ANM_OBJ(-12, -12, ATTR0_SQUARE, ATTR1_SIZE_16, 0x200, 15, 0),
@@ -84,6 +89,8 @@ static const TObjDef* PassageSelect_GetItemSprite(u8 item_id) {
                 case ITEM_HEART:
                 case ITEM_MINIGAME_COIN:
                     return &msgSmallItem;
+                case ITEM_DIAMOND:
+                    return &msgDiamond;
                 case ITEM_WARIO_FORM_TRAP:
                     return &msgWarioFormTrap;
                 case ITEM_LIGHTNING_TRAP:
@@ -208,6 +215,15 @@ void PassageSelect_SpriteCopy(u8 item_id) {
                     dmaCopy(MinigameCoinTiles + 2,
                             item_dest + TILE_OFFSET(0, 1),
                             2 * sizeof(Tile4bpp));
+                    break;
+
+                case ITEM_DIAMOND:
+                    dmaCopy(CommonRoomEntityPalettes4[1],  // normally OBP5
+                            palette_dest,
+                            16 * sizeof(u16));
+                    dmaCopy(BasicElementTiles + TILE_OFFSET(8, 5),
+                            item_dest,
+                            38 * sizeof(Tile4bpp));
                     break;
 
                 case ITEM_WARIO_FORM_TRAP:

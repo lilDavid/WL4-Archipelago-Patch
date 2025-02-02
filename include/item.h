@@ -21,7 +21,18 @@ typedef enum {
     ISB_CD = 1 << 4,
     ISB_KEYZER = 1 << 5,
     ISB_HEART = 1 << 6,
-    ISB_HEART2 = 1 << 7
+    ISB_HEART2 = 1 << 7,
+    ISB_DIAMOND1 = 1 << 8,
+    ISB_DIAMOND2 = 1 << 9,
+    ISB_DIAMOND3 = 1 << 10,
+    ISB_DIAMOND4 = 1 << 11,
+    ISB_DIAMOND5 = 1 << 12,
+    ISB_DIAMOND6 = 1 << 13,
+    ISB_DIAMOND7 = 1 << 14,
+    ISB_DIAMOND8 = 1 << 15,
+    ISB_DIAMOND9 = 1 << 16,
+    ISB_DIAMOND10 = 1 << 17,
+    ISB_DIAMOND11 = 1 << 18,
 } ItemStatusBit;
 
 typedef enum {
@@ -56,6 +67,7 @@ typedef enum {
     JUNK_HEART,
     JUNK_LIGHTNING_TRAP,
     JUNK_MINIGAME_COIN,
+    JUNK_DIAMOND,
     JUNK_MAX,
 } JunkItem;
 
@@ -85,6 +97,7 @@ typedef enum {
     ITEM_HEART            = ITEM_JUNK(JUNK_HEART),
     ITEM_LIGHTNING_TRAP   = ITEM_JUNK(JUNK_LIGHTNING_TRAP),
     ITEM_MINIGAME_COIN    = ITEM_JUNK(JUNK_MINIGAME_COIN),
+    ITEM_DIAMOND          = ITEM_JUNK(JUNK_DIAMOND),
 
     ITEM_AP_FILLER        = ITEM_AP(AP_IC_FILLER),
     ITEM_AP_PROGRESSION   = ITEM_AP(AP_IC_PROGRESSION),
@@ -99,6 +112,7 @@ extern const u16 AbilityPaletteTable[];
 extern u32 W4ItemStatus[PASSAGE_MAX][LEVEL_MAX];
 extern u8 WarioAbilities;
 extern u16 MiniGameCoinNum;
+extern s32 iGmTotalScore;
 
 extern u8 LastCollectedItemID;
 extern u8 LastCollectedItemStatus;

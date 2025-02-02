@@ -35,7 +35,7 @@ static void GameMain_CollectMultiworld() {
         return;
 
     TextTimer = 120;
-    GiveItem(item_id, NULL);
+    GiveItem_InGame(item_id, NULL);
     VblkStatus |= VBLK_MAIN_UPDATE_TEXT;
     ItemReceivedFeedbackSound(item_id);
 

@@ -24,6 +24,7 @@ void CreateStartingInventory() {
     QueuedHearts = StartingInventoryJunkCounts[JUNK_HEART];
     QueuedLightningTraps = StartingInventoryJunkCounts[JUNK_LIGHTNING_TRAP];
     MiniGameCoinNum = StartingInventoryJunkCounts[JUNK_MINIGAME_COIN];
+    iGmTotalScore = StartingInventoryJunkCounts[JUNK_DIAMOND] * 100;
 
     WarioAbilities = StartingInventoryWarioAbilities;
 }
@@ -45,9 +46,7 @@ void CheckLocations() {
         W4ItemStatus[PassageID][InPassageLevelID] |= 1 << (8 + i);
         int item_id = ItemInCurrentLevel(i);
         const ExtData* multiworld_data = ExtDataInCurrentLevel(i);
-        if (!((Item_GetType(item_id) == ITEMTYPE_JUNK && item_id != ITEM_MINIGAME_COIN) &&
-              multiworld_data == NULL))
-            GiveItem(item_id, multiworld_data);
+        GiveItem_LevelEnd(item_id, multiworld_data);
     }
 
     if (HasKeyzer) {
@@ -60,9 +59,7 @@ void CheckLocations() {
         W4ItemStatus[PassageID][InPassageLevelID] |= 1 << (8 + i + 1);
         int item_id = ItemInCurrentLevel(i);
         const ExtData* multiworld_data = ExtDataInCurrentLevel(i);
-        if (!((Item_GetType(item_id) == ITEMTYPE_JUNK && item_id != ITEM_MINIGAME_COIN) &&
-              multiworld_data == NULL))
-            GiveItem(item_id, multiworld_data);
+        GiveItem_LevelEnd(item_id, multiworld_data);
     }
 }
 

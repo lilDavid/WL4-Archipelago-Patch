@@ -12,6 +12,7 @@ typedef enum {
     ENTITY_BOX_GEM4 = 0x03,
     ENTITY_BOX_CD = 0x04,
     ENTITY_BOX_HEART = 0x05,
+    ENTITY_DIAMOND = 0x06,
     // ...
     ENTITY_TREASURE_GEM1 = 0x86,
     ENTITY_TREASURE_GEM2 = 0x87,

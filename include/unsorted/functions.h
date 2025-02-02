@@ -14,6 +14,7 @@ LONGCALL u16 MiniRandomCreate(void);
 LONGCALL void EnemyChildSet(u8, u8, u8, s16, s16);
 LONGCALL void EntityAI_INITIAL_takara_kakera(void);
 
+LONGCALL void GmStScoreCalc(u32);
 LONGCALL void TOptObjSet(u16, u16, u8);
 
 LONGCALL void MojiCreate(const u8*, u32, u8);
