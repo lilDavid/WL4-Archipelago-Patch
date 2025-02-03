@@ -63,7 +63,6 @@ void GiveItem_LevelEnd(u8 item_id, const ExtData* multiworld) {
         case ITEMTYPE_ABILITY:  GiveItem_Ability(item_id); break;
         case ITEMTYPE_TREASURE: GiveItem_Treasure(item_id); break;
         case ITEMTYPE_JUNK:
-            GiveItem_JunkQueue(item_id);
             if (item_id == ITEM_MINIGAME_COIN)
                 MiniGameCoinNum += 1;
             break;
@@ -86,10 +85,11 @@ void GiveItem_InGame(u8 item_id, const ExtData* multiworld) {
         case ITEMTYPE_TREASURE: GiveItem_Treasure(item_id); break;
         case ITEMTYPE_JUNK:
             GiveItem_JunkQueue(item_id);
-            if (item_id != ITEM_DIAMOND)
-                break;
-            GmStScoreCalc(100);
-            TOptObjSet(Wario.usPosY, Wario.usPosX, 4);
+            if (item_id == ITEM_DIAMOND) {
+                GmStScoreCalc(100);
+                TOptObjSet(Wario.usPosY, Wario.usPosX, 4);
+            }
+            break;
         default:
             break;
     }
