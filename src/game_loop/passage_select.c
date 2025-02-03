@@ -152,7 +152,7 @@ static void PassageSelect_RandoVblk(void) {
     if (TextTimer == 0) {
         if (usTrg_KeyPress1Frame & KEY_A) {
             m4aSongNumStart(SE_CONFIRM);
-            if (MultiworldState == MW_TEXT_RECEIVED_ITEM || (LastCollectedBox & 0xF) == 0) {
+            if (MultiworldState == MW_TEXT_RECEIVED_ITEM || (CollectedItems & 0xF) == 0) {
                 LoadPyramidBG3();
                 MultiworldState = MW_IDLE;
             } else {
@@ -339,11 +339,11 @@ static const u8* PaddedBossNames[] = {
 };
 
 static void PassageSelect_ShowFoundBossItem() {
-    int passage = LastCollectedBox >> 4;
+    int passage = CollectedItems >> 4;
     int chest;
     for (chest = 0; chest < 3; chest++) {
-        if (LastCollectedBox & (1 << chest)) {
-            LastCollectedBox &= ~(1 << chest);
+        if (CollectedItems & (1 << chest)) {
+            CollectedItems &= ~(1 << chest);
             break;
         }
     }

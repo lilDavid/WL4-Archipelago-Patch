@@ -3,6 +3,7 @@
 #include <gba.h>
 
 #include "unsorted/types.h"
+#include "graphics.h"
 #include "item.h"
 
 typedef enum {
@@ -13,8 +14,7 @@ typedef enum {
     BOX_CD,
     BOX_HEART,
     BOX_HEART2,
-    BOX_MAX,
-    DIAMOND_1 = BOX_MAX,
+    DIAMOND_1,
     DIAMOND_2,
     DIAMOND_3,
     DIAMOND_4,
@@ -47,11 +47,11 @@ extern const u8 StartingInventoryJunkCounts[JUNK_MAX];
 extern const u8 StartingInventoryWarioAbilities;
 
 
-extern u8* boxPosessionVariables[BOX_MAX];
+extern u8* boxPosessionVariables[BOX_CD + 1];
 #define HAS_BOX(box) (*boxPosessionVariables[box])
-extern u8 BoxContents[BOX_MAX];
-extern const ExtData* BoxExtData[BOX_MAX];
-extern u8 LastCollectedBox;
+extern u8 LastCollectedItemIndex;
+extern u32 CollectedItems;
+extern u32 CollectedItemsCopy;
 
 u8 ItemInCurrentLevel(u32 boxtype);
 const ExtData* ExtDataInCurrentLevel(u32 boxtype);
@@ -61,3 +61,7 @@ void GiveItem(u8 item_id, const ExtData* ext_data);
 void GiveItem_InGame(u8 item_id, const ExtData* ext_data);
 void GiveItem_LevelEnd(u8 item_id, const ExtData* ext_data);
 void SpawnCollectionIndicator(u32 is_cd, u32 is_permanent);
+
+u8 HasItemInLevel(u8 index);
+const TAnmDef* ItemLoadInGameGraphics(u8 index);
+void CollectItemInLevel(u8 index);

@@ -136,18 +136,17 @@ void GameMain_ReceivedTextVBlk() {
                 break;
 
             case MW_TEXT_SENDING_ITEM: {
-                int box_type = LastCollectedBox;
-                int item_id = BoxContents[box_type];
-                const ExtData* multi = BoxExtData[box_type];
+                int item_index = LastCollectedItemIndex;
+                u32 item_id = ItemInCurrentLevel(item_index);
+                const ExtData* multi = ExtDataInCurrentLevel(item_index);
 
                 Tile4bpp* tiles1 = (Tile4bpp*) 0x6012180;  // Row of 12
                 Tile4bpp* tiles2 = (Tile4bpp*) 0x6012600;  // Row of 8
                 Tile4bpp* tiles3 = (Tile4bpp*) 0x6012A00;  // Row of 8
                 if (SendMultiworldItemsImmediately) {
-                    const ExtData* multi = BoxExtData[box_type];
-                    if (box_type > BOX_CD)
-                        box_type += 1;
-                    W4ItemStatus[PassageID][InPassageLevelID] |= (1 << (box_type + 8));
+                    if (item_index > BOX_CD)
+                        item_index += 1;
+                    W4ItemStatus[PassageID][InPassageLevelID] |= (1 << (item_index + 8));
 
                     // Sent to <Player name>
                     const u8* namebytes = multi->receiver;

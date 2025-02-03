@@ -29,10 +29,7 @@ void CreateStartingInventory() {
     WarioAbilities = StartingInventoryWarioAbilities;
 }
 
-u8* boxPosessionVariables[BOX_MAX] = {
-    &Has1stGemPiece, &Has2ndGemPiece, &Has3rdGemPiece, &Has4thGemPiece,
-    &HasCD, &HasFullHealthItem, &HasFullHealthItem2
-};
+u8* boxPosessionVariables[BOX_CD + 1] = { &Has1stGemPiece, &Has2ndGemPiece, &Has3rdGemPiece, &Has4thGemPiece, &HasCD };
 
 
 // The boxes you've checked are in the second byte of the item status word.
@@ -40,10 +37,12 @@ u8* boxPosessionVariables[BOX_MAX] = {
 // so this data is handled all in the same place.
 
 void CheckLocations() {
-    for (int i = 0; i <= BOX_CD; i++) {
-        if (HAS_BOX(i) != 1)
+    CollectedItems &= ~(W4ItemStatus[PassageID][InPassageLevelID] >> 8);
+
+    for (int i = BOX_GEM1; i < LOCATION_MAX; i++) {
+        int flag = i + (i > BOX_CD);
+        if (!(CollectedItems & (1 << flag)))
             continue;
-        W4ItemStatus[PassageID][InPassageLevelID] |= 1 << (8 + i);
         int item_id = ItemInCurrentLevel(i);
         const ExtData* multiworld_data = ExtDataInCurrentLevel(i);
         GiveItem_LevelEnd(item_id, multiworld_data);
@@ -53,14 +52,7 @@ void CheckLocations() {
         W4ItemStatus[PassageID][InPassageLevelID] |= ISB_KEYZER;
     }
 
-    for (int i = BOX_HEART; i < BOX_MAX; i++) {
-        if (HAS_BOX(i) != 1)
-            continue;
-        W4ItemStatus[PassageID][InPassageLevelID] |= 1 << (8 + i + 1);
-        int item_id = ItemInCurrentLevel(i);
-        const ExtData* multiworld_data = ExtDataInCurrentLevel(i);
-        GiveItem_LevelEnd(item_id, multiworld_data);
-    }
+    W4ItemStatus[PassageID][InPassageLevelID] |= CollectedItems << 8;
 }
 
 void CheckBossLocations() {
@@ -83,22 +75,22 @@ void CheckBossLocations() {
         W4ItemStatus[PassageID][InPassageLevelID] |= new_status;
         return;
     } else {
-        LastCollectedBox = (current_status >> 8) ^ new_status;
+        CollectedItems = (current_status >> 8) ^ new_status;
         W4ItemStatus[PassageID][InPassageLevelID] |= new_status << 8;
     }
 
-    if (LastCollectedBox) {
+    if (CollectedItems) {
         MultiworldState = MW_TEXT_FOUND_BOSS_ITEMS;
         TextTimer = 15;
         VblkStatus = VBLK_DMAP_UPDATE;
-        LastCollectedBox |= PassageID << 4;
+        CollectedItems |= PassageID << 4;
     } else {
         return;
     }
 
     for (int i = 0; i < 3; i++) {
         int flag = (1 << i);
-        if (!(LastCollectedBox & flag))
+        if (!(CollectedItems & flag))
             continue;
 
         int item = ItemLocationTable[PassageID][InPassageLevelID][i];
@@ -121,14 +113,9 @@ void SetItemCollection() {
     } else {
         HasKeyzer = 0;
     }
-    for (int i = BOX_HEART; i < BOX_MAX; i++) {
-        int has_item = item_status & (1 << (8 + i + 1));
-        if (has_item)
-            has_item = 3;
-        HAS_BOX(i) = has_item;
-    }
 
     AbilitiesInThisLevel = 0;
+    CollectedItems = item_status >> 8;
 }
 
 

@@ -10,7 +10,7 @@ UnusedRomStart equ 0x0878F97C
 .include "src/symbols/vanilla_labels.asm"
 .include "src/symbols/randomizer_variables.asm"
 
-JUNK_MAX equ 5
+JUNK_MAX equ 6
 ITEM_NONE equ 0xFF
 
 PASSAGES equ 6
@@ -42,6 +42,7 @@ TOTAL_LOCATIONS equ (PASSAGES * LEVELS_PER_PASSAGE * CHECKS_PER_LEVEL)
     GoalType:                       .byte 0
     GoldenTreasuresNeeded:          .byte 0
     TrapBehavior:                   .byte 0
+    DiamondShuffle:                 .byte 0
     .thumb
 .endregion
 
@@ -57,6 +58,7 @@ TOTAL_LOCATIONS equ (PASSAGES * LEVELS_PER_PASSAGE * CHECKS_PER_LEVEL)
 .importobj "obj/items/multiworld.o"
 .importobj "obj/items/collect_junk.o"
 .importobj "obj/items/collection_indicator.o"
+.importobj "obj/shuffle/item_collect.o"
 .importobj "obj/shuffle/boxes.o"
 .importobj "obj/shuffle/save_data.o"
 .importobj "obj/shuffle/golden_treasure_hunt.o"

@@ -10,12 +10,12 @@
 #include "wario.h"
 
 
-u8 ItemInCurrentLevel(u32 boxtype) {
-    return ItemLocationTable[PassageID][InPassageLevelID][boxtype];
+u8 ItemInCurrentLevel(u32 flag) {
+    return ItemLocationTable[PassageID][InPassageLevelID][flag];
 }
 
-const ExtData* ExtDataInCurrentLevel(u32 boxtype) {
-    return ItemExtDataTable[PassageID][InPassageLevelID][boxtype];
+const ExtData* ExtDataInCurrentLevel(u32 flag) {
+    return ItemExtDataTable[PassageID][InPassageLevelID][flag];
 }
 
 static void GiveItem_Gem(u8 item_id);

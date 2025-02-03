@@ -70,6 +70,7 @@ extern const Tile4bpp MinigameCoinTiles[4];
 
 extern const TAnmDef takara_Anm_00[];  // CD
 extern const TAnmDef takara_Anm_01[];  // Full health item
+extern const TAnmDef DiamondAnm[];
 extern const TAnmDef Item1Anm[];
 extern const TAnmDef Item2Anm[];
 extern const TAnmDef HeartAnm[];

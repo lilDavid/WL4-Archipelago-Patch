@@ -66,9 +66,6 @@ typedef struct {
     /* 0x2B */ u8 padding;
 } EnemyDataStructure; /* size = 0x2C */
 
-typedef struct {
-    u8 data[0x40];
-} EntityStateSlotInRoom; /* size = 0x40 */
 
 extern EnemyDataStructure CurrentEnemyData;
-extern EntityStateSlotInRoom EntityLeftOverStateList[16];
+extern u8 EntityLeftOverStateList[16][64];
