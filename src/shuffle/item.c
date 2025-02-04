@@ -1,5 +1,7 @@
 #include <gba.h>
 
+#include "unsorted/macros.h"
+#include "unsorted/variables.h"
 #include "entity.h"
 #include "item_table.h"
 #include "multiworld.h"
@@ -76,9 +78,14 @@ const TAnmDef* ItemLoadInGameGraphics(u8 index) {
         case ITEMTYPE_CD:
             SetTreasurePalette((item_id >> 2) & 7);
             return takara_Anm_00;
-        case ITEMTYPE_TREASURE:
+        case ITEMTYPE_TREASURE: {
+            u16* palette;
+            if ((GlobalGameMode == 2 || GlobalGameMode == 8) && (sGameSeq == 2 || sGameSeq == 8))
+                palette = &SPRITE_PALETTE[1 * 16];
+            else
+                palette = &SPRITE_PALETTE_EWRAM[1 * 16];
             dmaCopy(GoldenTreasurePalette,
-                    &SPRITE_PALETTE[1 * 16],
+                    palette,
                     16 * sizeof(u16));
             dmaCopy(GoldenTreasureTiles[item_id & 0xF],
                     (Tile4bpp*) 0x6011C40,
@@ -93,6 +100,7 @@ const TAnmDef* ItemLoadInGameGraphics(u8 index) {
                     (Tile4bpp*) 0x60120C0,
                     4 * sizeof(Tile4bpp));
             return GoldenTreasureAnm;
+        }
         default:
             return NULL;
     }
