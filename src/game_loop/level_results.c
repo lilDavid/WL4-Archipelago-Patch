@@ -21,7 +21,6 @@ static u32 GotItem(u8 index) {
 // show, indicate start fading the results screen.
 u32 LevelResults_ShowNextItem() {
     usMojiCount = 1000;  // Fixed text position (?)
-    CollectedItemsCopy = CollectedItems;
 
     for (int i = 0; i < LOCATION_MAX; i++) {
         int has_item = GotItem(i);
