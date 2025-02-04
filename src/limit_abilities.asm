@@ -54,7 +54,7 @@ hook_manual 0x8015FC4, 0x8015FE8, LimitWarioAbility_Swim_Surfaced     ; WarKeySw
 hook_manual 0x8016114, 0x801611C, LimitWarioAbility_Swim_FloatingB    ; WarKeySwStop()
 hook_manual 0x801615C, 0x801618C, LimitWarioAbility_Swim_FloatingD    ; WarKeySwStop()
 hook_manual 0x801624A, 0x8016254, LimitWarioAbility_Swim_GroundPound  ; WarKeySwHip()
-hook_manual 0x801640C, 0x8016416, LimitWarioAbility_Swim_Fat          ; WarKeySwFat()
+.org 0x082DEF2C :: .word LimitWarioAbility_Swim_Fat | 1               ; Override function
 
 hook_manual 0x806EE56, 0x806EE60, LimitWarioAbility_HeadSmash         ; WarUpPanel_Attack()
 
@@ -282,24 +282,25 @@ LimitWarioAbility_Swim_GroundPound:
 ; If Fat Wario falls into water and swim isn't unlocked, freeze him in place to
 ; prevent softlocks
 LimitWarioAbility_Swim_Fat:
+        push {lr}
+
+        ldr r0, =0x80163F8 | 1  ; WarKeySwFat()
+        bl @@call
+        mov r3, r0
+
         get_wario_move MoveBit_Swim
-        ldrh r1, [r4, #0xE]
         cmp r0, #0
-        beq @@NoSwim
+        bne @@return
 
-    ; Replaced code
-        mov r3, r2
-        and r3, r1
-        cmp r3, #0
-        beq @@NoSwim
+        ldr r0, =Wario
+        mov r1, #0
+        strh r1, [r0, #0x16]  ; Wario.sMvSpeedX
 
-        ldr r0, =0x8016416
-        mov pc, r0
-
-    @@NoSwim:
-        ldr r0, =0x801643C
-        mov pc, r0
-
+    @@return:
+        mov r0, r3
+        pop {pc}
+    @@call:
+        bx r0
     .pool
 
 
