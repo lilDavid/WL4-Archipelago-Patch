@@ -78,10 +78,18 @@ void LoadRandomItemAnimation() {
     if (item_id == ITEM_DIAMOND)
         CurrentEnemyData.YPos += 48;
 
-    CurrentEnemyData.OAMDataPackPointerForCurrentAnimation = animation;
-    EntityAI_INITIAL_takara_kakera();
-    if (give_immediately)
+    if (give_immediately) {
         CollectRandomItem();
+    } else {
+        CurrentEnemyData.OAMDataPackPointerForCurrentAnimation = animation;
+        CurrentEnemyData.usStatus = (CurrentEnemyData.usStatus & 0xFFFB) | 0x8400;
+        ItemSetHitboxAndDrawDistance(item_id);
+        CurrentEnemyData.GuardAndDamageParam = 6;
+        CurrentEnemyData.RealFrameCountForCurrentAnimationFrame = 0;
+        CurrentEnemyData.CurrentAnimationFrameId = 0;
+        CurrentEnemyData.TWork3 = 0;
+        CurrentEnemyData.CurrentAnimationId = 0x10;
+    }
 }
 
 
@@ -93,5 +101,6 @@ void CollectRandomItem() {
         HAS_BOX(item_index) = 1;
 
     EntityLeftOverStateList[CurrentRoomId][CurrentEnemyData.RoomEntitySlotId] = 0x21;
+    CurrentEnemyData.usStatus = 0;
     CollectItemInLevel(item_index);
 }

@@ -286,6 +286,10 @@ hook_branch 0x802A2B8, 0x802A2C8, 0x802A32E, LoadRandomItemAnimation  ; 0x8A CD
 hook_branch 0x802A378, 0x802A388, 0x802A3E6, LoadRandomItemAnimation  ; 0x8B Full health
 
 
+; Replace diamond sprite AI
+.org 0x878E800 + 6 * 4 :: .word RandoSpriteAI_Diamond | 1
+
+
 ; --------------------- Save data ----------------------
 
 

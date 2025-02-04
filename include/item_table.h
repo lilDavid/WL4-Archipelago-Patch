@@ -65,3 +65,4 @@ void SpawnCollectionIndicator(u32 is_cd, u32 is_permanent);
 u8 HasItemInLevel(u8 index);
 const TAnmDef* ItemLoadInGameGraphics(u8 index);
 void CollectItemInLevel(u8 index);
+void ItemSetHitboxAndDrawDistance(u8 item_id);

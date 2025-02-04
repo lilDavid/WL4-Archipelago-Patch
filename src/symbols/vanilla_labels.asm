@@ -68,10 +68,9 @@
 .definelabel ChangeWarioReact_Fire, 0x801EA3C
 .definelabel ChangeWarioReact_Fat, 0x801EA64
 .definelabel ChangeWarioReact_Frozen, 0x801EB54
-.definelabel EntityAI_INITIAL_takara_kakera, 0x802932C
 .definelabel SpriteAI_Diamond, 0x802C848
-.definelabel Diamond_Main, 0x802C4A8
 .definelabel Diamond_Init, 0x802C434
+.definelabel Diamond_Main, 0x802C4A8
 .definelabel GmapSceneCreate, 0x806C794
 .definelabel PanelPartWork_Broken_Main, 0x806EE98
 .definelabel AutoSave_ExRead_Work, 0x8073A18
