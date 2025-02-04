@@ -120,7 +120,6 @@ void CollectItemInLevel(u8 index) {
     const ExtData* multi = ExtDataInCurrentLevel(index);
 
     if (multi != NULL) {
-        m4aSongNumStart(SE_GEM_GET);
         MultiworldState = MW_TEXT_SENDING_ITEM;
         VblkStatus |= VBLK_MAIN_UPDATE_TEXT;
         TextTimer = 120;

@@ -56,10 +56,12 @@ void SpawnRandomizedItemFromBox() {
         EntityLeftOverStateList[CurrentRoomId][CurrentEnemyData.RoomEntitySlotId] = 0x21;
     }
 
-    if (item_id == ITEM_LIGHTNING_TRAP || item_id == ITEM_WARIO_FORM_TRAP)
-        WarioVoiceSet(WV_HURT);
-    else
+    if (item_id == ITEM_LIGHTNING_TRAP || item_id == ITEM_WARIO_FORM_TRAP || item_id == ITEM_AP_TRAP) {
+        if (multi)
+            WarioVoiceSet(WV_SORRY);
+    } else {
         WarioVoiceSet(WV_TREASURE);
+    }
 }
 
 
@@ -78,6 +80,8 @@ void LoadRandomItemAnimation() {
     if (item_id == ITEM_DIAMOND)
         CurrentEnemyData.YPos += 48;
 
+    CurrentEnemyData.TWork0 = item_index;
+    CurrentEnemyData.TWork1 = item_id;
     if (give_immediately) {
         CollectRandomItem();
     } else {
@@ -94,13 +98,17 @@ void LoadRandomItemAnimation() {
 
 
 void CollectRandomItem() {
-    int item_index = CurrentEnemyData.GlobalId - ENTITY_TREASURE_GEM1;
-    if (CurrentEnemyData.GlobalId == ENTITY_TREASURE_HEART)
-        item_index += GetHeartBoxID();
-    if (item_index <= BOX_CD)
-        HAS_BOX(item_index) = 1;
+    if (CurrentEnemyData.TWork0 <= BOX_CD)
+        HAS_BOX(CurrentEnemyData.TWork0) = 1;
 
     EntityLeftOverStateList[CurrentRoomId][CurrentEnemyData.RoomEntitySlotId] = 0x21;
     CurrentEnemyData.usStatus = 0;
-    CollectItemInLevel(item_index);
+    CollectItemInLevel(CurrentEnemyData.TWork0);
+
+    if (ExtDataInCurrentLevel(CurrentEnemyData.TWork0) &&
+        !(CurrentEnemyData.TWork1 == ITEM_WARIO_FORM_TRAP ||
+          CurrentEnemyData.TWork1 == ITEM_LIGHTNING_TRAP ||
+          CurrentEnemyData.TWork1 == ITEM_AP_TRAP)) {
+        m4aSongNumStart(SE_GEM_GET);
+    }
 }
