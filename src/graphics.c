@@ -29,10 +29,10 @@ const u16 ExtraAbilityPalettes[2][16] = {
 void SetTreasurePalette(u32 palette) {
     const u16* source = PassagePaletteTable[palette];
     u16* destination;
-    if ((GlobalGameMode == 2 || GlobalGameMode == 8) && (sGameSeq == 2 || sGameSeq == 8))
-        destination = &SPRITE_PALETTE[5 * 16 - 5];
-    else
+    if (sGameSeq == 1 && gColorFading.Kind == 2)
         destination = &SPRITE_PALETTE_EWRAM[5 * 16 - 5];
+    else
+        destination = &SPRITE_PALETTE[5 * 16 - 5];
     dmaCopy(source, destination, 5 * sizeof(u16));
 }
 

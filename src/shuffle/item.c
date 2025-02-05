@@ -80,10 +80,10 @@ const TAnmDef* ItemLoadInGameGraphics(u8 index) {
             return takara_Anm_00;
         case ITEMTYPE_TREASURE: {
             u16* palette;
-            if ((GlobalGameMode == 2 || GlobalGameMode == 8) && (sGameSeq == 2 || sGameSeq == 8))
-                palette = &SPRITE_PALETTE[1 * 16];
-            else
+            if (sGameSeq == 1 && gColorFading.Kind == 2)
                 palette = &SPRITE_PALETTE_EWRAM[1 * 16];
+            else
+                palette = &SPRITE_PALETTE[1 * 16];
             dmaCopy(GoldenTreasurePalette,
                     palette,
                     16 * sizeof(u16));

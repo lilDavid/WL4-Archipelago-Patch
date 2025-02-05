@@ -10,6 +10,7 @@
 .definelabel CurrentRoomId, 0x3000024
 .definelabel ucFlashLoop, 0x3000044
 .definelabel ucTimeUp, 0x3000047
+.definelabel gColorFading, 0x30000D0
 .definelabel CurrentEntityInfoList_TEbuf, 0x3000104
 .definelabel EntityLeftOverStateList, 0x3000564
 .definelabel CurrentEnemyData, 0x3000A24

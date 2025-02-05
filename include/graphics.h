@@ -36,6 +36,15 @@ typedef struct {
     u8 unused[3];
 } TAnmDef;
 
+typedef struct {
+    u8 Kind;
+    u8 Cnt;
+    u8 Dat;
+    u8 Dip;
+    u8 DMAf;
+    u8 SW;
+} ColorFading;
+
 
 typedef struct { u8 bytes[0x20]; } Tile4bpp;
 
@@ -82,6 +91,7 @@ extern OBJATTR OamBuf[128];
 
 void OamBuf_AddObj(u16 attr0, u16 attr1, u16 attr2);
 
+extern ColorFading gColorFading;
 
 extern const u16 PassageTreasurePalettes[4][16];
 extern const u16 PassagePaletteTable[PAL_MAX][5];
