@@ -152,10 +152,11 @@ u8 DiamondIdTable[][5] = {
 };
 
 
-// TWork0 = rando item index
-// TWork1 = rando item ID
-// TWork2 = rando item is local
-// TWork3 = index into diamond Y speed table
+#define RANDO_DIAMOND_INDEX CurrentEnemyData.TWork0
+#define RANDO_DIAMOND_ITEM CurrentEnemyData.TWork1
+#define RANDO_DIAMOND_IS_MULTIWORLD CurrentEnemyData.TWork2
+#define DIAMOND_FLOATING_ANIMATION_FRAME CurrentEnemyData.TWork3
+
 
 static u8 DiamondIdentify(void) {
     int x = (CurrentEnemyData.XPos - 0x20) / 0x40;
@@ -205,32 +206,34 @@ static void RandoDiamond_Init(void) {
     CurrentEnemyData.OAMDataPackPointerForCurrentAnimation = animation;
     CurrentEnemyData.RealFrameCountForCurrentAnimationFrame = 0;
     CurrentEnemyData.CurrentAnimationFrameId = 0;
-    CurrentEnemyData.TWork0 = index;
-    CurrentEnemyData.TWork1 = item_id;
-    CurrentEnemyData.TWork2 = multi == NULL;
-    CurrentEnemyData.TWork3 = 0;
+    RANDO_DIAMOND_INDEX = index;
+    RANDO_DIAMOND_ITEM = item_id;
+    RANDO_DIAMOND_IS_MULTIWORLD = multi != NULL;
+    DIAMOND_FLOATING_ANIMATION_FRAME = 0;
     CurrentEnemyData.CurrentAnimationId = 0x10;
     CurrentEnemyData.GuardAndDamageParam = 6;
     CurrentEnemyData.YPos -= 4;
     CurrentEnemyData.XPos += 32;
 
-    if (CurrentEnemyData.TWork1 != ITEM_DIAMOND) {
+    if (RANDO_DIAMOND_ITEM != ITEM_DIAMOND) {
         CurrentEnemyData.YPos -= 64;
     }
 }
 
 static void RandoDiamond_Collect(void) {
     DiamondDespawn();
-    CollectItemInLevel(CurrentEnemyData.TWork0);
-    if (!CurrentEnemyData.TWork2) {
+    CollectItemInLevel(RANDO_DIAMOND_INDEX);
+    if (RANDO_DIAMOND_IS_MULTIWORLD) {
         m4aSongNumStart(SE_GEM_GET);
-        if (CurrentEnemyData.TWork1 == ITEM_WARIO_FORM_TRAP ||
-            CurrentEnemyData.TWork1 == ITEM_LIGHTNING_TRAP ||
-            CurrentEnemyData.TWork1 == ITEM_AP_TRAP) {
+    }
+    if (RANDO_DIAMOND_ITEM == ITEM_WARIO_FORM_TRAP ||
+        RANDO_DIAMOND_ITEM == ITEM_LIGHTNING_TRAP ||
+        RANDO_DIAMOND_ITEM == ITEM_AP_TRAP) {
+        if (RANDO_DIAMOND_IS_MULTIWORLD) {
             WarioVoiceSet(WV_SORRY);
-        } else {
-            WarioVoiceSet(WV_TREASURE);
         }
+    } else {
+        WarioVoiceSet(WV_TREASURE);
     }
 }
 

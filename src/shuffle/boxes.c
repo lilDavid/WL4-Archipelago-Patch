@@ -65,6 +65,11 @@ void SpawnRandomizedItemFromBox() {
 }
 
 
+#define RANDO_BOX_REWARD_INDEX CurrentEnemyData.TWork0
+#define RANDO_BOX_REWARD_ITEM CurrentEnemyData.TWork1
+#define BOX_REWARD_FLOATING_ANIMATION_FRAME CurrentEnemyData.TWork3
+
+
 // Load the appropriate animation for a randomized item found in a box. The
 // item used and resulting animation chosen is based on the item's entity ID.
 void LoadRandomItemAnimation() {
@@ -80,8 +85,8 @@ void LoadRandomItemAnimation() {
     if (item_id == ITEM_DIAMOND)
         CurrentEnemyData.YPos += 48;
 
-    CurrentEnemyData.TWork0 = item_index;
-    CurrentEnemyData.TWork1 = item_id;
+    RANDO_BOX_REWARD_INDEX = item_index;
+    RANDO_BOX_REWARD_ITEM = item_id;
     if (give_immediately) {
         CollectRandomItem();
     } else {
@@ -91,24 +96,24 @@ void LoadRandomItemAnimation() {
         CurrentEnemyData.GuardAndDamageParam = 6;
         CurrentEnemyData.RealFrameCountForCurrentAnimationFrame = 0;
         CurrentEnemyData.CurrentAnimationFrameId = 0;
-        CurrentEnemyData.TWork3 = 0;
+        BOX_REWARD_FLOATING_ANIMATION_FRAME = 0;
         CurrentEnemyData.CurrentAnimationId = 0x10;
     }
 }
 
 
 void CollectRandomItem() {
-    if (CurrentEnemyData.TWork0 <= BOX_CD)
-        HAS_BOX(CurrentEnemyData.TWork0) = 1;
+    if (RANDO_BOX_REWARD_INDEX <= BOX_CD)
+        HAS_BOX(RANDO_BOX_REWARD_INDEX) = 1;
 
     EntityLeftOverStateList[CurrentRoomId][CurrentEnemyData.RoomEntitySlotId] = 0x21;
     CurrentEnemyData.usStatus = 0;
-    CollectItemInLevel(CurrentEnemyData.TWork0);
+    CollectItemInLevel(RANDO_BOX_REWARD_INDEX);
 
-    if (ExtDataInCurrentLevel(CurrentEnemyData.TWork0) &&
-        !(CurrentEnemyData.TWork1 == ITEM_WARIO_FORM_TRAP ||
-          CurrentEnemyData.TWork1 == ITEM_LIGHTNING_TRAP ||
-          CurrentEnemyData.TWork1 == ITEM_AP_TRAP)) {
+    if (ExtDataInCurrentLevel(RANDO_BOX_REWARD_INDEX) &&
+        !(RANDO_BOX_REWARD_ITEM == ITEM_WARIO_FORM_TRAP ||
+          RANDO_BOX_REWARD_ITEM == ITEM_LIGHTNING_TRAP ||
+          RANDO_BOX_REWARD_ITEM == ITEM_AP_TRAP)) {
         m4aSongNumStart(SE_GEM_GET);
     }
 }
