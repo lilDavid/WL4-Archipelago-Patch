@@ -216,7 +216,8 @@ static void RandoDiamond_Init(void) {
     CurrentEnemyData.XPos += 32;
 
     if (RANDO_DIAMOND_ITEM != ITEM_DIAMOND) {
-        CurrentEnemyData.YPos -= 64;
+        CurrentEnemyData.YPos -= 48;
+        CurrentEnemyData.HitboxBottom += 32;
     }
 }
 
