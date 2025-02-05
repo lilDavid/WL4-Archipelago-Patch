@@ -60,7 +60,7 @@ u8 DiamondIdTable[][5] = {
     { PASSAGE_RUBY,     1,  1, 0x05, DIAMOND_1 },
     { PASSAGE_RUBY,     1,  2, 0x0B, DIAMOND_2 },
     { PASSAGE_RUBY,     1,  3, 0x37, DIAMOND_3 },
-    { PASSAGE_RUBY,     1,  4, 0x10, DIAMOND_4 },
+    { PASSAGE_RUBY,     1,  5, 0x10, DIAMOND_4 },
     { PASSAGE_RUBY,     1,  6, 0x05, DIAMOND_5 },
     { PASSAGE_RUBY,     1,  7, 0x04, DIAMOND_6 },
     { PASSAGE_RUBY,     1,  7, 0x06, DIAMOND_7 },
@@ -81,8 +81,8 @@ u8 DiamondIdTable[][5] = {
     { PASSAGE_RUBY,     3,  0, 0x24, DIAMOND_1 },
     { PASSAGE_RUBY,     3,  2, 0x05, DIAMOND_2 },
     { PASSAGE_RUBY,     3,  4, 0x05, DIAMOND_3 },
-    { PASSAGE_RUBY,     3,  4, 0x04, DIAMOND_4 },
-    { PASSAGE_RUBY,     3,  4, 0x03, DIAMOND_5 },
+    { PASSAGE_RUBY,     3,  5, 0x04, DIAMOND_4 },
+    { PASSAGE_RUBY,     3,  7, 0x03, DIAMOND_5 },
     // Toy Block Tower
     { PASSAGE_TOPAZ,    0,  3, 0x24, DIAMOND_1 },
     { PASSAGE_TOPAZ,    0, 11, 0x06, DIAMOND_2 },
@@ -130,7 +130,7 @@ u8 DiamondIdTable[][5] = {
     { PASSAGE_SAPPHIRE, 2,  7, 0x07, DIAMOND_4 },
     { PASSAGE_SAPPHIRE, 2, 12, 0x04, DIAMOND_5 },
     { PASSAGE_SAPPHIRE, 2, 13, 0x08, DIAMOND_6 },
-    { PASSAGE_SAPPHIRE, 2, 14, 0x08, DIAMOND_7 },
+    { PASSAGE_SAPPHIRE, 2, 14, 0x03, DIAMOND_7 },
     // Hotel Horror
     { PASSAGE_SAPPHIRE, 3,  4, 0x14, DIAMOND_1 },
     { PASSAGE_SAPPHIRE, 3,  8, 0x1B, DIAMOND_2 },
@@ -146,9 +146,9 @@ u8 DiamondIdTable[][5] = {
     { PASSAGE_GOLDEN,   0,  4, 0x17, DIAMOND_5 },
     { PASSAGE_GOLDEN,   0,  4, 0x24, DIAMOND_6 },
     { PASSAGE_GOLDEN,   0,  5, 0x0F, DIAMOND_7 },
-    { PASSAGE_GOLDEN,   0,  5, 0x4A, DIAMOND_8 },
+    { PASSAGE_GOLDEN,   0,  5, 0x4B, DIAMOND_8 },
     { PASSAGE_GOLDEN,   0,  6, 0x04, DIAMOND_9 },
-    { PASSAGE_GOLDEN,   0,  6, 0x3E, DIAMOND_10 },
+    { PASSAGE_GOLDEN,   0,  6, 0x41, DIAMOND_10 },
 };
 
 
