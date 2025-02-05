@@ -177,23 +177,23 @@ void CollectItemInLevel(u8 index) {
 }
 
 static void ItemInitBoxContents() {
-    CurrentEnemyData.SizeY0_Bottom = 32;
-    CurrentEnemyData.SizeY1_Top = 16;
-    CurrentEnemyData.SizeX_LeftRight = 16;
-    CurrentEnemyData.HitboxY0 = 64;
-    CurrentEnemyData.HitboxY1 = 16;
-    CurrentEnemyData.HitboxX0 = 40;
-    CurrentEnemyData.HitboxX1 = 36;
+    CurrentEnemyData.DrawDistanceBottom = 32;
+    CurrentEnemyData.DrawDistanceTop = 16;
+    CurrentEnemyData.DrawDistanceHorizontal = 16;
+    CurrentEnemyData.HitboxTop = 64;
+    CurrentEnemyData.HitboxBottom = 16;
+    CurrentEnemyData.HitboxLeft = 40;
+    CurrentEnemyData.HitboxRight = 36;
 }
 
 static void ItemInitDiamond() {
-    CurrentEnemyData.SizeY0_Bottom = 24;
-    CurrentEnemyData.SizeY1_Top = 8;
-    CurrentEnemyData.SizeX_LeftRight = 16;
-    CurrentEnemyData.HitboxY0 = 80;
-    CurrentEnemyData.HitboxY1 = 136;
-    CurrentEnemyData.HitboxX0 = 40;
-    CurrentEnemyData.HitboxX1 = 36;
+    CurrentEnemyData.DrawDistanceBottom = 24;
+    CurrentEnemyData.DrawDistanceTop = 8;
+    CurrentEnemyData.DrawDistanceHorizontal = 16;
+    CurrentEnemyData.HitboxTop = 80;
+    CurrentEnemyData.HitboxBottom = 136;
+    CurrentEnemyData.HitboxLeft = 40;
+    CurrentEnemyData.HitboxRight = 36;
 }
 
 void ItemSetHitboxAndDrawDistance(u8 item_id) {

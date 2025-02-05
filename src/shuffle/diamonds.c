@@ -152,10 +152,10 @@ u8 DiamondIdTable[][5] = {
 };
 
 
-#define RANDO_DIAMOND_INDEX CurrentEnemyData.TWork0
-#define RANDO_DIAMOND_ITEM CurrentEnemyData.TWork1
-#define RANDO_DIAMOND_IS_MULTIWORLD CurrentEnemyData.TWork2
-#define DIAMOND_FLOATING_ANIMATION_FRAME CurrentEnemyData.TWork3
+#define RANDO_DIAMOND_INDEX CurrentEnemyData.WorkVariable0
+#define RANDO_DIAMOND_ITEM CurrentEnemyData.WorkVariable1
+#define RANDO_DIAMOND_IS_MULTIWORLD CurrentEnemyData.WorkVariable2
+#define DIAMOND_FLOATING_ANIMATION_FRAME CurrentEnemyData.WorkVariable3
 
 
 static u8 DiamondIdentify(void) {

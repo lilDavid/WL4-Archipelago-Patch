@@ -65,9 +65,9 @@ void SpawnRandomizedItemFromBox() {
 }
 
 
-#define RANDO_BOX_REWARD_INDEX CurrentEnemyData.TWork0
-#define RANDO_BOX_REWARD_ITEM CurrentEnemyData.TWork1
-#define BOX_REWARD_FLOATING_ANIMATION_FRAME CurrentEnemyData.TWork3
+#define RANDO_BOX_REWARD_INDEX CurrentEnemyData.WorkVariable0
+#define RANDO_BOX_REWARD_ITEM CurrentEnemyData.WorkVariable1
+#define BOX_REWARD_FLOATING_ANIMATION_FRAME CurrentEnemyData.WorkVariable3
 
 
 // Load the appropriate animation for a randomized item found in a box. The

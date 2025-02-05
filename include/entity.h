@@ -52,17 +52,17 @@ typedef struct {
     /* 0x1D */ u8 Life;
     /* 0x1E */ u8 GuardAndDamageParam;
     /* 0x1F */ u8 DisableInteractionWithWarioCountdown;
-    /* 0x20 */ u8 SizeY0_Bottom;
-    /* 0x21 */ u8 SizeY1_Top;
-    /* 0x22 */ u8 SizeX_LeftRight;
-    /* 0x23 */ u8 HitboxY0;
-    /* 0x24 */ u8 HitboxY1;
-    /* 0x25 */ u8 HitboxX0;
-    /* 0x26 */ u8 HitboxX1;
-    /* 0x27 */ u8 TWork0;
-    /* 0x28 */ u8 TWork1;
-    /* 0x29 */ u8 TWork2;
-    /* 0x2A */ u8 TWork3;
+    /* 0x20 */ u8 DrawDistanceBottom;
+    /* 0x21 */ u8 DrawDistanceTop;
+    /* 0x22 */ u8 DrawDistanceHorizontal;
+    /* 0x23 */ u8 HitboxTop;  // Up from sprite position
+    /* 0x24 */ u8 HitboxBottom;  // Down from sprite position
+    /* 0x25 */ u8 HitboxLeft;  // Left of sprite position
+    /* 0x26 */ u8 HitboxRight;  // Right of sprite position
+    /* 0x27 */ u8 WorkVariable0;
+    /* 0x28 */ u8 WorkVariable1;
+    /* 0x29 */ u8 WorkVariable2;
+    /* 0x2A */ u8 WorkVariable3;
     /* 0x2B */ u8 padding;
 } EnemyDataStructure; /* size = 0x2C */
 
