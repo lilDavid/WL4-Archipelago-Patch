@@ -10,6 +10,7 @@ extern s16 sGameSeq;
 extern u8 GlobalTimer;
 extern u8 CurrentRoomId;
 extern u8 ucTimeUp;
+extern u8 gPauseFlag[];
 
 extern u16 KeyPressContinuous;
 extern u16 KeyPressPrevious;

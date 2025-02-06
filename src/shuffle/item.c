@@ -5,6 +5,7 @@
 #include "entity.h"
 #include "item_table.h"
 #include "multiworld.h"
+#include "randomizer.h"
 #include "wario.h"
 
 
@@ -80,7 +81,7 @@ const TAnmDef* ItemLoadInGameGraphics(u8 index) {
             return takara_Anm_00;
         case ITEMTYPE_TREASURE: {
             u16* palette;
-            if (sGameSeq == 1 && gColorFading.Kind == 2)
+            if (sGameSeq <= 1 && gColorFading.Kind == 2)
                 palette = &SPRITE_PALETTE_EWRAM[1 * 16];
             else
                 palette = &SPRITE_PALETTE[1 * 16];
@@ -103,6 +104,37 @@ const TAnmDef* ItemLoadInGameGraphics(u8 index) {
         }
         default:
             return NULL;
+    }
+}
+
+void ItemReloadInGameGraphics() {
+    for (u32 i = 0; i < ARRAY_SIZE(gSpriteData); i++) {
+        EnemyDataStructure* sprite = &gSpriteData[i];
+        if ((sprite->usStatus & 1) == 0)
+            continue;
+        const TAnmDef* animation;
+        switch (sprite->GlobalId) {
+            case ENTITY_TREASURE_GEM1:
+            case ENTITY_TREASURE_GEM2:
+            case ENTITY_TREASURE_GEM3:
+            case ENTITY_TREASURE_GEM4:
+            case ENTITY_TREASURE_CD:
+            case ENTITY_TREASURE_HEART:
+                animation = ItemLoadInGameGraphics(sprite->WorkVariable0);
+                if (animation == NULL)
+                    animation = EmptyAnm;
+                sprite->OAMDataPackPointerForCurrentAnimation = animation;
+                break;
+
+            case ENTITY_DIAMOND:
+                if (!DiamondShuffle)
+                    break;
+                animation = ItemLoadInGameGraphics(sprite->WorkVariable0);
+                if (animation == NULL)
+                    animation = DiamondAnm;  // TODO: Restore fake graphic
+                sprite->OAMDataPackPointerForCurrentAnimation = animation;
+                break;
+        }
     }
 }
 

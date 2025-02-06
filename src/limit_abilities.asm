@@ -345,7 +345,7 @@ LimitWarioAbility_Grab:
         mov pc, r0
 
     @@CheckWeight:
-        ldr r1, =CurrentEntityInfoList_TEbuf
+        ldr r1, =gSpriteData
         mov r0, #0x2C
         mul r0, r7
         add r0, r0, r1

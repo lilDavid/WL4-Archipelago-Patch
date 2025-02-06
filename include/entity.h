@@ -68,4 +68,5 @@ typedef struct {
 
 
 extern EnemyDataStructure CurrentEnemyData;
+extern EnemyDataStructure gSpriteData[24];
 extern u8 EntityLeftOverStateList[16][64];

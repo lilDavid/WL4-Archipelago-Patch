@@ -29,7 +29,7 @@ const u16 ExtraAbilityPalettes[2][16] = {
 void SetTreasurePalette(u32 palette) {
     const u16* source = PassagePaletteTable[palette];
     u16* destination;
-    if (sGameSeq == 1 && gColorFading.Kind == 2)
+    if (sGameSeq <= 1 && gColorFading.Kind == 2)
         destination = &SPRITE_PALETTE_EWRAM[5 * 16 - 5];
     else
         destination = &SPRITE_PALETTE[5 * 16 - 5];

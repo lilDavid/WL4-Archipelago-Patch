@@ -47,7 +47,10 @@ hook 0x8000728, 0x8000738, InitializeVariables
 ; ------------------ Main game screen -----------------
 
 
-; GameMain() case 2
+; GameMain() Case 0
+.org 0x801B8E4 :: .word @Hook_GameMain_LoadRoom
+.org 0x801B928 :: pop {pc}  ; Instead of exiting the case, return like a function
+; Case 2
 .org 0x801B8EC
 .word @Hook_GameMain_begin
 
@@ -60,6 +63,31 @@ hook 0x801BB7A, 0x801BB90, GameMain_RandoGraphics
 
 .autoregion
 .align 2
+@Hook_GameMain_LoadRoom:
+        ; Store old pause flag
+        ldr r0, =gPauseFlag
+        ldrb r0, [r0]
+        push {r0}
+
+        ; "Call" case 0
+        ldr r0, =0x801B908 | 1
+        bl @@call
+
+        pop {r0}
+        cmp r0, #0
+        beq @@skip
+        bl ItemReloadInGameGraphics
+
+    @@skip:
+        ; increment sGameSeq and break, as usual
+        ldr r0, =0x801B942
+        mov pc, r0
+
+    @@call:
+        push {lr}
+        bx r0
+    .pool
+
 ; Receive multiworld items and collect junk (in level)
 @Hook_GameMain_begin:
         bl GameMain_Rando

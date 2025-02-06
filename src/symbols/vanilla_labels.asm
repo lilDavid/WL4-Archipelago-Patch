@@ -11,7 +11,7 @@
 .definelabel ucFlashLoop, 0x3000044
 .definelabel ucTimeUp, 0x3000047
 .definelabel gColorFading, 0x30000D0
-.definelabel CurrentEntityInfoList_TEbuf, 0x3000104
+.definelabel gSpriteData, 0x3000104
 .definelabel EntityLeftOverStateList, 0x3000564
 .definelabel CurrentEnemyData, 0x3000A24
 .definelabel W4ItemStatus, 0x3000A68
@@ -36,6 +36,7 @@
 .definelabel HasTreasure11, 0x3000C32
 .definelabel HasTreasure12, 0x3000C33
 .definelabel ucTakaraCount, 0x3000C34
+.definelabel gPauseFlag, 0x3000C35
 .definelabel GlobalGameMode, 0x3000C3A
 .definelabel sGameSeq, 0x3000C3C
 .definelabel GlobalTimer, 0x3000C41
