@@ -1,6 +1,6 @@
 .gba
 
-; Single-line patches.
+; Inline patches.
 
 
 ; Start with access to the four main passages.

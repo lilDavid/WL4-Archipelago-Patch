@@ -187,14 +187,16 @@ hook_manual 0x8085C62, 0x8085C6C, @Hook_SelectMmapOamCreate  ; SelectMmapOamCrea
 ; ---------------- Level results screen ----------------
 
 
-; GameSelectSeisan() case 7 - Show item text box
+; GameSelectSeisan()
+; Case 4 - Speed up heart tally
+.org 0x8080B80
+    mov r0, #4
+; Case 7 - Show item text box
 hook 0x8080C5C, 0x8080C6C, @Hook_GameSelectSeisan7
-
-; GameSelectSeisan() case 8 - Let the player flip through items quickly
-org 0x8080CD8
+; Case 8 - Let the player flip through items quickly
+.org 0x8080CD8
     mov r0, #15
-
-; GameSelectSeisan() case 9 - Repeatedly show text box
+; Case 9 - Repeatedly show text box
 .org 0x8080AB0
 .word @Hook_GameSelectSeisan9
 
