@@ -175,7 +175,7 @@ const u16 AbilityPaletteTable[ABILITY_MAX] = {
     /* Head Smash */         PAL_HELMET,
     /* Grab */               PAL_SAPPHIRE,
     /* Dash Attack */        PAL_GARLIC,
-    /* Enemy Jump */         PAL_EMERALD,
+    /* Stomp Jump */         PAL_EMERALD,
     /* Super Ground Pound */ PAL_ENTRY,
     /* Heavy Grab */         PAL_RUBY,
 };
