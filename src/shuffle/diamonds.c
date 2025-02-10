@@ -84,7 +84,7 @@ u8 DiamondIdTable[][5] = {
     { PASSAGE_RUBY,     3,  5, 0x04, DIAMOND_4 },
     { PASSAGE_RUBY,     3,  7, 0x03, DIAMOND_5 },
     // Toy Block Tower
-    { PASSAGE_TOPAZ,    0,  3, 0x24, DIAMOND_1 },
+    { PASSAGE_TOPAZ,    0,  3, 0x10, DIAMOND_1 },
     { PASSAGE_TOPAZ,    0, 11, 0x06, DIAMOND_2 },
     { PASSAGE_TOPAZ,    0, 12, 0x18, DIAMOND_3 },
     { PASSAGE_TOPAZ,    0, 14, 0x05, DIAMOND_4 },
