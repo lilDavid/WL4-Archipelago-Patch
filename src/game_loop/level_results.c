@@ -6,6 +6,7 @@
 #include "item_table.h"
 #include "graphics.h"
 #include "multiworld.h"
+#include "text.h"
 
 
 static u32 GotItem(u8 index) {
@@ -20,7 +21,7 @@ static u32 GotItem(u8 index) {
 // Load the text for the next item collection message. If no items are left to
 // show, indicate start fading the results screen.
 u32 LevelResults_ShowNextItem() {
-    usMojiCount = 1000;  // Fixed text position (?)
+    usMojiCount = TEXT_FIXED;
 
     for (int i = 0; i < LOCATION_MAX; i++) {
         int has_item = GotItem(i);

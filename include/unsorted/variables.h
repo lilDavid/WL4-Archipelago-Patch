@@ -21,6 +21,4 @@ extern u8 Scbuf_ucSeq;
 extern u8 Scbuf_ucWork0;
 extern u16 Scbuf_usPosX;
 
-extern u16 usMojiCount;
-
 extern u8 ucFlashLoop;

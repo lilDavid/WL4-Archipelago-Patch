@@ -8,6 +8,7 @@
 #include "item.h"
 #include "item_table.h"
 #include "multiworld.h"
+#include "text.h"
 #include "wario.h"
 
 
@@ -142,6 +143,7 @@ static void PassageSelect_RandoVblk(void) {
 
     if (VblkStatus == VBLK_DMAP_UPDATE) {
         LoadMessageBG();
+        usMojiCount = TEXT_FIXED;
         if (MultiworldState == MW_TEXT_RECEIVED_ITEM)
             PassageSelect_ShowReceivedItem();
         else
@@ -350,7 +352,6 @@ static void PassageSelect_ShowFoundBossItem() {
 
     int char_size = 2 * sizeof(Tile4bpp);  // Each character is 2 tiles
     int next_tile = 0x9000;
-    usMojiCount = 1000;  // Fixed text position (?)
 
     // Boss names are centered, so center them on the top of the window.
     // Coincidentally, the longest, Spoiled Rotten, is exactly 14 chars.
