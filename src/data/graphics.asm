@@ -182,7 +182,9 @@ HasHeadSmashTile: .skip sizeof_tile
 HasDashAttackTile: .skip sizeof_tile
 HasEnemyJumpTile: .skip sizeof_tile
 
-MinigameCoinTiles: .incbin "data/graphics/minigame_coin_item.bin"
+.sym on
+MinigameCoinTiles: .fill 4 * sizeof_tile
+.sym off
 
 
 .endautoregion
