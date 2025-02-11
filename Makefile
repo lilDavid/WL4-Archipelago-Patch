@@ -7,7 +7,7 @@ endif
 
 ARMIPSFLAGS =
 CC = $(DEVKITARM)/bin/arm-none-eabi-gcc
-CFLAGS = -mthumb -mthumb-interwork -Wall -Wextra -std=gnu11 -O1 \
+CFLAGS = -mthumb -mthumb-interwork -Wall -Wextra -Werror -std=gnu11 -O1 \
 		 -Iinclude -I$(DEVKITPRO)/libgba/include -Lgba
 
 SRC = src
