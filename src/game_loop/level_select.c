@@ -15,12 +15,16 @@ void LevelSelect_InitIcons() {
             tile_dest + TILE_OFFSET(0, 5),
             16 * sizeof(Tile4bpp));
 
-    dmaCopy(PassageTreasurePalettes,
-            SPRITE_PALETTE + 4 * 16,
-            5 * 16 * sizeof(u16));
-    dmaCopy(ExtraAbilityPalettes,
-            SPRITE_PALETTE + 9 * 16,
-            2 * 16 * sizeof(u16));
+    for (int i = PAL_ENTRY; i < PAL_GOLDEN; i++) {
+        dmaCopy(ItemPaletteTable[i],
+                SPRITE_PALETTE + (4 + i) * 16,
+                16 * sizeof(u16));
+    }
+    for (int i = PAL_GARLIC; i < PAL_AP; i++) {
+        dmaCopy(ItemPaletteTable[i],
+                SPRITE_PALETTE + (9 + i - 6) * 16,
+                16 * sizeof(u16));
+    }
 
     if (GoalType == GOAL_TREASURE_HUNT || GoalType == GOAL_DIVA_HUNT) {
         u16 goal_chest = GoalType == GOAL_DIVA_HUNT ? 32 : 0;

@@ -126,7 +126,12 @@
 .definelabel HasJewel2Tile, 0x84045E8
 .definelabel HasJewel3Tile, 0x8404608
 .definelabel HasJewel4Tile, 0x8404628
-.definelabel PassageTreasurePalettes, 0x8414A64
+.definelabel LevelPaletteEntryPassage, 0x8414A64
+.definelabel LevelPaletteEmeraldPassage, 0x8414A84
+.definelabel LevelPaletteRubyPassage, 0x8414AA4
+.definelabel LevelPaletteTopazPassage, 0x8414AC4
+.definelabel LevelPaletteSapphirePassage, 0x8414AE4
+.definelabel LevelPaletteGoldenPyramid, 0x8414B04
 .definelabel PortalTilemap3, 0x864BF58
 .definelabel PortalOBJTileset, 0x868269C
 .definelabel SaveTutorialTilemap, 0x868B15C

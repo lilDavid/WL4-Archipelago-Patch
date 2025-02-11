@@ -210,7 +210,7 @@ void PassageSelect_SpriteCopy(u8 item_id) {
                     break;
 
                 case ITEM_MINIGAME_COIN:
-                    dmaCopy(PassagePaletteTable[PAL_MINGAME_COIN],
+                    dmaCopy(ItemPaletteTable[PAL_MINGAME_COIN],
                             palette_dest + (16 - 5),
                             5 * sizeof(u16));
                     dmaCopy(MinigameCoinTiles,
@@ -262,12 +262,9 @@ void PassageSelect_SpriteCopy(u8 item_id) {
                     ability = ABILITY_HEAVY_GRAB;
                 }
             }
-            dmaCopy(PassageTreasurePalettes[0],
+            dmaCopy(ItemPaletteTable[AbilityPaletteTable[ability]],
                     palette_dest,
-                    (16 - 5) * sizeof(u16));
-            dmaCopy(PassagePaletteTable[AbilityPaletteTable[ability]],
-                    palette_dest + 16 - 5,
-                    5 * sizeof(u16));
+                    16 * sizeof(u16));
             dmaCopy(AbilityIconTilesTop + 2 * ability,
                     item_dest,
                     2 * sizeof(Tile4bpp));

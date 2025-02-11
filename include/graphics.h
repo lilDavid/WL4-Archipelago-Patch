@@ -12,9 +12,9 @@ typedef enum {
     PAL_TOPAZ,
     PAL_SAPPHIRE,
     PAL_GOLDEN,
-    PAL_AP,
     PAL_GARLIC,
     PAL_HELMET,
+    PAL_AP,
     PAL_MINGAME_COIN,
     PAL_MAX
 } PassagePalette;
@@ -93,6 +93,4 @@ void OamBuf_AddObj(u16 attr0, u16 attr1, u16 attr2);
 
 extern ColorFading gColorFading;
 
-extern const u16 PassageTreasurePalettes[4][16];
-extern const u16 PassagePaletteTable[PAL_MAX][5];
-extern const u16 ExtraAbilityPalettes[2][16];
+extern const u16* ItemPaletteTable[PAL_MAX];
