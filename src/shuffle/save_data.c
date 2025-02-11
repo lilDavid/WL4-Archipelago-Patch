@@ -6,6 +6,7 @@
 #include "item_table.h"
 #include "multiworld.h"
 #include "randomizer.h"
+#include "units.h"
 #include "wario.h"
 
 LONGCALL void AutoSave_ExRead_Work(void);
@@ -24,7 +25,7 @@ void CreateStartingInventory() {
     QueuedHearts = StartingInventoryJunkCounts[JUNK_HEART];
     QueuedLightningTraps = StartingInventoryJunkCounts[JUNK_LIGHTNING_TRAP];
     MiniGameCoinNum = StartingInventoryJunkCounts[JUNK_MINIGAME_COIN];
-    iGmTotalScore = StartingInventoryJunkCounts[JUNK_DIAMOND] * 100;
+    iGmTotalScore = StartingInventoryJunkCounts[JUNK_DIAMOND] * CONVERT_SCORE(1000);
 
     WarioAbilities = StartingInventoryWarioAbilities;
 }

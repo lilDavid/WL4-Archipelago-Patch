@@ -217,7 +217,7 @@ static const u8 np_ability_tile_indices[6] = {
     1,  // Head Smash
     0,  // Grab
     2,  // Dash Attack
-    3,  // Enemy Jump
+    3,  // Stomp Jump
 };
 
 void CDIcon_Init() {

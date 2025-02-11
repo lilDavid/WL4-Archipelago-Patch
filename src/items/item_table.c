@@ -7,6 +7,7 @@
 #include "item_table.h"
 #include "graphics.h"
 #include "randomizer.h"
+#include "units.h"
 #include "wario.h"
 
 
@@ -43,7 +44,7 @@ void GiveItem(u8 item_id, const ExtData* multiworld) {
             if (item_id == ITEM_MINIGAME_COIN)
                 MiniGameCoinNum += 1;
             if (item_id == ITEM_DIAMOND)
-                iGmTotalScore += 100;
+                iGmTotalScore += CONVERT_SCORE(1000);
             break;
         default:
             break;
@@ -86,7 +87,7 @@ void GiveItem_InGame(u8 item_id, const ExtData* multiworld) {
         case ITEMTYPE_JUNK:
             GiveItem_JunkQueue(item_id);
             if (item_id == ITEM_DIAMOND) {
-                GmStScoreCalc(100);
+                GmStScoreCalc(CONVERT_SCORE(1000));
                 TOptObjSet(Wario.usPosY, Wario.usPosX, 4);
             }
             break;
@@ -175,7 +176,7 @@ const u16 AbilityPaletteTable[ABILITY_MAX] = {
     /* Head Smash */         PAL_HELMET,
     /* Grab */               PAL_SAPPHIRE,
     /* Dash Attack */        PAL_GARLIC,
-    /* Enemy Jump */         PAL_EMERALD,
+    /* Stomp Jump */         PAL_EMERALD,
     /* Super Ground Pound */ PAL_ENTRY,
     /* Heavy Grab */         PAL_RUBY,
 };

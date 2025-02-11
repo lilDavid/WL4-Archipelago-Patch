@@ -8,7 +8,7 @@
 ; 2: Break blocks with head
 ; 3: Grab light objects
 ; 4: Dash Attack
-; 5: Enemy jump
+; 5: Stomp Jump
 ; 6: Super Ground Pound
 ; 7: Grab heavy objects
 

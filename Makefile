@@ -7,7 +7,7 @@ endif
 
 ARMIPSFLAGS =
 CC = $(DEVKITARM)/bin/arm-none-eabi-gcc
-CFLAGS = -mthumb -mthumb-interwork -Wall -Wextra -std=gnu11 -O1 \
+CFLAGS = -mthumb -mthumb-interwork -Wall -Wextra -Werror -std=gnu11 -O1 \
 		 -Iinclude -I$(DEVKITPRO)/libgba/include -Lgba
 
 SRC = src
@@ -47,9 +47,5 @@ obj/%.o: src/%.c $(HEADERS)
 data/graphics/%.bin: data/graphics/%.png data/graphics/%.txt
 	python3 make_graphics.py $@
 
-remake: clean all
-
-remake-debug: clean debug
-
 clean:
-	rm -rf obj build
+	rm -rf $(OBJ) build $(BINS)

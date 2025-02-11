@@ -1,9 +1,11 @@
 #include "unsorted/functions.h"
 #include "unsorted/variables.h"
+#include "color.h"
 #include "graphics.h"
 #include "item.h"
 #include "item_table.h"
 #include "multiworld.h"
+#include "units.h"
 #include "wario.h"
 
 
@@ -34,7 +36,7 @@ static void GameMain_CollectMultiworld() {
     if (item_id == ITEM_NONE)
         return;
 
-    TextTimer = 120;
+    TextTimer = CONVERT_SECONDS(2);
     GiveItem_InGame(item_id, NULL);
     VblkStatus |= VBLK_MAIN_UPDATE_TEXT;
     ItemReceivedFeedbackSound(item_id);
@@ -152,7 +154,7 @@ void GameMain_ReceivedTextVBlk() {
                     const u8* namebytes = multi->receiver;
                     int sent_len = sizeof(StrItemSent) - 1;  // trim space
                     int to_len = sizeof(StrItemTo);
-                    SetTextColor(0x7FFF);
+                    SetTextColor(COLOR_WHITE);
                     LoadSpriteString(StrItemSent, tiles1, sent_len);
                     LoadSpriteString(StrItemTo, tiles1 + sent_len, to_len);
                     namebytes = LoadSpriteString(namebytes, tiles1 + sent_len + to_len, 12 - sent_len - to_len);
@@ -161,11 +163,11 @@ void GameMain_ReceivedTextVBlk() {
                 } else {
                     // Item name
                     switch (item_id & 7) {
-                        case AP_IC_FILLER:      SetTextColor(0x7B6B /* cyan */); break;
-                        case AP_IC_PROGRESSION: SetTextColor(0x51D5 /* plum */); break;
-                        case AP_IC_USEFUL:      SetTextColor(0x7DC6 /* slate blue */); break;
-                        case AP_IC_TRAP:        SetTextColor(0x39DF /* salmon */); break;
-                        default:                SetTextColor(0x7FFF /* white */); break;
+                        case AP_IC_FILLER:      SetTextColor(COLOR_AP_CYAN); break;
+                        case AP_IC_PROGRESSION: SetTextColor(COLOR_AP_PLUM); break;
+                        case AP_IC_USEFUL:      SetTextColor(COLOR_AP_SLATEBLUE); break;
+                        case AP_IC_TRAP:        SetTextColor(COLOR_AP_SALMON); break;
+                        default:                SetTextColor(COLOR_WHITE); break;
                     }
                     const u8* namebytes = multi->item_name;
                     namebytes = LoadSpriteString(namebytes, tiles1, 12);

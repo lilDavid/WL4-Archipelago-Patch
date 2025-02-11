@@ -4,11 +4,13 @@
 #include "unsorted/functions.h"
 #include "unsorted/macros.h"
 #include "unsorted/types.h"
+#include "color.h"
 #include "graphics.h"
 #include "item.h"
 #include "item_table.h"
 #include "multiworld.h"
 #include "text.h"
+#include "units.h"
 #include "wario.h"
 
 
@@ -43,7 +45,7 @@ u32 PassageSelect_Rando() {
             ItemReceivedFeedbackSound(item_id);
             break;
     }
-    TextTimer = 15;
+    TextTimer = CONVERT_SECONDS(0.25);
     VblkStatus = VBLK_DMAP_UPDATE;
 
     return 0;
@@ -405,7 +407,7 @@ extern Tile4bpp PortalTileset2[];
 static void LoadMessageBG() {
     REG_BG3CNT = BG_SIZE_0 | SCREEN_BASE(0x1E) | BG_16_COLOR | CHAR_BASE(2) | BG_PRIORITY(0);
     // Miraculously, BGP 6 color 2 isn't used at all as far as I can tell
-    BG_PALETTE[6 * 16 + 2] = 0x7FFF;
+    BG_PALETTE[6 * 16 + 2] = COLOR_WHITE;
 
     dmaCopy(SaveTutorialTilemap, SCREEN_BASE_BLOCK(0x1E), 0x1000);
     dmaCopy(PortalTileset2, CHAR_BASE_BLOCK(2), 0x4000);
