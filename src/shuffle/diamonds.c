@@ -1,9 +1,12 @@
+#include <gba.h>
+
 #include "unsorted/functions.h"
 #include "unsorted/macros.h"
 #include "unsorted/variables.h"
 #include "entity.h"
 #include "item_table.h"
 #include "randomizer.h"
+#include "units.h"
 #include "wario.h"
 
 
@@ -160,7 +163,7 @@ u8 DiamondIdTable[][5] = {
 
 
 static u8 DiamondIdentify(void) {
-    int x = (CurrentEnemyData.XPos - 0x20) / 0x40;
+    int x = BLOCKS_FROM_SUBPIXELS(CurrentEnemyData.XPos - HALF_BLOCK_SIZE);
     for (u32 i = 0; i < ARRAY_SIZE(DiamondIdTable); i++) {
         u8 *entry = DiamondIdTable[i];
         if (entry[0] == PassageID &&
@@ -182,7 +185,7 @@ static void RandoDiamond_Init(void) {
     if (PassageID == PASSAGE_SAPPHIRE &&
             InPassageLevelID == 3 &&
             CurrentRoomId == 13 &&
-            (CurrentEnemyData.YPos - 0x40) / 0x40 == 0x17)
+            BLOCKS_FROM_SUBPIXELS(CurrentEnemyData.YPos - BLOCK_SIZE) == 0x17)
         index = DIAMOND_6;
 
 
@@ -213,12 +216,12 @@ static void RandoDiamond_Init(void) {
     DIAMOND_FLOATING_ANIMATION_FRAME = 0;
     CurrentEnemyData.CurrentAnimationId = 0x10;
     CurrentEnemyData.GuardAndDamageParam = 6;
-    CurrentEnemyData.YPos -= 4;
-    CurrentEnemyData.XPos += 32;
+    CurrentEnemyData.YPos -= PIXEL_SIZE;
+    CurrentEnemyData.XPos += HALF_BLOCK_SIZE;
 
     if (RANDO_DIAMOND_ITEM != ITEM_DIAMOND) {
-        CurrentEnemyData.YPos -= 48;
-        CurrentEnemyData.HitboxBottom += 32;
+        CurrentEnemyData.YPos -= 3 * QUARTER_BLOCK_SIZE;
+        CurrentEnemyData.HitboxBottom += HALF_BLOCK_SIZE;
     }
 }
 

@@ -7,6 +7,7 @@
 #include "item_table.h"
 #include "graphics.h"
 #include "multiworld.h"
+#include "units.h"
 #include "wario.h"
 
 
@@ -45,12 +46,12 @@ void SpawnRandomizedItemFromBox() {
         EnemyChildSet(ENTITY_TREASURE_GEM1 + box_id,
                       CurrentEnemyData.RoomEntitySlotId,
                       0,
-                      CurrentEnemyData.YPos - 0x80,
+                      CurrentEnemyData.YPos - 2 * BLOCK_SIZE,
                       CurrentEnemyData.XPos);
         EnemyChildSet(ENTITY_LIGHT_GEM1 + box_id,
                       CurrentEnemyData.RoomEntitySlotId,
                       0,
-                      CurrentEnemyData.YPos - 0x80,
+                      CurrentEnemyData.YPos - 2 * BLOCK_SIZE,
                       CurrentEnemyData.XPos);
     } else {
         EntityLeftOverStateList[CurrentRoomId][CurrentEnemyData.RoomEntitySlotId] = 0x21;
@@ -83,7 +84,7 @@ void LoadRandomItemAnimation() {
         animation = EmptyAnm;
     int give_immediately = item_id == ITEM_WARIO_FORM_TRAP || item_id == ITEM_LIGHTNING_TRAP;
     if (item_id == ITEM_DIAMOND)
-        CurrentEnemyData.YPos += 48;
+        CurrentEnemyData.YPos += 3 * QUARTER_BLOCK_SIZE;
 
     RANDO_BOX_REWARD_INDEX = item_index;
     RANDO_BOX_REWARD_ITEM = item_id;

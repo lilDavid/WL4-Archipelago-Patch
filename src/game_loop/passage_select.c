@@ -9,6 +9,7 @@
 #include "item_table.h"
 #include "multiworld.h"
 #include "text.h"
+#include "units.h"
 #include "wario.h"
 
 
@@ -43,7 +44,7 @@ u32 PassageSelect_Rando() {
             ItemReceivedFeedbackSound(item_id);
             break;
     }
-    TextTimer = 15;
+    TextTimer = CONVERT_SECONDS(0.25);
     VblkStatus = VBLK_DMAP_UPDATE;
 
     return 0;

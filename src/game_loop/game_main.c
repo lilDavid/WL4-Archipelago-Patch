@@ -4,6 +4,7 @@
 #include "item.h"
 #include "item_table.h"
 #include "multiworld.h"
+#include "units.h"
 #include "wario.h"
 
 
@@ -34,7 +35,7 @@ static void GameMain_CollectMultiworld() {
     if (item_id == ITEM_NONE)
         return;
 
-    TextTimer = 120;
+    TextTimer = CONVERT_SECONDS(2);
     GiveItem_InGame(item_id, NULL);
     VblkStatus |= VBLK_MAIN_UPDATE_TEXT;
     ItemReceivedFeedbackSound(item_id);

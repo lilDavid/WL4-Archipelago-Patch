@@ -6,6 +6,7 @@
 #include "item_table.h"
 #include "multiworld.h"
 #include "randomizer.h"
+#include "units.h"
 #include "wario.h"
 
 
@@ -154,7 +155,7 @@ void CollectItemInLevel(u8 index) {
     if (multi != NULL) {
         MultiworldState = MW_TEXT_SENDING_ITEM;
         VblkStatus |= VBLK_MAIN_UPDATE_TEXT;
-        TextTimer = 120;
+        TextTimer = CONVERT_SECONDS(2);
         return;
     }
 
@@ -167,8 +168,8 @@ void CollectItemInLevel(u8 index) {
                 case ITEM_LIGHTNING_TRAP: GiveLightningTrap(); break;
                 case ITEM_MINIGAME_COIN: m4aSongNumStart(SE_MINIGAME_COIN_GET); break;
                 case ITEM_DIAMOND:
-                    GmStScoreCalc(100);
-                    TOptObjSet(CurrentEnemyData.YPos - 100, CurrentEnemyData.XPos - 64, 4);
+                    GmStScoreCalc(CONVERT_SCORE(1000));
+                    TOptObjSet(CurrentEnemyData.YPos - SUBPIXELS_FROM_PIXELS(25), CurrentEnemyData.XPos - BLOCK_SIZE, 4);
                     if (Wario.ucReact == REACT_WATER)
                         m4aSongNumStart(SE_DIAMOND_GET_UNDERWATER);
                     else
@@ -209,23 +210,23 @@ void CollectItemInLevel(u8 index) {
 }
 
 static void ItemInitBoxContents() {
-    CurrentEnemyData.DrawDistanceBottom = 32;
-    CurrentEnemyData.DrawDistanceTop = 16;
-    CurrentEnemyData.DrawDistanceHorizontal = 16;
-    CurrentEnemyData.HitboxTop = 64;
-    CurrentEnemyData.HitboxBottom = 16;
-    CurrentEnemyData.HitboxLeft = 40;
-    CurrentEnemyData.HitboxRight = 36;
+    CurrentEnemyData.DrawDistanceBottom = PIXELS_FROM_SUBPIXELS(2 * BLOCK_SIZE);
+    CurrentEnemyData.DrawDistanceTop = PIXELS_FROM_SUBPIXELS(BLOCK_SIZE);
+    CurrentEnemyData.DrawDistanceHorizontal = PIXELS_FROM_SUBPIXELS(BLOCK_SIZE);
+    CurrentEnemyData.HitboxTop = SUBPIXELS_FROM_PIXELS(16);
+    CurrentEnemyData.HitboxBottom = SUBPIXELS_FROM_PIXELS(4);
+    CurrentEnemyData.HitboxLeft = SUBPIXELS_FROM_PIXELS(10);
+    CurrentEnemyData.HitboxRight = SUBPIXELS_FROM_PIXELS(9);
 }
 
 static void ItemInitDiamond() {
-    CurrentEnemyData.DrawDistanceBottom = 24;
-    CurrentEnemyData.DrawDistanceTop = 8;
-    CurrentEnemyData.DrawDistanceHorizontal = 16;
-    CurrentEnemyData.HitboxTop = 80;
-    CurrentEnemyData.HitboxBottom = 136;
-    CurrentEnemyData.HitboxLeft = 40;
-    CurrentEnemyData.HitboxRight = 36;
+    CurrentEnemyData.DrawDistanceBottom = PIXELS_FROM_SUBPIXELS(3 * HALF_BLOCK_SIZE);
+    CurrentEnemyData.DrawDistanceTop = PIXELS_FROM_SUBPIXELS(HALF_BLOCK_SIZE);
+    CurrentEnemyData.DrawDistanceHorizontal = PIXELS_FROM_SUBPIXELS(BLOCK_SIZE);
+    CurrentEnemyData.HitboxTop = SUBPIXELS_FROM_PIXELS(20);
+    CurrentEnemyData.HitboxBottom = SUBPIXELS_FROM_PIXELS(34);
+    CurrentEnemyData.HitboxLeft = SUBPIXELS_FROM_PIXELS(10);
+    CurrentEnemyData.HitboxRight = SUBPIXELS_FROM_PIXELS(9);
 }
 
 void ItemSetHitboxAndDrawDistance(u8 item_id) {
