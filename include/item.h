@@ -10,8 +10,6 @@ extern u8 Has3rdGemPiece;
 extern u8 Has4thGemPiece;
 extern u8 HasCD;
 extern u8 HasKeyzer;
-extern u8 HasFullHealthItem;
-extern u8 HasFullHealthItem2;
 
 typedef enum {
     ISB_GEM1 = 1 << 0,
