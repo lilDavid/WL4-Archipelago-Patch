@@ -1,7 +1,6 @@
-#include "unsorted/functions.h"
-#include "unsorted/types.h"
 #include "unsorted/variables.h"
 #include "item.h"
+#include "sound.h"
 #include "units.h"
 #include "wario.h"
 

@@ -6,6 +6,7 @@
 #include "item_table.h"
 #include "multiworld.h"
 #include "randomizer.h"
+#include "sound.h"
 #include "units.h"
 #include "wario.h"
 

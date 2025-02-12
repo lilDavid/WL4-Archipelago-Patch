@@ -1,11 +1,10 @@
 #include <gba.h>
 
-#include "unsorted/functions.h"
-#include "unsorted/types.h"
 #include "unsorted/variables.h"
 #include "item_table.h"
 #include "graphics.h"
 #include "multiworld.h"
+#include "sound.h"
 #include "text.h"
 
 

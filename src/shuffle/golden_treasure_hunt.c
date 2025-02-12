@@ -5,6 +5,7 @@
 #include "unsorted/variables.h"
 #include "item.h"
 #include "randomizer.h"
+#include "sound.h"
 
 LONGCALL void ItemGetFlgSet_LoadSavestateInfo2RAM(void);
 extern u8 ucTakaraCount;

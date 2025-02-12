@@ -2,6 +2,7 @@
 
 #include <gba.h>
 
+#include "unsorted/functions.h"
 #include "graphics.h"
 
 
@@ -70,3 +71,6 @@ typedef struct {
 extern EnemyDataStructure CurrentEnemyData;
 extern EnemyDataStructure gSpriteData[24];
 extern u8 EntityLeftOverStateList[16][64];
+
+LONGCALL void EnemyChildSet(u8, u8, u8, s16, s16);
+LONGCALL void EnemyDisplayMain(void);

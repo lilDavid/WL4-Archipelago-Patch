@@ -1,12 +1,12 @@
 #include <gba.h>
 
-#include "unsorted/functions.h"
 #include "unsorted/variables.h"
 #include "entity.h"
 #include "item.h"
 #include "item_table.h"
 #include "graphics.h"
 #include "multiworld.h"
+#include "sound.h"
 #include "units.h"
 #include "wario.h"
 

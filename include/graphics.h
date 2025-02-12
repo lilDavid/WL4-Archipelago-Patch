@@ -2,6 +2,7 @@
 
 #include <gba.h>
 
+#include "unsorted/functions.h"
 #include "item.h"
 
 
@@ -90,6 +91,7 @@ extern u8 ucCntObj;
 extern OBJATTR OamBuf[128];
 
 void OamBuf_AddObj(u16 attr0, u16 attr1, u16 attr2);
+LONGCALL void ClearOamBuf(void);
 
 extern ColorFading gColorFading;
 

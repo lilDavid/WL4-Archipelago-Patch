@@ -5,6 +5,28 @@
 #include "unsorted/functions.h"
 
 
+typedef enum {
+    WV_TREASURE = 1,
+    WV_HURT = 4,
+    WV_SORRY = 9,
+} WarioVoiceID;
+
+typedef enum {
+    REACT_NORMAL,
+    REACT_WATER,
+    REACT_FIRE,
+    REACT_FAT,
+    REACT_FROZEN,
+    REACT_ZOMBIE,
+    REACT_SNOWMAN,
+    REACT_BOUNCY,
+    REACT_PUFFY,
+    REACT_BAT,
+    REACT_FLAT,
+    REACT_MASK,
+    REACT_MAX
+} WarioReact;
+
 typedef struct {
     /* 0x00 */ u8 ucReact;
     /* 0x01 */ u8 ucStat;
@@ -56,3 +78,4 @@ extern u8 ucWarOffFlg;
 
 LONGCALL void WarioCoinSet(s32);
 LONGCALL void WarioVoiceSet(s32);
+LONGCALL void GmWarioCreate(void);

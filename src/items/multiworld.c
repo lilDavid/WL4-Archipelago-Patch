@@ -1,10 +1,10 @@
 #include <gba.h>
 
-#include "unsorted/functions.h"
 #include "color.h"
 #include "graphics.h"
 #include "item.h"
 #include "multiworld.h"
+#include "sound.h"
 #include "wario.h"
 
 

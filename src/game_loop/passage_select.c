@@ -1,7 +1,6 @@
 #include <gba.h>
 
 #include "unsorted/variables.h"
-#include "unsorted/functions.h"
 #include "unsorted/macros.h"
 #include "unsorted/types.h"
 #include "color.h"
@@ -9,6 +8,7 @@
 #include "item.h"
 #include "item_table.h"
 #include "multiworld.h"
+#include "sound.h"
 #include "text.h"
 #include "units.h"
 #include "wario.h"
