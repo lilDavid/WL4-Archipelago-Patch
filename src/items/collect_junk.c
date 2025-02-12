@@ -2,6 +2,7 @@
 #include "unsorted/types.h"
 #include "unsorted/variables.h"
 #include "item.h"
+#include "units.h"
 #include "wario.h"
 
 
@@ -50,5 +51,5 @@ void GiveTransformTrap() {
 void GiveLightningTrap() {
     ucFlashLoop = 5;
     WarioChng_React[Wario.ucReact](Wario.ucReact == REACT_NORMAL ? 19 : 6);
-    WarioCoinSet(-0x28);
+    WarioCoinSet(CONVERT_SCORE(-400));
 }
