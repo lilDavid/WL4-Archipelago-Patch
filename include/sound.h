@@ -2,6 +2,7 @@
 
 typedef enum {
     SE_BOX_OPEN = 0xDC,
+    SE_THUNDER = 0x115,
     SE_CONFIRM = 0x125,
     SE_DIAMOND_GET = 0x13A,
     SE_GEM_GET = 0x13B,

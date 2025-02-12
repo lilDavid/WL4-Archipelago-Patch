@@ -37,7 +37,9 @@
 
 .definelabel LastCollectedItemIndex, UnusedRamStart + 43  ; byte
 
-.definelabel VblkStatus, UnusedRamStart + 44  ; byte
+.definelabel LightningTrapTimer, UnusedRamStart + 44  ; byte
+
+.definelabel VblkStatus, UnusedRamStart + 47  ; byte
 
 .definelabel QueuedJunk, UnusedRamStart + 48  ; bytes
     .definelabel QueuedFullHealthItem, QueuedJunk + 0

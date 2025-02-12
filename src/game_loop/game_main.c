@@ -78,6 +78,9 @@ static void GameMain_CollectJunk(void) {
     if (MultiworldState == MW_TEXT_FOUND_BOSS_ITEMS)
         return;
 
+    if (usWarStopFlg != 0)
+        return;
+
     if (QueuedFullHealthItem) {
         GiveWarioHearts(8);
         QueuedFullHealthItem = 0;
@@ -86,7 +89,11 @@ static void GameMain_CollectJunk(void) {
         QueuedHearts -= 1;
     }
 
-    if (Wario.ucMiss == 0 && Wario.ucReact <= REACT_WATER) {
+    if (LightningTrapTimer >= 0) {
+        if (LightningTrapTimer == 0)
+            ApplyLightningTrap();
+        LightningTrapTimer -= 1;
+    } else if (Wario.ucMiss == 0 && Wario.ucReact <= REACT_WATER) {
         int is_swimming = Wario.ucReact == REACT_WATER && HAS_ABILITY_TEMPORARY(ABILITY_SWIM);
         int favor_transforms = (QueuedFormTraps ^ QueuedLightningTraps) & 1;
         if (QueuedFormTraps > 0 && favor_transforms

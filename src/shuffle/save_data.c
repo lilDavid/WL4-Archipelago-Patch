@@ -122,6 +122,7 @@ void SetItemCollection() {
 
     AbilitiesInThisLevel = 0;
     CollectedItems = item_status >> 8;
+    LightningTrapTimer = -1;
 }
 
 

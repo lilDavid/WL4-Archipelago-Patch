@@ -30,7 +30,8 @@ void ItemReceivedFeedbackSound(u8 item_id) {
         default:
             break;
     }
-    WarioVoiceSet(WV_TREASURE);
+    if (item_id != ITEM_LIGHTNING_TRAP && item_id != ITEM_WARIO_FORM_TRAP)
+        WarioVoiceSet(WV_TREASURE);
 }
 
 // Get the next incoming item. If nothing has been received, return ITEM_NONE.

@@ -45,10 +45,16 @@ void GiveTransformTrap() {
     reactionList[random]();
 }
 
-// Summon lightnining to strike and damage Wario, same as on The Big Board
-// If underwater, apply the correct status because it's different
-void GiveLightningTrap() {
+// Give lightning damage to Wario, flashing the screen and making him drop 400 coins
+void ApplyLightningTrap() {
     ucFlashLoop = 5;
+    // If underwater, apply the correct status because it's different
     WarioChng_React[Wario.ucReact](Wario.ucReact == REACT_NORMAL ? 19 : 6);
     WarioCoinSet(CONVERT_SCORE(-400));
+}
+
+// Summon lightnining to strike and damage Wario, same as on The Big Board
+void GiveLightningTrap() {
+    m4aSongNumStart(SE_THUNDER);
+    LightningTrapTimer = CONVERT_SECONDS(0.75);
 }

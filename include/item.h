@@ -121,6 +121,7 @@ extern u8 QueuedFullHealthItem;
 extern u8 QueuedFormTraps;
 extern u8 QueuedHearts;
 extern u8 QueuedLightningTraps;
+extern s8 LightningTrapTimer;
 extern u8 AbilitiesInThisLevel;
 
 ItemType Item_GetType(u8 item_id);
@@ -128,3 +129,4 @@ ItemType Item_GetType(u8 item_id);
 void GiveWarioHearts(u32 hearts);
 void GiveTransformTrap(void);
 void GiveLightningTrap(void);
+void ApplyLightningTrap(void);
