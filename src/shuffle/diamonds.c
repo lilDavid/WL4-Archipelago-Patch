@@ -178,7 +178,7 @@ static u8 DiamondIdentify(void) {
 
 static void DiamondDespawn(void) {
     gCurrentSprite.usStatus = 0;
-    SpriteLeftoverStateList[CurrentRoomId][gCurrentSprite.RoomEntitySlotId] = 2;
+    gPersistentSpriteData[CurrentRoomId][gCurrentSprite.RoomEntitySlotId] = SPRITE_DESPAWNED;
 }
 
 static void RandoDiamond_Init(void) {
@@ -223,7 +223,7 @@ static void RandoDiamond_Init(void) {
     RANDO_DIAMOND_ITEM = item_id;
     RANDO_DIAMOND_FAKE_SPRITE = item_sprite;
     DIAMOND_FLOATING_ANIMATION_FRAME = 0;
-    gCurrentSprite.CurrentAnimationId = 0x10;
+    gCurrentSprite.CurrentAnimationId = ANIMATION_WALK;
     gCurrentSprite.GuardAndDamageParam = 6;
     gCurrentSprite.YPos -= PIXEL_SIZE;
     gCurrentSprite.XPos += HALF_BLOCK_SIZE;
@@ -259,8 +259,8 @@ void RandoSpriteAI_Diamond(void) {
     }
 
     switch (gCurrentSprite.CurrentAnimationId) {
-        case 0: RandoDiamond_Init(); break;
-        case 0x10: Diamond_Main(); break;
-        case 0x31: RandoDiamond_Collect(); break;
+        case ANIMATION_INIT: RandoDiamond_Init(); break;
+        case ANIMATION_WALK: Diamond_Main(); break;
+        case ANIMATION_Q_HIP: RandoDiamond_Collect(); break;
     }
 }

@@ -21,6 +21,9 @@ typedef enum {
     LEVEL_MAX = 6,  // Number of "levels" where Wario could be in a passage
 } InPassageLevel;
 
+#define MAX_ROOMS_PER_LEVEL 16
+#define MAX_SPRITE_SLOTS_IN_ROOM 64
+
 typedef enum {
     VBLK_MAIN_SET_PALETTE = 1 << 6,
     VBLK_MAIN_UPDATE_TEXT = 1 << 7,

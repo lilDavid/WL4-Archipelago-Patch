@@ -12,7 +12,7 @@
 .definelabel ucTimeUp, 0x3000047
 .definelabel gColorFading, 0x30000D0
 .definelabel gSpriteData, 0x3000104
-.definelabel SpriteLeftoverStateList, 0x3000564
+.definelabel gPersistentSpriteData, 0x3000564
 .definelabel gCurrentSprite, 0x3000A24
 .definelabel W4ItemStatus, 0x3000A68
 .definelabel gCurrentSecondarySprite, 0x3000BE0

@@ -3,6 +3,7 @@
 #include <gba.h>
 
 #include "unsorted/functions.h"
+#include "unsorted/types.h"
 #include "graphics.h"
 
 
@@ -85,12 +86,39 @@ typedef struct {
     /* 0x08 */ u16 usPosX;
 } SecondarySpriteData; /* size = 0xA */
 
+// TODO: Give more understandable names
+typedef enum {
+    ANIMATION_INIT,
+    ANIMATION_INIT2,
+    ANIMATION_INIT3,
+    // ...
+    ANIMATION_WALK = 0x10,
+    // ...
+    ANIMATION_Q_HIP = 0x31,
+    // ...
+} SpriteAnimationId;
+
+
+#define MAX_LOADED_PRIMARY_SPRITES 24
+#define MAX_LOADED_SECONDARY_SPRITES 8
 
 extern SpriteData gCurrentSprite;
-extern SpriteData gSpriteData[24];
-extern u8 SpriteLeftoverStateList[16][64];
+extern SpriteData gSpriteData[MAX_LOADED_PRIMARY_SPRITES];
 
 extern SecondarySpriteData gCurrentSecondarySprite;
+
+typedef enum {
+    SPRITE_UNLOADED,
+    SPRITE_LOADED,
+    SPRITE_DESPAWNED
+} PersistentSpriteStatus;
+
+// Upper nybble = animation ID on next load
+// Lower nybble = status
+extern u8 gPersistentSpriteData[MAX_ROOMS_PER_LEVEL][MAX_SPRITE_SLOTS_IN_ROOM];
+
+#define MAKE_SPRITE_DATA(status, animation) (((status) & 0xF) | (((animation) & 0xF) << 4))
+
 
 LONGCALL void Sprite_SpawnAsChild(u8 global_id, u8 parent_slot, u8 chr_ofs, s16 y_pos, s16 x_pos);
 LONGCALL void Sprite_Draw(void);

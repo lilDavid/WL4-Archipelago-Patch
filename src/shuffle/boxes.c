@@ -11,6 +11,8 @@
 #include "wario.h"
 
 
+#define BOX_INIT_DISAPPEARING ANIMATION_INIT3
+
 void CollectRandomItem(void);
 
 
@@ -54,7 +56,7 @@ void SpawnRandomizedItemFromBox() {
                       gCurrentSprite.YPos - 2 * BLOCK_SIZE,
                       gCurrentSprite.XPos);
     } else {
-        SpriteLeftoverStateList[CurrentRoomId][gCurrentSprite.RoomEntitySlotId] = 0x21;
+        gPersistentSpriteData[CurrentRoomId][gCurrentSprite.RoomEntitySlotId] = MAKE_SPRITE_DATA(SPRITE_LOADED, BOX_INIT_DISAPPEARING);
     }
 
     if (item_id == ITEM_LIGHTNING_TRAP || item_id == ITEM_WARIO_FORM_TRAP || item_id == ITEM_AP_TRAP) {
@@ -98,7 +100,7 @@ void LoadRandomItemAnimation() {
         gCurrentSprite.RealFrameCountForCurrentAnimationFrame = 0;
         gCurrentSprite.CurrentAnimationFrameId = 0;
         BOX_REWARD_FLOATING_ANIMATION_FRAME = 0;
-        gCurrentSprite.CurrentAnimationId = 0x10;
+        gCurrentSprite.CurrentAnimationId = ANIMATION_WALK;
     }
 }
 
@@ -107,7 +109,7 @@ void CollectRandomItem() {
     if (RANDO_BOX_REWARD_INDEX <= BOX_CD)
         HAS_BOX(RANDO_BOX_REWARD_INDEX) = 1;
 
-    SpriteLeftoverStateList[CurrentRoomId][gCurrentSprite.RoomEntitySlotId] = 0x21;
+    gPersistentSpriteData[CurrentRoomId][gCurrentSprite.RoomEntitySlotId] = MAKE_SPRITE_DATA(SPRITE_LOADED, BOX_INIT_DISAPPEARING);
     gCurrentSprite.usStatus = 0;
     CollectItemInLevel(RANDO_BOX_REWARD_INDEX);
 
