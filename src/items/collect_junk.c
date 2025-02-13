@@ -7,12 +7,12 @@
 
 // Refill Wario's health by a specified amount
 void GiveWarioHearts(u32 hearts) {
-    WarioHeart[1] += hearts;
-    if (WarioHeart[0] + WarioHeart[1] > 8) {
-        WarioHeart[1] = 8 - WarioHeart[0];
+    WarioHeart.queuedFill += hearts;
+    if (WarioHeart.count + WarioHeart.queuedFill > 8) {
+        WarioHeart.queuedFill = 8 - WarioHeart.count;
     }
-    WarioHeart[2] = WarioHeart[1] << 3;
-    WarioHeart[3] = 0;
+    WarioHeart.unk_02 = WarioHeart.queuedFill << 3;
+    WarioHeart.timer = 0;
     if (hearts == 8) {
         m4aSongNumStart(SE_FULL_HEALTH_ITEM_GET);
     } else {

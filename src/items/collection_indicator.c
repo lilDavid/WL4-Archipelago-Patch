@@ -4,6 +4,7 @@
 #include "unsorted/variables.h"
 #include "graphics.h"
 #include "item.h"
+#include "units.h"
 #include "wario.h"
 
 
@@ -149,7 +150,7 @@ static void GemIcons_SetCollectedAbility();
 static void GemIcons_SetCollectedPiece();
 
 void GemIcons_Update() {
-    if (Scbuf_ucWork0 >= 60) {
+    if (Scbuf_ucWork0 >= CONVERT_SECONDS(1)) {
         Scbuf_ucStatus = (Scbuf_ucStatus & 0xfd) | 4;
         Scbuf_ucSeq = 5;
         Scbuf_ucWork0 = 0x14;
@@ -157,7 +158,7 @@ void GemIcons_Update() {
         return;
     }
 
-    if (Scbuf_ucWork0 == 20) {
+    if (Scbuf_ucWork0 == CONVERT_SECONDS(1.0/3.0)) {
         if (Item_GetType(LastCollectedItemID) == ITEMTYPE_ABILITY)
             GemIcons_SetCollectedAbility();
         else
@@ -232,7 +233,7 @@ void CDIcon_Init() {
 }
 
 void CDIcon_Update() {
-    if (Scbuf_ucWork0 != 20)
+    if (Scbuf_ucWork0 != CONVERT_SECONDS(1.0/3.0))
         return;
     u8 item_id = LastCollectedItemID;
     const Tile4bpp* icon;

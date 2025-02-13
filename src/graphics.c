@@ -37,7 +37,7 @@ void SetTreasurePalette(u32 palette) {
 }
 
 void OamBuf_AddObj(u16 attr0, u16 attr1, u16 attr2) {
-    if (ucCntObj >= 0x80)
+    if (ucCntObj >= ARRAY_SIZE(OamBuf))
         return;
     OamBuf[ucCntObj].attr0 = attr0;
     OamBuf[ucCntObj].attr1 = attr1;
