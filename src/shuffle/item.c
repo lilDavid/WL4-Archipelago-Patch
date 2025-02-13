@@ -3,11 +3,11 @@
 #include "unsorted/functions.h"
 #include "unsorted/macros.h"
 #include "unsorted/variables.h"
-#include "entity.h"
 #include "item_table.h"
 #include "multiworld.h"
 #include "randomizer.h"
 #include "sound.h"
+#include "sprite.h"
 #include "units.h"
 #include "wario.h"
 
@@ -116,24 +116,24 @@ const TAnmDef* ItemLoadInGameGraphicsForID(u8 item_id) {
 
 void ItemReloadInGameGraphics() {
     for (u32 i = 0; i < ARRAY_SIZE(gSpriteData); i++) {
-        EnemyDataStructure* sprite = &gSpriteData[i];
+        SpriteData* sprite = &gSpriteData[i];
         if ((sprite->usStatus & 1) == 0)
             continue;
         const TAnmDef* animation;
         switch (sprite->GlobalId) {
-            case ENTITY_TREASURE_GEM1:
-            case ENTITY_TREASURE_GEM2:
-            case ENTITY_TREASURE_GEM3:
-            case ENTITY_TREASURE_GEM4:
-            case ENTITY_TREASURE_CD:
-            case ENTITY_TREASURE_HEART:
+            case PSPRITE_TREASURE_GEM1:
+            case PSPRITE_TREASURE_GEM2:
+            case PSPRITE_TREASURE_GEM3:
+            case PSPRITE_TREASURE_GEM4:
+            case PSPRITE_TREASURE_CD:
+            case PSPRITE_TREASURE_HEART:
                 animation = ItemLoadInGameGraphicsForID(sprite->WorkVariable1);
                 if (animation == NULL)
                     animation = EmptyAnm;
                 sprite->OAMDataPackPointerForCurrentAnimation = animation;
                 break;
 
-            case ENTITY_DIAMOND:
+            case PSPRITE_DIAMOND:
                 if (!DiamondShuffle)
                     break;
                 animation = ItemLoadInGameGraphicsForID(sprite->WorkVariable2);
@@ -175,7 +175,11 @@ void CollectItemInLevel(u8 index) {
                 case ITEM_MINIGAME_COIN: m4aSongNumStart(SE_MINIGAME_COIN_GET); break;
                 case ITEM_DIAMOND:
                     GmStScoreCalc(CONVERT_SCORE(1000));
-                    TOptObjSet(CurrentEnemyData.YPos - SUBPIXELS_FROM_PIXELS(25), CurrentEnemyData.XPos - BLOCK_SIZE, 4);
+                    Sprite_SpawnSecondary(
+                        gCurrentSprite.YPos - SUBPIXELS_FROM_PIXELS(25),
+                        gCurrentSprite.XPos - BLOCK_SIZE,
+                        SSPRITE_SCORE_1000
+                    );
                     if (Wario.ucReact == REACT_WATER)
                         m4aSongNumStart(SE_DIAMOND_GET_UNDERWATER);
                     else
@@ -216,23 +220,23 @@ void CollectItemInLevel(u8 index) {
 }
 
 static void ItemInitBoxContents() {
-    CurrentEnemyData.DrawDistanceBottom = PIXELS_FROM_SUBPIXELS(2 * BLOCK_SIZE);
-    CurrentEnemyData.DrawDistanceTop = PIXELS_FROM_SUBPIXELS(BLOCK_SIZE);
-    CurrentEnemyData.DrawDistanceHorizontal = PIXELS_FROM_SUBPIXELS(BLOCK_SIZE);
-    CurrentEnemyData.HitboxTop = SUBPIXELS_FROM_PIXELS(16);
-    CurrentEnemyData.HitboxBottom = SUBPIXELS_FROM_PIXELS(4);
-    CurrentEnemyData.HitboxLeft = SUBPIXELS_FROM_PIXELS(10);
-    CurrentEnemyData.HitboxRight = SUBPIXELS_FROM_PIXELS(9);
+    gCurrentSprite.DrawDistanceBottom = PIXELS_FROM_SUBPIXELS(2 * BLOCK_SIZE);
+    gCurrentSprite.DrawDistanceTop = PIXELS_FROM_SUBPIXELS(BLOCK_SIZE);
+    gCurrentSprite.DrawDistanceHorizontal = PIXELS_FROM_SUBPIXELS(BLOCK_SIZE);
+    gCurrentSprite.HitboxTop = SUBPIXELS_FROM_PIXELS(16);
+    gCurrentSprite.HitboxBottom = SUBPIXELS_FROM_PIXELS(4);
+    gCurrentSprite.HitboxLeft = SUBPIXELS_FROM_PIXELS(10);
+    gCurrentSprite.HitboxRight = SUBPIXELS_FROM_PIXELS(9);
 }
 
 static void ItemInitDiamond() {
-    CurrentEnemyData.DrawDistanceBottom = PIXELS_FROM_SUBPIXELS(3 * HALF_BLOCK_SIZE);
-    CurrentEnemyData.DrawDistanceTop = PIXELS_FROM_SUBPIXELS(HALF_BLOCK_SIZE);
-    CurrentEnemyData.DrawDistanceHorizontal = PIXELS_FROM_SUBPIXELS(BLOCK_SIZE);
-    CurrentEnemyData.HitboxTop = SUBPIXELS_FROM_PIXELS(20);
-    CurrentEnemyData.HitboxBottom = SUBPIXELS_FROM_PIXELS(34);
-    CurrentEnemyData.HitboxLeft = SUBPIXELS_FROM_PIXELS(10);
-    CurrentEnemyData.HitboxRight = SUBPIXELS_FROM_PIXELS(9);
+    gCurrentSprite.DrawDistanceBottom = PIXELS_FROM_SUBPIXELS(3 * HALF_BLOCK_SIZE);
+    gCurrentSprite.DrawDistanceTop = PIXELS_FROM_SUBPIXELS(HALF_BLOCK_SIZE);
+    gCurrentSprite.DrawDistanceHorizontal = PIXELS_FROM_SUBPIXELS(BLOCK_SIZE);
+    gCurrentSprite.HitboxTop = SUBPIXELS_FROM_PIXELS(20);
+    gCurrentSprite.HitboxBottom = SUBPIXELS_FROM_PIXELS(34);
+    gCurrentSprite.HitboxLeft = SUBPIXELS_FROM_PIXELS(10);
+    gCurrentSprite.HitboxRight = SUBPIXELS_FROM_PIXELS(9);
 }
 
 void ItemSetHitboxAndDrawDistance(u8 item_id) {

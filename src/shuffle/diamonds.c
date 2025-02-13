@@ -3,10 +3,10 @@
 #include "unsorted/functions.h"
 #include "unsorted/macros.h"
 #include "unsorted/variables.h"
-#include "entity.h"
 #include "item_table.h"
 #include "randomizer.h"
 #include "sound.h"
+#include "sprite.h"
 #include "units.h"
 #include "wario.h"
 
@@ -157,14 +157,14 @@ u8 DiamondIdTable[][5] = {
 };
 
 
-#define RANDO_DIAMOND_INDEX CurrentEnemyData.WorkVariable0
-#define RANDO_DIAMOND_ITEM CurrentEnemyData.WorkVariable1
-#define RANDO_DIAMOND_FAKE_SPRITE CurrentEnemyData.WorkVariable2
-#define DIAMOND_FLOATING_ANIMATION_FRAME CurrentEnemyData.WorkVariable3
+#define RANDO_DIAMOND_INDEX gCurrentSprite.WorkVariable0
+#define RANDO_DIAMOND_ITEM gCurrentSprite.WorkVariable1
+#define RANDO_DIAMOND_FAKE_SPRITE gCurrentSprite.WorkVariable2
+#define DIAMOND_FLOATING_ANIMATION_FRAME gCurrentSprite.WorkVariable3
 
 
 static u8 DiamondIdentify(void) {
-    int x = BLOCKS_FROM_SUBPIXELS(CurrentEnemyData.XPos - HALF_BLOCK_SIZE);
+    int x = BLOCKS_FROM_SUBPIXELS(gCurrentSprite.XPos - HALF_BLOCK_SIZE);
     for (u32 i = 0; i < ARRAY_SIZE(DiamondIdTable); i++) {
         u8 *entry = DiamondIdTable[i];
         if (entry[0] == PassageID &&
@@ -177,8 +177,8 @@ static u8 DiamondIdentify(void) {
 }
 
 static void DiamondDespawn(void) {
-    CurrentEnemyData.usStatus = 0;
-    EntityLeftOverStateList[CurrentRoomId][CurrentEnemyData.RoomEntitySlotId] = 2;
+    gCurrentSprite.usStatus = 0;
+    SpriteLeftoverStateList[CurrentRoomId][gCurrentSprite.RoomEntitySlotId] = 2;
 }
 
 static void RandoDiamond_Init(void) {
@@ -186,7 +186,7 @@ static void RandoDiamond_Init(void) {
     if (PassageID == PASSAGE_SAPPHIRE &&
             InPassageLevelID == 3 &&
             CurrentRoomId == 13 &&
-            BLOCKS_FROM_SUBPIXELS(CurrentEnemyData.YPos - BLOCK_SIZE) == 0x17)
+            BLOCKS_FROM_SUBPIXELS(gCurrentSprite.YPos - BLOCK_SIZE) == 0x17)
         index = DIAMOND_6;
 
 
@@ -214,23 +214,23 @@ static void RandoDiamond_Init(void) {
     if (animation == NULL)
         animation = DiamondAnm;
 
-    CurrentEnemyData.usStatus |= 0x408;
+    gCurrentSprite.usStatus |= 0x408;
     ItemSetHitboxAndDrawDistance(item_id);
-    CurrentEnemyData.OAMDataPackPointerForCurrentAnimation = animation;
-    CurrentEnemyData.RealFrameCountForCurrentAnimationFrame = 0;
-    CurrentEnemyData.CurrentAnimationFrameId = 0;
+    gCurrentSprite.OAMDataPackPointerForCurrentAnimation = animation;
+    gCurrentSprite.RealFrameCountForCurrentAnimationFrame = 0;
+    gCurrentSprite.CurrentAnimationFrameId = 0;
     RANDO_DIAMOND_INDEX = index;
     RANDO_DIAMOND_ITEM = item_id;
     RANDO_DIAMOND_FAKE_SPRITE = item_sprite;
     DIAMOND_FLOATING_ANIMATION_FRAME = 0;
-    CurrentEnemyData.CurrentAnimationId = 0x10;
-    CurrentEnemyData.GuardAndDamageParam = 6;
-    CurrentEnemyData.YPos -= PIXEL_SIZE;
-    CurrentEnemyData.XPos += HALF_BLOCK_SIZE;
+    gCurrentSprite.CurrentAnimationId = 0x10;
+    gCurrentSprite.GuardAndDamageParam = 6;
+    gCurrentSprite.YPos -= PIXEL_SIZE;
+    gCurrentSprite.XPos += HALF_BLOCK_SIZE;
 
     if (RANDO_DIAMOND_ITEM != ITEM_DIAMOND) {
-        CurrentEnemyData.YPos -= 3 * QUARTER_BLOCK_SIZE;
-        CurrentEnemyData.HitboxBottom += HALF_BLOCK_SIZE;
+        gCurrentSprite.YPos -= 3 * QUARTER_BLOCK_SIZE;
+        gCurrentSprite.HitboxBottom += HALF_BLOCK_SIZE;
     }
 }
 
@@ -258,7 +258,7 @@ void RandoSpriteAI_Diamond(void) {
         return;
     }
 
-    switch (CurrentEnemyData.CurrentAnimationId) {
+    switch (gCurrentSprite.CurrentAnimationId) {
         case 0: RandoDiamond_Init(); break;
         case 0x10: Diamond_Main(); break;
         case 0x31: RandoDiamond_Collect(); break;

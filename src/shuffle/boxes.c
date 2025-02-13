@@ -1,12 +1,12 @@
 #include <gba.h>
 
 #include "unsorted/variables.h"
-#include "entity.h"
 #include "item.h"
 #include "item_table.h"
 #include "graphics.h"
 #include "multiworld.h"
 #include "sound.h"
+#include "sprite.h"
 #include "units.h"
 #include "wario.h"
 
@@ -30,31 +30,31 @@ extern TAnmDef zako_takara_box_Anm_11[];
 // Check if this box has been opened before and release the item if it has.
 // Unless it contains a junk item, in which case always open it.
 void SpawnRandomizedItemFromBox() {
-    int box_id = CurrentEnemyData.GlobalId;
+    int box_id = gCurrentSprite.GlobalId;
     int item_index = box_id;
-    if (box_id == ENTITY_BOX_HEART) {
+    if (box_id == PSPRITE_BOX_HEART) {
         item_index += GetHeartBoxID();
-        CurrentEnemyData.OAMDataPackPointerForCurrentAnimation = zako_takara_box_Anm_11;
-    } else if (box_id == ENTITY_BOX_CD) {
-        CurrentEnemyData.OAMDataPackPointerForCurrentAnimation = zako_takara_box_Anm_02;
+        gCurrentSprite.OAMDataPackPointerForCurrentAnimation = zako_takara_box_Anm_11;
+    } else if (box_id == PSPRITE_BOX_CD) {
+        gCurrentSprite.OAMDataPackPointerForCurrentAnimation = zako_takara_box_Anm_02;
     }
 
     u32 item_id = ItemInCurrentLevel(item_index);
     const ExtData* multi = ExtDataInCurrentLevel(item_index);
 
     if (!HasItemInLevel(item_index) || (multi == NULL && Item_GetType(item_id) == ITEMTYPE_JUNK)) {
-        EnemyChildSet(ENTITY_TREASURE_GEM1 + box_id,
-                      CurrentEnemyData.RoomEntitySlotId,
+        Sprite_SpawnAsChild(PSPRITE_TREASURE_GEM1 + box_id,
+                      gCurrentSprite.RoomEntitySlotId,
                       0,
-                      CurrentEnemyData.YPos - 2 * BLOCK_SIZE,
-                      CurrentEnemyData.XPos);
-        EnemyChildSet(ENTITY_LIGHT_GEM1 + box_id,
-                      CurrentEnemyData.RoomEntitySlotId,
+                      gCurrentSprite.YPos - 2 * BLOCK_SIZE,
+                      gCurrentSprite.XPos);
+        Sprite_SpawnAsChild(PSPRITE_LIGHT_GEM1 + box_id,
+                      gCurrentSprite.RoomEntitySlotId,
                       0,
-                      CurrentEnemyData.YPos - 2 * BLOCK_SIZE,
-                      CurrentEnemyData.XPos);
+                      gCurrentSprite.YPos - 2 * BLOCK_SIZE,
+                      gCurrentSprite.XPos);
     } else {
-        EntityLeftOverStateList[CurrentRoomId][CurrentEnemyData.RoomEntitySlotId] = 0x21;
+        SpriteLeftoverStateList[CurrentRoomId][gCurrentSprite.RoomEntitySlotId] = 0x21;
     }
 
     if (item_id == ITEM_LIGHTNING_TRAP || item_id == ITEM_WARIO_FORM_TRAP || item_id == ITEM_AP_TRAP) {
@@ -66,16 +66,16 @@ void SpawnRandomizedItemFromBox() {
 }
 
 
-#define RANDO_BOX_REWARD_INDEX CurrentEnemyData.WorkVariable0
-#define RANDO_BOX_REWARD_ITEM CurrentEnemyData.WorkVariable1
-#define BOX_REWARD_FLOATING_ANIMATION_FRAME CurrentEnemyData.WorkVariable3
+#define RANDO_BOX_REWARD_INDEX gCurrentSprite.WorkVariable0
+#define RANDO_BOX_REWARD_ITEM gCurrentSprite.WorkVariable1
+#define BOX_REWARD_FLOATING_ANIMATION_FRAME gCurrentSprite.WorkVariable3
 
 
 // Load the appropriate animation for a randomized item found in a box. The
-// item used and resulting animation chosen is based on the item's entity ID.
+// item used and resulting animation chosen is based on the item's PSPRITE ID.
 void LoadRandomItemAnimation() {
-    int item_index = CurrentEnemyData.GlobalId - ENTITY_TREASURE_GEM1;
-    if (CurrentEnemyData.GlobalId == ENTITY_TREASURE_HEART)
+    int item_index = gCurrentSprite.GlobalId - PSPRITE_TREASURE_GEM1;
+    if (gCurrentSprite.GlobalId == PSPRITE_TREASURE_HEART)
         item_index += GetHeartBoxID();
     u32 item_id = ItemInCurrentLevel(item_index);
 
@@ -84,21 +84,21 @@ void LoadRandomItemAnimation() {
         animation = EmptyAnm;
     int give_immediately = item_id == ITEM_WARIO_FORM_TRAP || item_id == ITEM_LIGHTNING_TRAP;
     if (item_id == ITEM_DIAMOND)
-        CurrentEnemyData.YPos += 3 * QUARTER_BLOCK_SIZE;
+        gCurrentSprite.YPos += 3 * QUARTER_BLOCK_SIZE;
 
     RANDO_BOX_REWARD_INDEX = item_index;
     RANDO_BOX_REWARD_ITEM = item_id;
     if (give_immediately) {
         CollectRandomItem();
     } else {
-        CurrentEnemyData.OAMDataPackPointerForCurrentAnimation = animation;
-        CurrentEnemyData.usStatus = (CurrentEnemyData.usStatus & 0xFFFB) | 0x8400;
+        gCurrentSprite.OAMDataPackPointerForCurrentAnimation = animation;
+        gCurrentSprite.usStatus = (gCurrentSprite.usStatus & 0xFFFB) | 0x8400;
         ItemSetHitboxAndDrawDistance(item_id);
-        CurrentEnemyData.GuardAndDamageParam = 6;
-        CurrentEnemyData.RealFrameCountForCurrentAnimationFrame = 0;
-        CurrentEnemyData.CurrentAnimationFrameId = 0;
+        gCurrentSprite.GuardAndDamageParam = 6;
+        gCurrentSprite.RealFrameCountForCurrentAnimationFrame = 0;
+        gCurrentSprite.CurrentAnimationFrameId = 0;
         BOX_REWARD_FLOATING_ANIMATION_FRAME = 0;
-        CurrentEnemyData.CurrentAnimationId = 0x10;
+        gCurrentSprite.CurrentAnimationId = 0x10;
     }
 }
 
@@ -107,8 +107,8 @@ void CollectRandomItem() {
     if (RANDO_BOX_REWARD_INDEX <= BOX_CD)
         HAS_BOX(RANDO_BOX_REWARD_INDEX) = 1;
 
-    EntityLeftOverStateList[CurrentRoomId][CurrentEnemyData.RoomEntitySlotId] = 0x21;
-    CurrentEnemyData.usStatus = 0;
+    SpriteLeftoverStateList[CurrentRoomId][gCurrentSprite.RoomEntitySlotId] = 0x21;
+    gCurrentSprite.usStatus = 0;
     CollectItemInLevel(RANDO_BOX_REWARD_INDEX);
 
     if (ExtDataInCurrentLevel(RANDO_BOX_REWARD_INDEX) &&

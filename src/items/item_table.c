@@ -7,6 +7,7 @@
 #include "item_table.h"
 #include "graphics.h"
 #include "randomizer.h"
+#include "sprite.h"
 #include "units.h"
 #include "wario.h"
 
@@ -88,7 +89,7 @@ void GiveItem_InGame(u8 item_id, const ExtData* multiworld) {
             GiveItem_JunkQueue(item_id);
             if (item_id == ITEM_DIAMOND) {
                 GmStScoreCalc(CONVERT_SCORE(1000));
-                TOptObjSet(Wario.usPosY, Wario.usPosX, 4);
+                Sprite_SpawnSecondary(Wario.usPosY, Wario.usPosX, SSPRITE_SCORE_1000);
             }
             break;
         default:

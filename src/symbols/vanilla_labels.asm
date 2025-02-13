@@ -12,13 +12,10 @@
 .definelabel ucTimeUp, 0x3000047
 .definelabel gColorFading, 0x30000D0
 .definelabel gSpriteData, 0x3000104
-.definelabel EntityLeftOverStateList, 0x3000564
-.definelabel CurrentEnemyData, 0x3000A24
+.definelabel SpriteLeftoverStateList, 0x3000564
+.definelabel gCurrentSprite, 0x3000A24
 .definelabel W4ItemStatus, 0x3000A68
-.definelabel Scbuf_ucStatus, 0x3000BE0
-.definelabel Scbuf_ucSeq, 0x3000BE3
-.definelabel Scbuf_ucWork0, 0x3000BE4
-.definelabel Scbuf_usPosX, 0x3000BEA
+.definelabel gCurrentSecondarySprite, 0x3000BE0
 .definelabel iGmTotalScore, 0x3000BF4
 .definelabel iGmStageScore, 0x3000BF8
 .definelabel Has1stGemPiece, 0x3000C07
@@ -65,8 +62,8 @@
 .definelabel m4aSongNumStart, 0x8001DA4
 .definelabel GmVblkIntr1_InGameUpdateWarioOAMAndSpritesTiles, 0x801BEA8
 .definelabel GmWarioCreate, 0x801C5D8
-.definelabel EnemyDisplayMain, 0x801D8C4
-.definelabel EnemyChildSet, 0x801E328
+.definelabel Sprite_Draw, 0x801D8C4
+.definelabel Sprite_SpawnAsChild, 0x801E328
 .definelabel ChangeWarioReact_Fire, 0x801EA3C
 .definelabel ChangeWarioReact_Fat, 0x801EA64
 .definelabel ChangeWarioReact_Frozen, 0x801EB54
@@ -79,7 +76,7 @@
 .definelabel SramBackup_Auto_Write, 0x8073880
 .definelabel ItemGetFlgSet_LoadSavestateInfo2RAM, 0x8075B50
 .definelabel GmStScoreCalc, 0x8076658
-.definelabel TOptObjSet, 0x80766E8
+.definelabel Sprite_SpawnSecondary, 0x80766E8
 .definelabel WarioCoinSet, 0x80768B8
 .definelabel TKakeraComp_SE_Set, 0x8078D60
 .definelabel TKakeraIconDsp_sub, 0x8078D98

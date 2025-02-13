@@ -281,7 +281,7 @@ hook 0x8079112, 0x8079126, CDIcon_Update
         mov lr, r0
 
     @@Return:
-        ldr r3, =Scbuf_ucStatus
+        ldr r3, =gCurrentSecondarySprite
         ldrb r1, [r3]
         pop {pc}
 

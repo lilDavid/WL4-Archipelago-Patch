@@ -1,11 +1,11 @@
 #include "unsorted/functions.h"
 #include "unsorted/variables.h"
 #include "color.h"
-#include "entity.h"
 #include "graphics.h"
 #include "item.h"
 #include "item_table.h"
 #include "multiworld.h"
+#include "sprite.h"
 #include "units.h"
 #include "wario.h"
 
@@ -114,7 +114,7 @@ static void GameMain_CreateTextOAM(u32);
 void GameMain_RandoGraphics() {
     if (ucWarOffFlg == 0)
         GmWarioCreate();
-    EnemyDisplayMain();
+    Sprite_Draw();
 
     if (MultiworldState == MW_TEXT_RECEIVED_ITEM || MultiworldState == MW_TEXT_SENDING_ITEM) {
         int text_type = MW_TEXT_SENDING_ITEM - MultiworldState;

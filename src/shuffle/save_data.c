@@ -6,6 +6,7 @@
 #include "item_table.h"
 #include "multiworld.h"
 #include "randomizer.h"
+#include "sprite.h"
 #include "units.h"
 #include "wario.h"
 
@@ -187,7 +188,7 @@ void ResetTraps() {
     if (QueuedLightningTraps > 1)
         QueuedLightningTraps = 1;
 
-    TOptObjSet(Wario.usPosY, Wario.usPosX, 0x4D);
+    Sprite_SpawnSecondary(Wario.usPosY, Wario.usPosX, SSPRITE_WARIO_DEATH);
     if (InPassageLevelID == LEVEL_BOSS)
         LoseSave();
 }

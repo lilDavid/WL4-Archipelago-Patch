@@ -11,7 +11,6 @@ LONGCALL s32 _modsi3(s32, s32);
 LONGCALL u16 MiniRandomCreate(void);
 
 LONGCALL void GmStScoreCalc(u32);
-LONGCALL void TOptObjSet(u16, u16, u8);
 
 LONGCALL void Select_Fade_Init(void);
 
