@@ -1,5 +1,6 @@
 #include <gba.h>
 
+#include "unsorted/functions.h"
 #include "unsorted/macros.h"
 #include "unsorted/variables.h"
 #include "entity.h"
@@ -34,6 +35,10 @@ static const TAnmDef* RandomItemTilesCreate(const Tile4bpp* top, const Tile4bpp*
 
 const TAnmDef* ItemLoadInGameGraphics(u8 index) {
     int item_id = ItemInCurrentLevel(index);
+    return ItemLoadInGameGraphicsForID(item_id);
+}
+
+const TAnmDef* ItemLoadInGameGraphicsForID(u8 item_id) {
     ItemType item_type = Item_GetType(item_id);
     switch (item_type) {
         case ITEMTYPE_AP:
@@ -122,7 +127,7 @@ void ItemReloadInGameGraphics() {
             case ENTITY_TREASURE_GEM4:
             case ENTITY_TREASURE_CD:
             case ENTITY_TREASURE_HEART:
-                animation = ItemLoadInGameGraphics(sprite->WorkVariable0);
+                animation = ItemLoadInGameGraphicsForID(sprite->WorkVariable1);
                 if (animation == NULL)
                     animation = EmptyAnm;
                 sprite->OAMDataPackPointerForCurrentAnimation = animation;
@@ -131,9 +136,9 @@ void ItemReloadInGameGraphics() {
             case ENTITY_DIAMOND:
                 if (!DiamondShuffle)
                     break;
-                animation = ItemLoadInGameGraphics(sprite->WorkVariable0);
+                animation = ItemLoadInGameGraphicsForID(sprite->WorkVariable2);
                 if (animation == NULL)
-                    animation = DiamondAnm;  // TODO: Restore fake graphic
+                    animation = DiamondAnm;
                 sprite->OAMDataPackPointerForCurrentAnimation = animation;
                 break;
         }
@@ -235,4 +240,63 @@ void ItemSetHitboxAndDrawDistance(u8 item_id) {
         case ITEM_DIAMOND: ItemInitDiamond(); break;
         default: ItemInitBoxContents(); break;
     }
+}
+
+// Can be any jewel piece or ability, or a diamond or full health item
+// Each jewel piece is weighted 1/3 of anything else
+static u8 sFakeItemSprites[] = {
+    ITEM_JEWEL(PASSAGE_ENTRY, JEWELPIECE_NE),
+    ITEM_JEWEL(PASSAGE_ENTRY, JEWELPIECE_SE),
+    ITEM_JEWEL(PASSAGE_ENTRY, JEWELPIECE_SW),
+    ITEM_JEWEL(PASSAGE_ENTRY, JEWELPIECE_NW),
+    ITEM_JEWEL(PASSAGE_EMERALD, JEWELPIECE_NE),
+    ITEM_JEWEL(PASSAGE_EMERALD, JEWELPIECE_SE),
+    ITEM_JEWEL(PASSAGE_EMERALD, JEWELPIECE_SW),
+    ITEM_JEWEL(PASSAGE_EMERALD, JEWELPIECE_NW),
+    ITEM_JEWEL(PASSAGE_RUBY, JEWELPIECE_NE),
+    ITEM_JEWEL(PASSAGE_RUBY, JEWELPIECE_SE),
+    ITEM_JEWEL(PASSAGE_RUBY, JEWELPIECE_SW),
+    ITEM_JEWEL(PASSAGE_RUBY, JEWELPIECE_NW),
+    ITEM_JEWEL(PASSAGE_TOPAZ, JEWELPIECE_NE),
+    ITEM_JEWEL(PASSAGE_TOPAZ, JEWELPIECE_SE),
+    ITEM_JEWEL(PASSAGE_TOPAZ, JEWELPIECE_SW),
+    ITEM_JEWEL(PASSAGE_TOPAZ, JEWELPIECE_NW),
+    ITEM_JEWEL(PASSAGE_SAPPHIRE, JEWELPIECE_NE),
+    ITEM_JEWEL(PASSAGE_SAPPHIRE, JEWELPIECE_SE),
+    ITEM_JEWEL(PASSAGE_SAPPHIRE, JEWELPIECE_SW),
+    ITEM_JEWEL(PASSAGE_SAPPHIRE, JEWELPIECE_NW),
+    ITEM_JEWEL(PASSAGE_GOLDEN, JEWELPIECE_NE),
+    ITEM_JEWEL(PASSAGE_GOLDEN, JEWELPIECE_SE),
+    ITEM_JEWEL(PASSAGE_GOLDEN, JEWELPIECE_SW),
+    ITEM_JEWEL(PASSAGE_GOLDEN, JEWELPIECE_NW),
+
+    ITEM_GROUND_POUND,
+    ITEM_GROUND_POUND,
+    ITEM_GROUND_POUND,
+    ITEM_SWIM,
+    ITEM_SWIM,
+    ITEM_SWIM,
+    ITEM_HEAD_SMASH,
+    ITEM_HEAD_SMASH,
+    ITEM_HEAD_SMASH,
+    ITEM_GRAB,
+    ITEM_GRAB,
+    ITEM_GRAB,
+    ITEM_DASH_ATTACK,
+    ITEM_DASH_ATTACK,
+    ITEM_DASH_ATTACK,
+    ITEM_ENEMY_JUMP,
+    ITEM_ENEMY_JUMP,
+    ITEM_ENEMY_JUMP,
+
+    ITEM_FULL_HEALTH_ITEM,
+    ITEM_FULL_HEALTH_ITEM,
+    ITEM_FULL_HEALTH_ITEM,
+    ITEM_DIAMOND,
+    ITEM_DIAMOND,
+    ITEM_DIAMOND,
+};
+
+u8 ItemChooseFakeSprite() {
+    return sFakeItemSprites[_modsi3(MiniRandomCreate(), ARRAY_SIZE(sFakeItemSprites))];
 }

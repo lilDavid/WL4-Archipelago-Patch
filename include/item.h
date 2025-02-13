@@ -44,6 +44,14 @@ typedef enum {
 } ItemType;
 
 typedef enum {
+    JEWELPIECE_NE,
+    JEWELPIECE_SE,
+    JEWELPIECE_SW,
+    JEWELPIECE_NW,
+    JEWELPIECE_MAX
+} JewelQuadrant;
+
+typedef enum {
     ABILITY_GROUND_POUND,
     ABILITY_SWIM,
     ABILITY_HEAD_SMASH,

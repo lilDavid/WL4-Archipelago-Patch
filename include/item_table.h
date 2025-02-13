@@ -63,6 +63,8 @@ void GiveItem_LevelEnd(u8 item_id, const ExtData* ext_data);
 void SpawnCollectionIndicator(u32 is_cd, u32 is_permanent);
 
 u8 HasItemInLevel(u8 index);
+u8 ItemChooseFakeSprite(void);
 const TAnmDef* ItemLoadInGameGraphics(u8 index);
+const TAnmDef* ItemLoadInGameGraphicsForID(u8 item_id);
 void CollectItemInLevel(u8 index);
 void ItemSetHitboxAndDrawDistance(u8 item_id);

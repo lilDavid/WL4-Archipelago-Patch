@@ -159,7 +159,7 @@ u8 DiamondIdTable[][5] = {
 
 #define RANDO_DIAMOND_INDEX CurrentEnemyData.WorkVariable0
 #define RANDO_DIAMOND_ITEM CurrentEnemyData.WorkVariable1
-#define RANDO_DIAMOND_IS_MULTIWORLD CurrentEnemyData.WorkVariable2
+#define RANDO_DIAMOND_FAKE_SPRITE CurrentEnemyData.WorkVariable2
 #define DIAMOND_FLOATING_ANIMATION_FRAME CurrentEnemyData.WorkVariable3
 
 
@@ -202,9 +202,17 @@ static void RandoDiamond_Init(void) {
         return;
     }
 
-    const TAnmDef* animation = ItemLoadInGameGraphics(index);
+    const TAnmDef* animation;
+    u8 item_sprite;
+    if (item_id == ITEM_WARIO_FORM_TRAP || item_id == ITEM_LIGHTNING_TRAP || item_id == ITEM_AP_TRAP) {
+        item_sprite = ItemChooseFakeSprite();
+        animation = ItemLoadInGameGraphicsForID(item_sprite);
+    } else {
+        item_sprite = item_id;
+        animation = ItemLoadInGameGraphics(index);
+    }
     if (animation == NULL)
-        animation = DiamondAnm;  // TODO: Fake item graphics
+        animation = DiamondAnm;
 
     CurrentEnemyData.usStatus |= 0x408;
     ItemSetHitboxAndDrawDistance(item_id);
@@ -213,7 +221,7 @@ static void RandoDiamond_Init(void) {
     CurrentEnemyData.CurrentAnimationFrameId = 0;
     RANDO_DIAMOND_INDEX = index;
     RANDO_DIAMOND_ITEM = item_id;
-    RANDO_DIAMOND_IS_MULTIWORLD = multi != NULL;
+    RANDO_DIAMOND_FAKE_SPRITE = item_sprite;
     DIAMOND_FLOATING_ANIMATION_FRAME = 0;
     CurrentEnemyData.CurrentAnimationId = 0x10;
     CurrentEnemyData.GuardAndDamageParam = 6;
@@ -229,13 +237,14 @@ static void RandoDiamond_Init(void) {
 static void RandoDiamond_Collect(void) {
     DiamondDespawn();
     CollectItemInLevel(RANDO_DIAMOND_INDEX);
-    if (RANDO_DIAMOND_IS_MULTIWORLD) {
+    const ExtData* multi = ExtDataInCurrentLevel(RANDO_DIAMOND_INDEX);
+    if (multi) {
         m4aSongNumStart(SE_GEM_GET);
     }
     if (RANDO_DIAMOND_ITEM == ITEM_WARIO_FORM_TRAP ||
         RANDO_DIAMOND_ITEM == ITEM_LIGHTNING_TRAP ||
         RANDO_DIAMOND_ITEM == ITEM_AP_TRAP) {
-        if (RANDO_DIAMOND_IS_MULTIWORLD) {
+        if (multi) {
             WarioVoiceSet(WV_SORRY);
         }
     } else {
