@@ -1,3 +1,4 @@
+#include "unsorted/macros.h"
 #include "unsorted/variables.h"
 #include "game_state.h"
 #include "item.h"
@@ -41,9 +42,7 @@ void GiveTransformTrap() {
         ChangeWarioReact_Frozen
     };
 
-    int random = MiniRandomCreate();
-    random = _modsi3(random, 3);
-    reactionList[random]();
+    reactionList[_modsi3(MiniRandomCreate(), ARRAY_SIZE(reactionList))]();
 }
 
 // Give lightning damage to Wario, flashing the screen and making him drop 400 coins
