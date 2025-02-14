@@ -21,4 +21,7 @@ extern u8 GlobalTimer;
 extern u8 ucTimeUp;
 extern u8 gPauseFlag[];
 
+
+#define MAX_WARIO_HEARTS 8
+
 extern WarioLifeData WarioHeart;
