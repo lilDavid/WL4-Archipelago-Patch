@@ -1,3 +1,5 @@
+#pragma once
+
 #include <gba.h>
 
 // Amount of subpixels in one visible pixel

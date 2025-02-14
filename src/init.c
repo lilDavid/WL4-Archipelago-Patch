@@ -1,6 +1,7 @@
 #include <gba.h>
 
 #include "unsorted/variables.h"
+#include "game_state.h"
 #include "multiworld.h"
 
 void InitializeVariables() {

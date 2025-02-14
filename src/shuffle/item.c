@@ -2,7 +2,7 @@
 
 #include "unsorted/functions.h"
 #include "unsorted/macros.h"
-#include "unsorted/variables.h"
+#include "game_state.h"
 #include "item_table.h"
 #include "multiworld.h"
 #include "randomizer.h"

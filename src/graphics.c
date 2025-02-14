@@ -1,5 +1,5 @@
 #include "unsorted/macros.h"
-#include "unsorted/variables.h"
+#include "game_state.h"
 #include "graphics.h"
 
 

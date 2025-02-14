@@ -1,7 +1,7 @@
 #include <gba.h>
 
-#include "unsorted/variables.h"
 #include "unsorted/functions.h"
+#include "game_state.h"
 #include "graphics.h"
 #include "item.h"
 #include "sprite.h"

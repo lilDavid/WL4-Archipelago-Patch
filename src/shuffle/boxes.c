@@ -1,8 +1,8 @@
 #include <gba.h>
 
-#include "unsorted/variables.h"
 #include "item.h"
 #include "item_table.h"
+#include "game_state.h"
 #include "graphics.h"
 #include "multiworld.h"
 #include "sound.h"

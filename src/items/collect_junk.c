@@ -1,4 +1,5 @@
 #include "unsorted/variables.h"
+#include "game_state.h"
 #include "item.h"
 #include "sound.h"
 #include "units.h"

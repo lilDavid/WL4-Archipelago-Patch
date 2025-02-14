@@ -2,8 +2,8 @@
 
 #include "unsorted/functions.h"
 #include "unsorted/macros.h"
-#include "unsorted/variables.h"
 #include "item_table.h"
+#include "game_state.h"
 #include "randomizer.h"
 #include "sound.h"
 #include "sprite.h"

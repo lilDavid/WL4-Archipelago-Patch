@@ -1,3 +1,5 @@
+#pragma once
+
 #define COLOR_BITS 5
 #define TRUE_COLOR_BITS 8
 #define COLOR_MASK ((1 << COLOR_BITS) - 1)

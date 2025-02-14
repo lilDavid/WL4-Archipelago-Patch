@@ -66,20 +66,12 @@ typedef struct {
     /* 0x3B */ u8 ucAwaKabe;
 } Wario_t; /* size: 0x3C */
 
-typedef struct {
-    /* 0x00 */ u8 count;
-    /* 0x01 */ u8 queuedFill;
-    /* 0x02 */ u8 unk_02;
-    /* 0x03 */ u8 timer;
-} WarioLifeData;
-
 extern Wario_t Wario;
 // extern Wario_t WarBk;
 
 typedef void (*WarioChngFunc)(u8);
 extern WarioChngFunc WarioChng_React[2];
 
-extern WarioLifeData WarioHeart;
 extern u16 usWarStopFlg;
 extern u8 ucWarOffFlg;
 

@@ -1,6 +1,7 @@
 #include "unsorted/functions.h"
 #include "unsorted/variables.h"
 #include "color.h"
+#include "game_state.h"
 #include "graphics.h"
 #include "item.h"
 #include "item_table.h"

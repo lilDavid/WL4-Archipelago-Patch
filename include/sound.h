@@ -1,3 +1,5 @@
+#pragma once
+
 #include "unsorted/functions.h"
 
 typedef enum {

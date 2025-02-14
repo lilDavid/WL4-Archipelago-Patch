@@ -1,3 +1,5 @@
+#pragma once
+
 #include <gba.h>
 
 typedef enum {
