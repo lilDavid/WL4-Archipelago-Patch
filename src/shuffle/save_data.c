@@ -25,7 +25,7 @@ void CreateStartingInventory() {
     QueuedFormTraps = StartingInventoryJunkCounts[JUNK_WARIO_FORM_TRAP];
     QueuedHearts = StartingInventoryJunkCounts[JUNK_HEART];
     QueuedLightningTraps = StartingInventoryJunkCounts[JUNK_LIGHTNING_TRAP];
-    MiniGameCoinNum = StartingInventoryJunkCounts[JUNK_MINIGAME_COIN];
+    gMedalCount = StartingInventoryJunkCounts[JUNK_MINIGAME_MEDAL];
     iGmTotalScore = StartingInventoryJunkCounts[JUNK_DIAMOND] * CONVERT_SCORE(1000);
 
     WarioAbilities = StartingInventoryWarioAbilities;

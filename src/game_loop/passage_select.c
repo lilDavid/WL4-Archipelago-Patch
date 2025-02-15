@@ -90,7 +90,7 @@ static const TObjDef* PassageSelect_GetItemSprite(u8 item_id) {
                 case ITEM_FULL_HEALTH_ITEM:
                     return &msgFullHealthItem;
                 case ITEM_HEART:
-                case ITEM_MINIGAME_COIN:
+                case ITEM_MINIGAME_MEDAL:
                     return &msgSmallItem;
                 case ITEM_DIAMOND:
                     return &msgDiamond;
@@ -209,7 +209,7 @@ void PassageSelect_SpriteCopy(u8 item_id) {
                             34 * sizeof(Tile4bpp));
                     break;
 
-                case ITEM_MINIGAME_COIN:
+                case ITEM_MINIGAME_MEDAL:
                     dmaCopy(PassagePaletteTable[PAL_MINGAME_COIN],
                             palette_dest + (16 - 5),
                             5 * sizeof(u16));

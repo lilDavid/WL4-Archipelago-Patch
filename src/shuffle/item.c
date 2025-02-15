@@ -50,7 +50,7 @@ const TAnmDef* ItemLoadInGameGraphicsForID(u8 item_id) {
                     return takara_Anm_01;
                 case ITEM_HEART:
                     return HeartAnm;
-                case ITEM_MINIGAME_COIN:
+                case ITEM_MINIGAME_MEDAL:
                     SetTreasurePalette(PAL_MINGAME_COIN);
                     return RandomItemTilesCreate(MinigameCoinTiles, MinigameCoinTiles + 2);
                 case ITEM_DIAMOND:
@@ -172,7 +172,7 @@ void CollectItemInLevel(u8 index) {
                 case ITEM_WARIO_FORM_TRAP: GiveTransformTrap(); break;
                 case ITEM_HEART: GiveWarioHearts(1); break;
                 case ITEM_LIGHTNING_TRAP: GiveLightningTrap(); break;
-                case ITEM_MINIGAME_COIN: m4aSongNumStart(SE_MINIGAME_COIN_GET); break;
+                case ITEM_MINIGAME_MEDAL: m4aSongNumStart(SE_MINIGAME_MEDAL_GET); break;
                 case ITEM_DIAMOND:
                     GmStScoreCalc(CONVERT_SCORE(1000));
                     Sprite_SpawnSecondary(

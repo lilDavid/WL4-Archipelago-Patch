@@ -42,8 +42,8 @@ void GiveItem(u8 item_id, const ExtData* multiworld) {
         case ITEMTYPE_TREASURE: GiveItem_Treasure(item_id); break;
         case ITEMTYPE_JUNK:
             GiveItem_JunkQueue(item_id);
-            if (item_id == ITEM_MINIGAME_COIN)
-                MiniGameCoinNum += 1;
+            if (item_id == ITEM_MINIGAME_MEDAL)
+                gMedalCount += 1;
             if (item_id == ITEM_DIAMOND)
                 iGmTotalScore += CONVERT_SCORE(1000);
             break;
@@ -65,8 +65,8 @@ void GiveItem_LevelEnd(u8 item_id, const ExtData* multiworld) {
         case ITEMTYPE_ABILITY:  GiveItem_Ability(item_id); break;
         case ITEMTYPE_TREASURE: GiveItem_Treasure(item_id); break;
         case ITEMTYPE_JUNK:
-            if (item_id == ITEM_MINIGAME_COIN)
-                MiniGameCoinNum += 1;
+            if (item_id == ITEM_MINIGAME_MEDAL)
+                gMedalCount += 1;
             break;
         default:
             break;

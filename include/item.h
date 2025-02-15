@@ -72,7 +72,7 @@ typedef enum {
     JUNK_WARIO_FORM_TRAP,
     JUNK_HEART,
     JUNK_LIGHTNING_TRAP,
-    JUNK_MINIGAME_COIN,
+    JUNK_MINIGAME_MEDAL,
     JUNK_DIAMOND,
     JUNK_MAX,
 } JunkItem;
@@ -102,7 +102,7 @@ typedef enum {
     ITEM_WARIO_FORM_TRAP  = ITEM_JUNK(JUNK_WARIO_FORM_TRAP),
     ITEM_HEART            = ITEM_JUNK(JUNK_HEART),
     ITEM_LIGHTNING_TRAP   = ITEM_JUNK(JUNK_LIGHTNING_TRAP),
-    ITEM_MINIGAME_COIN    = ITEM_JUNK(JUNK_MINIGAME_COIN),
+    ITEM_MINIGAME_MEDAL   = ITEM_JUNK(JUNK_MINIGAME_MEDAL),
     ITEM_DIAMOND          = ITEM_JUNK(JUNK_DIAMOND),
 
     ITEM_AP_FILLER        = ITEM_AP(AP_IC_FILLER),
@@ -117,7 +117,7 @@ extern const u16 AbilityPaletteTable[];
 
 extern u32 W4ItemStatus[PASSAGE_MAX][LEVEL_MAX];
 extern u8 WarioAbilities;
-extern u16 MiniGameCoinNum;
+extern u16 gMedalCount;
 extern s32 iGmTotalScore;
 
 extern u8 LastCollectedItemID;
