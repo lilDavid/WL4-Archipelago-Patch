@@ -10,8 +10,8 @@
 .macro hook_manual, Start, End, HackFunction
     .org Start
     .area End-.
-        ldr r0, =HackFunction
-        mov pc, r0
+        ldr r0, =(HackCode) | 1
+        bx r0
     .pool
     .endarea
 .endmacro
@@ -22,10 +22,9 @@
 .macro hook_branch, Start, End, ReturnAddress, HackFunction
     .org Start
     .area End-.
-        ldr r0, =ReturnAddress | 1
-        mov lr, r0
-        ldr r0, =HackFunction
-        mov pc, r0
+        ldr r0, =(HackFunction) | 1
+        bl _call_via_r0
+        b ReturnAddress
     .pool
     .endarea
 .endmacro
