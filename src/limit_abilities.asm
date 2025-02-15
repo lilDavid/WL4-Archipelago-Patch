@@ -46,26 +46,26 @@ MoveBit_GrabHeavy equ 7
 .endmacro
 
 
-hook_manual 0x8010AE6, 0x8010AF2, LimitWarioAbility_GroundPound       ; WarKeyJump()
-hook_manual 0x80117B4, 0x80117BE, LimitWarioAbility_GroundPoundSuper  ; WarKeyHip()
+jump_hook 0x8010AE6, 0x8010AF2, LimitWarioAbility_GroundPound       ; WarKeyJump()
+jump_hook 0x80117B4, 0x80117BE, LimitWarioAbility_GroundPoundSuper  ; WarKeyHip()
 
-hook_manual 0x8015E76, 0x8015E82, LimitWarioAbility_Swim_Underwater   ; WarKeySwim2()
-hook_manual 0x8015FC4, 0x8015FE8, LimitWarioAbility_Swim_Surfaced     ; WarKeySwim3()
-hook_manual 0x8016114, 0x801611C, LimitWarioAbility_Swim_FloatingB    ; WarKeySwStop()
-hook_manual 0x801615C, 0x801618C, LimitWarioAbility_Swim_FloatingD    ; WarKeySwStop()
-hook_manual 0x801624A, 0x8016254, LimitWarioAbility_Swim_GroundPound  ; WarKeySwHip()
-.org 0x082DEF2C :: .word LimitWarioAbility_Swim_Fat | 1               ; Override function
+jump_hook 0x8015E76, 0x8015E82, LimitWarioAbility_Swim_Underwater   ; WarKeySwim2()
+jump_hook 0x8015FC4, 0x8015FE8, LimitWarioAbility_Swim_Surfaced     ; WarKeySwim3()
+jump_hook 0x8016114, 0x801611C, LimitWarioAbility_Swim_FloatingB    ; WarKeySwStop()
+jump_hook 0x801615C, 0x801618C, LimitWarioAbility_Swim_FloatingD    ; WarKeySwStop()
+jump_hook 0x801624A, 0x8016254, LimitWarioAbility_Swim_GroundPound  ; WarKeySwHip()
+.org 0x082DEF2C :: .word LimitWarioAbility_Swim_Fat | 1             ; Override function
 
-hook_manual 0x806EE56, 0x806EE60, LimitWarioAbility_HeadSmash         ; WarUpPanel_Attack()
+jump_hook 0x806EE56, 0x806EE60, LimitWarioAbility_HeadSmash         ; WarUpPanel_Attack()
 
-hook_manual 0x801F9E8, 0x801F9F2, LimitWarioAbility_Grab              ; It's complicated
+jump_hook 0x801F9E8, 0x801F9F2, LimitWarioAbility_Grab              ; It's complicated
 
-hook_manual 0x80106C0, 0x80106D2, LimitWarioAbility_DashAttack_Left   ; WarKeyWalk()
-hook_manual 0x8010640, 0x801064A, LimitWarioAbility_DashAttack_Right  ; WarKeyWalk()
-.org 0x806ECFC :: .word LimitWarioAbility_DashAttack_Roll             ; WarSidePanelAttack() case 14
-.org 0x806ED00 :: .word LimitWarioAbility_DashAttack_Roll             ; WarSidePanelAttack() case 15
+jump_hook 0x80106C0, 0x80106D2, LimitWarioAbility_DashAttack_Left   ; WarKeyWalk()
+jump_hook 0x8010640, 0x801064A, LimitWarioAbility_DashAttack_Right  ; WarKeyWalk()
+.org 0x806ECFC :: .word LimitWarioAbility_DashAttack_Roll           ; WarSidePanelAttack() case 14
+.org 0x806ED00 :: .word LimitWarioAbility_DashAttack_Roll           ; WarSidePanelAttack() case 15
 
-hook_manual 0x8012C60, 0x8012C6C, LimitWarioAbility_EnemyJump         ; GmWarioChng()
+jump_hook 0x8012C60, 0x8012C6C, LimitWarioAbility_EnemyJump         ; GmWarioChng()
 
 
 .autoregion

@@ -90,6 +90,7 @@
 .definelabel WarioVoiceSet, 0x8088620
 .definelabel MiniRandomCreate, 0x8089B80
 .definelabel MojiCreate, 0x80904DC
+.definelabel _call_via_r0, 0x8094DFC
 .definelabel _divsi3, 0x8094E38
 .definelabel _modsi3, 0x8094ED0
 
