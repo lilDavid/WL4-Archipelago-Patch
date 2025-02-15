@@ -23,7 +23,7 @@ const ExtData* ExtDataInCurrentLevel(u32 flag) {
 static void GiveItem_Gem(u8 item_id);
 static void GiveItem_CD(u8 item_id);
 static void GiveItem_Ability(u8 item_id);
-static void GiveItem_JunkQueue(u8 item_id);
+static void GiveItem_Junk(u8 item_id);
 static void GiveItem_Treasure(u8 item_id);
 
 void GiveItem(u8 item_id, const ExtData* multiworld) {
@@ -41,9 +41,7 @@ void GiveItem(u8 item_id, const ExtData* multiworld) {
         case ITEMTYPE_ABILITY:  GiveItem_Ability(item_id); break;
         case ITEMTYPE_TREASURE: GiveItem_Treasure(item_id); break;
         case ITEMTYPE_JUNK:
-            GiveItem_JunkQueue(item_id);
-            if (item_id == ITEM_MINIGAME_MEDAL)
-                gMedalCount += 1;
+            GiveItem_Junk(item_id);
             if (item_id == ITEM_DIAMOND)
                 iGmTotalScore += CONVERT_SCORE(1000);
             break;
@@ -86,7 +84,7 @@ void GiveItem_InGame(u8 item_id, const ExtData* multiworld) {
         case ITEMTYPE_ABILITY:  GiveItem_Ability(item_id); break;
         case ITEMTYPE_TREASURE: GiveItem_Treasure(item_id); break;
         case ITEMTYPE_JUNK:
-            GiveItem_JunkQueue(item_id);
+            GiveItem_Junk(item_id);
             if (item_id == ITEM_DIAMOND) {
                 GmStScoreCalc(CONVERT_SCORE(1000));
                 Sprite_SpawnSecondary(Wario.usPosY, Wario.usPosX, SSPRITE_SCORE_1000);
@@ -130,7 +128,7 @@ static void GiveItem_Ability(u8 item_id) {
     WarioAbilities |= (1 << ability);
 }
 
-static void GiveItem_JunkQueue(u8 item_id) {
+static void GiveItem_Junk(u8 item_id) {
     switch (item_id) {
         case ITEM_FULL_HEALTH_ITEM:
             QueuedFullHealthItem = 1;
@@ -149,6 +147,9 @@ static void GiveItem_JunkQueue(u8 item_id) {
                 QueuedLightningTraps = 1;
             else
                 QueuedLightningTraps += 1;
+            break;
+        case ITEM_MINIGAME_MEDAL:
+            gMedalCount += 1;
             break;
     }
 }
