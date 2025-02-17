@@ -152,9 +152,10 @@ APLogoTilesTop:
 APLogoTilesBottom:
     .incbin "data/graphics/ap_logo.bin", 2 * sizeof_tile, 2 * sizeof_tile
 
-EmptyGroundPound1Tile:
+EmptyAbilityTiles:
     .incbin "data/graphics/ability_get.bin", 0, 16 * sizeof_tile
-.org EmptyGroundPound1Tile + sizeof_tile
+.org EmptyAbilityTiles
+EmptyGroundPound1Tile: .skip sizeof_tile
 EmptyGroundPound2Tile: .skip sizeof_tile
 CarryingGroundPound1Tile: .skip sizeof_tile
 CarryingGroundPound2Tile: .skip sizeof_tile
@@ -175,9 +176,9 @@ EmptyDashAttackTile: .skip sizeof_tile
 EmptyEnemyJumpTile: .skip sizeof_tile
 
 FilledNonProgressiveAbilityTiles:
-HasSwimTile:
     .incbin "data/graphics/ability_get.bin", 18 * sizeof_tile, 4 * sizeof_tile
-.org HasSwimTile + sizeof_tile
+.org FilledNonProgressiveAbilityTiles
+HasSwimTile: .skip sizeof_tile
 HasHeadSmashTile: .skip sizeof_tile
 HasDashAttackTile: .skip sizeof_tile
 HasEnemyJumpTile: .skip sizeof_tile
