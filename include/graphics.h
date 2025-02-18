@@ -13,9 +13,10 @@ typedef enum {
     PAL_TOPAZ,
     PAL_SAPPHIRE,
     PAL_GOLDEN,
-    PAL_AP,
     PAL_GARLIC,
+    PAL_GLOVES,
     PAL_HELMET,
+    PAL_AP,
     PAL_MINGAME_COIN,
     PAL_MAX
 } PassagePalette;
@@ -95,6 +96,4 @@ LONGCALL void ClearOamBuf(void);
 
 extern ColorFading gColorFading;
 
-extern const u16 PassageTreasurePalettes[4][16];
-extern const u16 PassagePaletteTable[PAL_MAX][5];
-extern const u16 ExtraAbilityPalettes[2][16];
+extern const u16* ItemPaletteTable[PAL_MAX];

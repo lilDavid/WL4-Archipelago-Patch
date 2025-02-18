@@ -1,39 +1,50 @@
+#include <gba.h>
+
 #include "unsorted/macros.h"
+#include "color.h"
 #include "game_state.h"
 #include "graphics.h"
 
 
-// TODO: Merge these since I know where the vanilla palettes are now
-const u16 PassagePaletteTable[PAL_MAX][5] = {
-    /* Entry Passage */        { 0x7B3E, 0x723C, 0x6576, 0x58B0, 0x4C07 },
-    /* Emerald Passage */      { 0x5793, 0x578D, 0x4B20, 0x2E40, 0x1160 },
-    /* Ruby Passage */         { 0x6B5F, 0x529F, 0x253F, 0x14B4, 0x14AE },
-    /* Topaz Passage */        { 0x6BDF, 0x23DF, 0x139B, 0x1274, 0x0DAE },
-    /* Sapphire Passage */     { 0x7F5A, 0x7E94, 0x7D29, 0x50A5, 0x38A5 },
-    /* Golden Pyramid */       { 0x579F, 0x3B1F, 0x1A7F, 0x05DE, 0x00FB },
-    /* Archipelago item */     { 0x3D9C, 0x327D, 0x2B28, 0x6A3B, 0x6DED },
-    /* Garlic (Dash Attack) */ { 0x0000, 0x6BDF, 0x3FBF, 0x22FA, 0x0DAF },
-    /* Helmet (Head Smash) */  { 0x0000, 0x0000, 0x0000, 0x05DE, 0x24C5 },
-    /* Minigame Medal */       { 0x0000, 0x0000, 0x0BFF, 0x075B, 0x02FD },
-};
+extern const u16 sLevelEntryPal[16];
+extern const u16 sLevelEmeraldPal[16];
+extern const u16 sLevelRubyPal[16];
+extern const u16 sLevelTopazPal[16];
+extern const u16 sLevelSapphirePal[16];
+extern const u16 sLevelGoldenPal[16];
 
-const u16 ExtraAbilityPalettes[2][16] = {
-    // Garlic (dash attack)
-    { 0x42C0, 0x0000, 0x4169, 0x560E, 0x72F5, 0x7FFF, 0x7FFF, 0x02FD,
-      0x1FFF, 0x001F, 0x7B6B, 0x0000, 0x6BDF, 0x3FBF, 0x22FA, 0x0DAF, },
-    // Bumbleprod helmet (head smash)
-    { 0x42C0, 0x0000, 0x4169, 0x560E, 0x72F5, 0x7FFF, 0x7FFF, 0x02FD,
-      0x1FFF, 0x001F, 0x7B6B, 0x0000, 0x0000, 0x0000, 0x05DE, 0x24C5, },
+#define EXTRA_PALETTE(color1, color2, color3, color4, color5) \
+    { 0x42C0, 0x0000, 0x4169, 0x560E, 0x72F5, 0x7FFF, 0x7FFF, 0x02FD, \
+      0x1FFF, 0x001F, 0x7B6B, color1, color2, color3, color4, color5, }
+
+const u16 sGarlicPal[16] = EXTRA_PALETTE(0x6BDF, 0x573C, 0x3A56, 0x25B2, COLOR_BLACK);
+const u16 sGlovePal[16] = EXTRA_PALETTE(0x6BDF, 0x23DF, 0x7D29, 0x50A5, 0x1274);
+const u16 sHelmetPal[16] = EXTRA_PALETTE(COLOR_BLACK, CONVERT_COLOR_HEX(0xF07008), CONVERT_COLOR_HEX(0xAB4D06), CONVERT_COLOR_HEX(0x2B354C), CONVERT_COLOR_HEX(0x1B212F));
+const u16 sAPItemPal[16] = EXTRA_PALETTE(0x3D9C, 0x327D, 0x2B28, 0x6A3B, 0x6DED);
+const u16 sMedalPal[16] = EXTRA_PALETTE(0x0000, 0x7FFF, 0x0BFF, 0x02FD, 0x0B9D);
+
+const u16* ItemPaletteTable[PAL_MAX] = {
+    [PAL_ENTRY] = sLevelEntryPal,
+    [PAL_EMERALD] = sLevelEmeraldPal,
+    [PAL_RUBY] = sLevelRubyPal,
+    [PAL_TOPAZ] = sLevelTopazPal,
+    [PAL_SAPPHIRE] = sLevelSapphirePal,
+    [PAL_GOLDEN] = sLevelGoldenPal,
+    [PAL_GARLIC] = sGarlicPal,
+    [PAL_GLOVES] = sGlovePal,
+    [PAL_HELMET] = sHelmetPal,
+    [PAL_AP] = sAPItemPal,
+    [PAL_MINGAME_COIN] = sMedalPal,
 };
 
 void SetTreasurePalette(u32 palette) {
-    const u16* source = PassagePaletteTable[palette];
+    const u16* source = ItemPaletteTable[palette];
     u16* destination;
     if (sGameSeq <= 1 && gColorFading.Kind == 2)
-        destination = &SPRITE_PALETTE_EWRAM[5 * 16 - 5];
+        destination = &SPRITE_PALETTE_EWRAM[4 * 16];
     else
-        destination = &SPRITE_PALETTE[5 * 16 - 5];
-    dmaCopy(source, destination, 5 * sizeof(u16));
+        destination = &SPRITE_PALETTE[4 * 16];
+    dmaCopy(source + 16 - 5, destination + 16 - 5, 5 * sizeof(u16));
 }
 
 void OamBuf_AddObj(u16 attr0, u16 attr1, u16 attr2) {

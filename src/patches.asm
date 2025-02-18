@@ -2,6 +2,12 @@
 
 ; Inline patches.
 
+; Place CD icons on level select behind background 0
+.org 0x80859B8  ; SelectMmapOamCreate
+    mov r1, #(-0xF7) & 0xFF
+.org 0x864115A
+    .halfword 0x3016 | (1 << 10)
+
 
 ; Start with access to the four main passages.
 ; SelectDMapInit()
