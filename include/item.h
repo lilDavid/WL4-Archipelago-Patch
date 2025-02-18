@@ -78,10 +78,10 @@ typedef enum {
 } JunkItem;
 
 typedef enum {
-    AP_IC_FILLER = 0,
-    AP_IC_PROGRESSION = 1,
-    AP_IC_USEFUL = 2,
-    AP_IC_TRAP = 4,
+    AP_IC_FILLER,
+    AP_IC_PROGRESSION,
+    AP_IC_USEFUL,
+    AP_IC_TRAP,
 } APItemClassification;
 
 #define ITEM_JEWEL(passage, quadrant) ((passage << 2) | quadrant)

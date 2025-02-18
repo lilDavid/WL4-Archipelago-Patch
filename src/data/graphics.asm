@@ -153,7 +153,7 @@ AbilityIconTilesBottom:
 APLogoTilesTop:
     .incbin "data/graphics/ap_logo.bin", 0x00, 2 * sizeof_tile
 APLogoTilesBottom:
-    .incbin "data/graphics/ap_logo.bin", 2 * sizeof_tile, 2 * sizeof_tile
+    .incbin "data/graphics/ap_logo.bin", 2 * sizeof_tile, 6 * sizeof_tile
 
 EmptyAbilityTiles:
     .incbin "data/graphics/ability_get.bin", 0, 16 * sizeof_tile

@@ -42,8 +42,10 @@ const TAnmDef* ItemLoadInGameGraphicsForID(u8 item_id) {
     ItemType item_type = Item_GetType(item_id);
     switch (item_type) {
         case ITEMTYPE_AP:
+            if (item_id == ITEM_AP_TRAP)
+                return NULL;
             SetTreasurePalette(PAL_AP);
-            return RandomItemTilesCreate(APLogoTilesTop, APLogoTilesBottom);
+            return RandomItemTilesCreate(APLogoTilesTop, APLogoTilesBottom + 2 * (item_id & 3));
         case ITEMTYPE_JUNK:
             switch (item_id) {
                 case ITEM_FULL_HEALTH_ITEM:
