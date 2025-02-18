@@ -39,6 +39,8 @@ u8* boxPosessionVariables[BOX_CD + 1] = { &Has1stGemPiece, &Has2ndGemPiece, &Has
 // so this data is handled all in the same place.
 
 void CheckLocations() {
+    gStoredMultiworldDiamonds = 0;
+
     CollectedItemsCopy = CollectedItems;
     CollectedItems &= ~(W4ItemStatus[PassageID][InPassageLevelID] >> 8);
     for (int i = 0; i <= BOX_CD; i++) {
@@ -63,6 +65,8 @@ void CheckLocations() {
 }
 
 void CheckBossLocations() {
+    gStoredMultiworldDiamonds = 0;
+
     unsigned int current_status = W4ItemStatus[PassageID][InPassageLevelID];
     unsigned int new_status = 0;
     if (Has1stGemPiece) {
@@ -121,9 +125,13 @@ void SetItemCollection() {
         HasKeyzer = 0;
     }
 
-    AbilitiesInThisLevel = 0;
     CollectedItems = item_status >> 8;
+}
+
+void ResetLevelVariables() {
+    AbilitiesInThisLevel = 0;
     LightningTrapTimer = -1;
+    gStoredMultiworldDiamonds = 0;
 }
 
 
@@ -181,14 +189,24 @@ void BossDefeated_Save() {
     ucSaveFlg = 1;
 }
 
+// Limit traps so you don't get looped
 void ResetTraps() {
-    // Limit traps so you don't get looped
     if (QueuedFormTraps > 1)
         QueuedFormTraps = 1;
     if (QueuedLightningTraps > 1)
         QueuedLightningTraps = 1;
+}
 
-    Sprite_SpawnSecondary(Wario.usPosY, Wario.usPosX, SSPRITE_WARIO_DEATH);
+// Add diamonds recieved from the multiworld to your total score
+void GiveStoredDiamonds() {
+    iGmTotalScore += CONVERT_SCORE(1000) * gStoredMultiworldDiamonds;
+    gStoredMultiworldDiamonds = 0;
+}
+
+void WarioFailure() {
+    ResetTraps();
+    GiveStoredDiamonds();
+
     if (InPassageLevelID == LEVEL_BOSS)
         LoseSave();
 }

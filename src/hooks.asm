@@ -341,14 +341,13 @@ call_hook 0x80813DC, 0x80813F8, CheckBossLocations
         b 0x8081458
     .pool
 
-; GmWarioLifeZero()
-call_hook 0x8075900, 0x8075910, ResetTraps
-
 ; ItemGetFlgSet_LoadSavestateInfo2RAM()
 call_hook_and_jump 0x8075E4C, 0x8075F10, 0x8075F38, SetItemCollection
+jump_hook 0x8075F38, 0x8075F40, @Hook_LoadSaveStateInfo
 
 .autoregion
 .align 2
+
 @Hook_EXimage_Clear_Work_2Mode:
         bl CreateStartingInventory
         pop {pc}  ; Returning from hooked function, LR already pushed
@@ -359,8 +358,45 @@ call_hook_and_jump 0x8075E4C, 0x8075F10, 0x8075F38, SetItemCollection
         ldr r0, =0x80789EC | 1
         bx r0
     .pool
+
+@Hook_LoadSaveStateInfo:
+        bl ResetLevelVariables
+        pop {r4, r5, r6}
+        pop {r1}
+        bx r1
+
 .endautoregion
 
+
+; -------------------- Fail states ---------------------
+
+; GmWarioLifeZero()
+call_hook 0x8075904, 0x8075910, WarioFailure
+
+; TTimeDsp_main()
+call_hook 0x8078670, 0x807867E, WarioFailure
+
+; MainGameLoop()
+call_hook_and_jump 0x8000518, 0x8000534, 0x800062E, @Hook_GiveUp
+
+.autoregion
+.align 2
+
+@Hook_GiveUp:
+        push {lr}
+
+        bl GiveStoredDiamonds
+
+        ldr r1, =GlobalGameMode
+        mov r0, #1
+        strh r0, [r1]
+        ldr r1, =sGameSeq
+        mov r0, #0x15
+
+        pop {pc}
+    .pool
+
+.endautoregion
 
 ; ------------------ Cutscene Skips --------------------
 

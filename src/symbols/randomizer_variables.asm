@@ -39,6 +39,8 @@
 
 .definelabel LightningTrapTimer, UnusedRamStart + 44  ; byte
 
+.definelabel gStoredMultiworldDiamonds, UnusedRamStart + 45  ; byte
+
 .definelabel VblkStatus, UnusedRamStart + 47  ; byte
 
 .definelabel QueuedJunk, UnusedRamStart + 48  ; bytes

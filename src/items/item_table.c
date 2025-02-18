@@ -86,6 +86,7 @@ void GiveItem_InGame(u8 item_id, const ExtData* multiworld) {
         case ITEMTYPE_JUNK:
             GiveItem_Junk(item_id);
             if (item_id == ITEM_DIAMOND) {
+                gStoredMultiworldDiamonds += 1;
                 GmStScoreCalc(CONVERT_SCORE(1000));
                 Sprite_SpawnSecondary(Wario.usPosY, Wario.usPosX, SSPRITE_SCORE_1000);
             }

@@ -71,6 +71,7 @@ typedef enum {
     SSPRITE_SCORE_1000 = 4,
     SSPRITE_TREASURE_ICONS = 0x41,
     SSPRITE_CD_ICON = 0x42,
+    SSPRITE_WARIO_TIME_UP = 0x4C,
     SSPRITE_WARIO_DEATH = 0x4D,
 } SecondarySpriteId;
 
