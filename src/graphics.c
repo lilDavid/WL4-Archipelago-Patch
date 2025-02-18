@@ -34,7 +34,7 @@ const u16* ItemPaletteTable[PAL_MAX] = {
     [PAL_GLOVES] = sGlovePal,
     [PAL_HELMET] = sHelmetPal,
     [PAL_AP] = sAPItemPal,
-    [PAL_MINGAME_COIN] = sMedalPal,
+    [PAL_MEDAL] = sMedalPal,
 };
 
 void SetTreasurePalette(u32 palette) {

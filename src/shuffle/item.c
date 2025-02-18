@@ -51,7 +51,7 @@ const TAnmDef* ItemLoadInGameGraphicsForID(u8 item_id) {
                 case ITEM_HEART:
                     return HeartAnm;
                 case ITEM_MINIGAME_MEDAL:
-                    SetTreasurePalette(PAL_MINGAME_COIN);
+                    SetTreasurePalette(PAL_MEDAL);
                     return RandomItemTilesCreate(MinigameCoinTiles, MinigameCoinTiles + 2);
                 case ITEM_DIAMOND:
                     return DiamondAnm;

@@ -17,7 +17,7 @@ typedef enum {
     PAL_GLOVES,
     PAL_HELMET,
     PAL_AP,
-    PAL_MINGAME_COIN,
+    PAL_MEDAL,
     PAL_MAX
 } PassagePalette;
 
