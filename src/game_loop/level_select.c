@@ -117,20 +117,20 @@ void LevelSelect_CreateAbilityOAM() {
         OamBuf_AddObj(
             ATTR0_SQUARE | ATTR0_COLOR_16 | OBJ_Y(0),
             ATTR1_SIZE_16 | OBJ_X(8 * 12),
-            ATTR2_PALETTE(0xA) | ATTR2_PRIORITY(0) | OBJ_CHAR(0x084)
+            ATTR2_PALETTE(0xB) | ATTR2_PRIORITY(0) | OBJ_CHAR(0x084)
         );
     }
     if (HAS_ABILITY_PERMANENT(ABILITY_HEAVY_GRAB)) {
         OamBuf_AddObj(
             ATTR0_SQUARE | ATTR0_COLOR_16 | OBJ_Y(0),
             ATTR1_SIZE_16 | OBJ_X(8 * 14),
-            ATTR2_PALETTE(0x6) | ATTR2_PRIORITY(0) | OBJ_CHAR(0x08E)
+            ATTR2_PALETTE(0xA) | ATTR2_PRIORITY(0) | OBJ_CHAR(0x08E)
         );
     } else if (HAS_ABILITY_PERMANENT(ABILITY_GRAB)) {
         OamBuf_AddObj(
             ATTR0_SQUARE | ATTR0_COLOR_16 | OBJ_Y(0),
             ATTR1_SIZE_16 | OBJ_X(8 * 14),
-            ATTR2_PALETTE(0x8) | ATTR2_PRIORITY(0) | OBJ_CHAR(0x086)
+            ATTR2_PALETTE(0xA) | ATTR2_PRIORITY(0) | OBJ_CHAR(0x086)
         );
     }
     if (HAS_ABILITY_PERMANENT(ABILITY_DASH_ATTACK)) {

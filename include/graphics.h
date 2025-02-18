@@ -13,6 +13,7 @@ typedef enum {
     PAL_SAPPHIRE,
     PAL_GOLDEN,
     PAL_GARLIC,
+    PAL_GLOVES,
     PAL_HELMET,
     PAL_AP,
     PAL_MINGAME_COIN,

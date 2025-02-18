@@ -186,8 +186,6 @@ static void GemIcons_SetCollectedAbility() {
     Tile4bpp* destination_tile;
 
     if (LastCollectedItemID == ITEM_GRAB) {
-        // Hack to make the blue W work with the red palette active
-        SPRITE_PALETTE[4 * 16 + 0xF] = 0x50A5;
         ability_tile = &CarryingGrab1Tile;
     } else /* Ground Pound */ {
         ability_tile = &CarryingGroundPound1Tile;

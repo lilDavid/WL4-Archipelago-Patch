@@ -2,38 +2,39 @@
 
 #include "unsorted/macros.h"
 #include "unsorted/variables.h"
+#include "color.h"
 #include "graphics.h"
 
 
-extern const u16 LevelPaletteEntryPassage[16];
-extern const u16 LevelPaletteEmeraldPassage[16];
-extern const u16 LevelPaletteRubyPassage[16];
-extern const u16 LevelPaletteTopazPassage[16];
-extern const u16 LevelPaletteSapphirePassage[16];
-extern const u16 LevelPaletteGoldenPyramid[16];
+extern const u16 sLevelEntryPal[16];
+extern const u16 sLevelEmeraldPal[16];
+extern const u16 sLevelRubyPal[16];
+extern const u16 sLevelTopazPal[16];
+extern const u16 sLevelSapphirePal[16];
+extern const u16 sLevelGoldenPal[16];
 
 #define EXTRA_PALETTE(color1, color2, color3, color4, color5) \
     { 0x42C0, 0x0000, 0x4169, 0x560E, 0x72F5, 0x7FFF, 0x7FFF, 0x02FD, \
       0x1FFF, 0x001F, 0x7B6B, color1, color2, color3, color4, color5, }
 
-const u16 ExtraItemPalettes[][16] = {
-    /* Garlic (dash attack) */           EXTRA_PALETTE(0x0000, 0x6BDF, 0x3FBF, 0x22FA, 0x0DAF),
-    /* Bumbleprod helmet (head smash) */ EXTRA_PALETTE(0x0000, 0x0000, 0x0000, 0x05DE, 0x24C5),
-    /* AP items */                       EXTRA_PALETTE(0x3D9C, 0x327D, 0x2B28, 0x6A3B, 0x6DED),
-    /* Minigame medal */                 EXTRA_PALETTE(0x0000, 0x7FFF, 0x0BFF, 0x02FD, 0x0B9D),
-};
+const u16 sGarlicPal[16] = EXTRA_PALETTE(0x6BDF, 0x573C, 0x3A56, 0x25B2, COLOR_BLACK);
+const u16 sGlovePal[16] = EXTRA_PALETTE(0x6BDF, 0x23DF, 0x7D29, 0x50A5, 0x1274);
+const u16 sHelmetPal[16] = EXTRA_PALETTE(COLOR_BLACK, CONVERT_COLOR_HEX(0xF07008), CONVERT_COLOR_HEX(0xAB4D06), CONVERT_COLOR_HEX(0x2B354C), CONVERT_COLOR_HEX(0x1B212F));
+const u16 sAPItemPal[16] = EXTRA_PALETTE(0x3D9C, 0x327D, 0x2B28, 0x6A3B, 0x6DED);
+const u16 sMedalPal[16] = EXTRA_PALETTE(0x0000, 0x7FFF, 0x0BFF, 0x02FD, 0x0B9D);
 
 const u16* ItemPaletteTable[PAL_MAX] = {
-    [PAL_ENTRY] = LevelPaletteEntryPassage,
-    [PAL_EMERALD] = LevelPaletteEmeraldPassage,
-    [PAL_RUBY] = LevelPaletteRubyPassage,
-    [PAL_TOPAZ] = LevelPaletteTopazPassage,
-    [PAL_SAPPHIRE] = LevelPaletteSapphirePassage,
-    [PAL_GOLDEN] = LevelPaletteGoldenPyramid,
-    [PAL_GARLIC] = ExtraItemPalettes[0],
-    [PAL_HELMET] = ExtraItemPalettes[1],
-    [PAL_AP] = ExtraItemPalettes[2],
-    [PAL_MINGAME_COIN] = ExtraItemPalettes[3],
+    [PAL_ENTRY] = sLevelEntryPal,
+    [PAL_EMERALD] = sLevelEmeraldPal,
+    [PAL_RUBY] = sLevelRubyPal,
+    [PAL_TOPAZ] = sLevelTopazPal,
+    [PAL_SAPPHIRE] = sLevelSapphirePal,
+    [PAL_GOLDEN] = sLevelGoldenPal,
+    [PAL_GARLIC] = sGarlicPal,
+    [PAL_GLOVES] = sGlovePal,
+    [PAL_HELMET] = sHelmetPal,
+    [PAL_AP] = sAPItemPal,
+    [PAL_MINGAME_COIN] = sMedalPal,
 };
 
 void SetTreasurePalette(u32 palette) {
