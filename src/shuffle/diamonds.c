@@ -247,7 +247,7 @@ static void RandoDiamond_Collect(void) {
         if (multi) {
             WarioVoiceSet(WV_SORRY);
         }
-    } else {
+    } else if (RANDO_DIAMOND_ITEM != ITEM_HEART && RANDO_DIAMOND_ITEM != ITEM_AP_FILLER) {
         WarioVoiceSet(WV_TREASURE);
     }
 }
