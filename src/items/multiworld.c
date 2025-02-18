@@ -1,6 +1,7 @@
 #include <gba.h>
 
 #include "color.h"
+#include "game_state.h"
 #include "graphics.h"
 #include "item.h"
 #include "multiworld.h"
@@ -24,8 +25,12 @@ void ItemReceivedFeedbackSound(u8 item_id) {
             break;
         case ITEMTYPE_JUNK:
             if (item_id == ITEM_MINIGAME_MEDAL) m4aSongNumStart(SE_MINIGAME_MEDAL_GET);
-            // TODO: Underwater
-            if (item_id == ITEM_DIAMOND) m4aSongNumStart(SE_DIAMOND_GET);
+            if (item_id == ITEM_DIAMOND) {
+                if (GlobalGameMode == 2 && sGameSeq == 2 && Wario.ucReact == REACT_WATER)
+                    m4aSongNumStart(SE_DIAMOND_GET_UNDERWATER);
+                else
+                    m4aSongNumStart(SE_DIAMOND_GET);
+            }
             break;
         default:
             break;
