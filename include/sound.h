@@ -21,3 +21,4 @@ typedef enum {
 
 
 LONGCALL void m4aSongNumStart(u32);
+LONGCALL void m4aSongNumStop(u32);

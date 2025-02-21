@@ -60,6 +60,7 @@
 .thumb
 .definelabel ClearOamBuf, 0x8000A0C
 .definelabel m4aSongNumStart, 0x8001DA4
+.definelabel m4aSongNumStop, 0x8001E70
 .definelabel GmVblkIntr1_InGameUpdateWarioOAMAndSpritesTiles, 0x801BEA8
 .definelabel GmWarioCreate, 0x801C5D8
 .definelabel Sprite_Draw, 0x801D8C4

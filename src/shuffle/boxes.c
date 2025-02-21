@@ -60,8 +60,11 @@ void SpawnRandomizedItemFromBox() {
     }
 
     if (item_id == ITEM_LIGHTNING_TRAP || item_id == ITEM_WARIO_FORM_TRAP || item_id == ITEM_AP_TRAP) {
-        if (multi)
+        if (multi) {
             WarioVoiceSet(WV_SORRY);
+        } else if (item_id == ITEM_LIGHTNING_TRAP) {
+            m4aSongNumStop(SE_BOX_OPEN);
+        }
     } else {
         WarioVoiceSet(WV_TREASURE);
     }
