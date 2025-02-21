@@ -41,7 +41,6 @@ u8* boxPosessionVariables[BOX_CD + 1] = { &Has1stGemPiece, &Has2ndGemPiece, &Has
 void CheckLocations() {
     gStoredMultiworldDiamonds = 0;
 
-    CollectedItemsCopy = CollectedItems;
     CollectedItems &= ~(W4ItemStatus[PassageID][InPassageLevelID] >> 8);
     for (int i = 0; i <= BOX_CD; i++) {
         if (HAS_BOX(i))

@@ -51,7 +51,6 @@ extern u8* boxPosessionVariables[BOX_CD + 1];
 #define HAS_BOX(box) (*boxPosessionVariables[box])
 extern u8 LastCollectedItemIndex;
 extern u32 CollectedItems;
-extern u32 CollectedItemsCopy;
 extern u8 gStoredMultiworldDiamonds;
 
 u8 ItemInCurrentLevel(u32 boxtype);

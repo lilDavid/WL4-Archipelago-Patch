@@ -50,4 +50,3 @@
     .definelabel QueuedLightningTraps, QueuedJunk + 3
 
 .definelabel CollectedItems, QueuedJunk + 4  ; word
-.definelabel CollectedItemsCopy, QueuedJunk + 8  ; word
