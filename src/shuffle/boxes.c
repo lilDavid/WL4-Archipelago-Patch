@@ -42,7 +42,7 @@ void SpawnRandomizedItemFromBox() {
     }
 
     u32 item_id = ItemInCurrentLevel(item_index);
-    const ExtData* multi = ExtDataInCurrentLevel(item_index);
+    const MultiworldData* multi = MultiworldDataInCurrentLevel(item_index);
 
     if (!HasItemInLevel(item_index) || (multi == NULL && Item_GetType(item_id) == ITEMTYPE_JUNK)) {
         Sprite_SpawnAsChild(PSPRITE_TREASURE_GEM1 + box_id,
@@ -116,7 +116,7 @@ void CollectRandomItem() {
     gCurrentSprite.usStatus = 0;
     CollectItemInLevel(RANDO_BOX_REWARD_INDEX);
 
-    if (ExtDataInCurrentLevel(RANDO_BOX_REWARD_INDEX) &&
+    if (MultiworldDataInCurrentLevel(RANDO_BOX_REWARD_INDEX) &&
         !(RANDO_BOX_REWARD_ITEM == ITEM_WARIO_FORM_TRAP ||
           RANDO_BOX_REWARD_ITEM == ITEM_LIGHTNING_TRAP ||
           RANDO_BOX_REWARD_ITEM == ITEM_AP_TRAP)) {

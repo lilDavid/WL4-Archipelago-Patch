@@ -16,8 +16,8 @@ u8 ItemInCurrentLevel(u32 flag) {
     return ItemLocationTable[PassageID][InPassageLevelID][flag];
 }
 
-const ExtData* ExtDataInCurrentLevel(u32 flag) {
-    return ItemExtDataTable[PassageID][InPassageLevelID][flag];
+const MultiworldData* MultiworldDataInCurrentLevel(u32 flag) {
+    return MultiworldDataTable[PassageID][InPassageLevelID][flag];
 }
 
 static void GiveItem_Gem(u8 item_id);
@@ -26,7 +26,7 @@ static void GiveItem_Ability(u8 item_id);
 static void GiveItem_Junk(u8 item_id);
 static void GiveItem_Treasure(u8 item_id);
 
-void GiveItem(u8 item_id, const ExtData* multiworld) {
+void GiveItem(u8 item_id, const MultiworldData* multiworld) {
     if (item_id == ITEM_NONE)
         return;
 
@@ -50,7 +50,7 @@ void GiveItem(u8 item_id, const ExtData* multiworld) {
     }
 }
 
-void GiveItem_LevelEnd(u8 item_id, const ExtData* multiworld) {
+void GiveItem_LevelEnd(u8 item_id, const MultiworldData* multiworld) {
     if (item_id == ITEM_NONE)
         return;
 
@@ -71,7 +71,7 @@ void GiveItem_LevelEnd(u8 item_id, const ExtData* multiworld) {
     }
 }
 
-void GiveItem_InGame(u8 item_id, const ExtData* multiworld) {
+void GiveItem_InGame(u8 item_id, const MultiworldData* multiworld) {
     if (item_id == ITEM_NONE)
         return;
 

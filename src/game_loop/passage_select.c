@@ -357,7 +357,7 @@ static void PassageSelect_ShowFoundBossItem() {
     MojiCreate(PaddedBossNames[passage] + 6, next_tile, 14);
     next_tile += 14 * char_size;
 
-    const ExtData* multi = ItemExtDataTable[passage][LEVEL_BOSS][chest];
+    const MultiworldData* multi = MultiworldDataTable[passage][LEVEL_BOSS][chest];
     if (multi) {
         MojiCreate(StrItemSent, next_tile, sizeof(StrItemSent));
         next_tile += sizeof(StrItemSent) * char_size;

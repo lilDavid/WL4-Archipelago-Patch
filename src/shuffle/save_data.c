@@ -52,7 +52,7 @@ void CheckLocations() {
         if (!(CollectedItems & (1 << flag)))
             continue;
         int item_id = ItemInCurrentLevel(i);
-        const ExtData* multiworld_data = ExtDataInCurrentLevel(i);
+        const MultiworldData* multiworld_data = MultiworldDataInCurrentLevel(i);
         GiveItem_LevelEnd(item_id, multiworld_data);
     }
 
@@ -104,7 +104,7 @@ void CheckBossLocations() {
             continue;
 
         int item = ItemLocationTable[PassageID][InPassageLevelID][i];
-        const ExtData* multi = ItemExtDataTable[PassageID][InPassageLevelID][i];
+        const MultiworldData* multi = MultiworldDataTable[PassageID][InPassageLevelID][i];
         GiveItem(item, multi);
     }
 }

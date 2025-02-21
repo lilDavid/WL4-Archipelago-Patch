@@ -196,7 +196,7 @@ static void RandoDiamond_Init(void) {
     }
 
     int item_id = ItemInCurrentLevel(index);
-    const ExtData* multi = ExtDataInCurrentLevel(index);
+    const MultiworldData* multi = MultiworldDataInCurrentLevel(index);
     if (HasItemInLevel(index) && (multi || Item_GetType(item_id) != ITEMTYPE_JUNK)) {
         DiamondDespawn();
         return;
@@ -237,7 +237,7 @@ static void RandoDiamond_Init(void) {
 static void RandoDiamond_Collect(void) {
     DiamondDespawn();
     CollectItemInLevel(RANDO_DIAMOND_INDEX);
-    const ExtData* multi = ExtDataInCurrentLevel(RANDO_DIAMOND_INDEX);
+    const MultiworldData* multi = MultiworldDataInCurrentLevel(RANDO_DIAMOND_INDEX);
     if (multi) {
         m4aSongNumStart(SE_GEM_GET);
     }

@@ -24,7 +24,7 @@ u32 LevelResults_ShowNextItem() {
 
     for (int i = 0; i < LOCATION_MAX; i++) {
         int has_item = GotItem(i);
-        const ExtData* multi = ExtDataInCurrentLevel(i);
+        const MultiworldData* multi = MultiworldDataInCurrentLevel(i);
         if (!has_item || multi == NULL)
             continue;
 

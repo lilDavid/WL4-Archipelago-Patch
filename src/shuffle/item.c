@@ -158,7 +158,7 @@ void CollectItemInLevel(u8 index) {
     LastCollectedItemIndex = index;
 
     int item_id = ItemInCurrentLevel(index);
-    const ExtData* multi = ExtDataInCurrentLevel(index);
+    const MultiworldData* multi = MultiworldDataInCurrentLevel(index);
 
     if (multi != NULL) {
         MultiworldState = MW_TEXT_SENDING_ITEM;

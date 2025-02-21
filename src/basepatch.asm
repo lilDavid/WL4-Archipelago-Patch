@@ -32,7 +32,7 @@ TOTAL_LOCATIONS equ (PASSAGES * LEVELS_PER_PASSAGE * CHECKS_PER_LEVEL)
     .align 4
     ItemLocationTable:              .fill TOTAL_LOCATIONS,     ITEM_NONE
     .align 4
-    ItemExtDataTable:               .fill TOTAL_LOCATIONS * 4, 0
+    MultiworldDataTable:            .fill TOTAL_LOCATIONS * 4, 0
     StartingInventoryItemStatus:    .fill PASSAGES * 6,        0
     StartingInventoryJunkCounts:    .fill JUNK_MAX,            0
     StartingInventoryWarioAbilities:                     .byte 0

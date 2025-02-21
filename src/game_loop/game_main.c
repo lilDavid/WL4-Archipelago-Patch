@@ -149,7 +149,7 @@ void GameMain_ReceivedTextVBlk() {
             case MW_TEXT_SENDING_ITEM: {
                 int item_index = LastCollectedItemIndex;
                 u32 item_id = ItemInCurrentLevel(item_index);
-                const ExtData* multi = ExtDataInCurrentLevel(item_index);
+                const MultiworldData* multi = MultiworldDataInCurrentLevel(item_index);
 
                 Tile4bpp* tiles1 = (Tile4bpp*) 0x6012180;  // Row of 12
                 Tile4bpp* tiles2 = (Tile4bpp*) 0x6012600;  // Row of 8
