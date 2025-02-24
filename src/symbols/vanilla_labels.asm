@@ -4,20 +4,20 @@
 .arm
 .definelabel PassageID, 0x3000002
 .definelabel InPassageLevelID, 0x3000003
-.definelabel MiniGameCoinNum, 0x3000008
+.definelabel gMedalCount, 0x3000008
 .definelabel ucWorldNumBak, 0x3000010
 .definelabel ucSaveFlg, 0x3000013
 .definelabel CurrentRoomId, 0x3000024
 .definelabel ucFlashLoop, 0x3000044
 .definelabel ucTimeUp, 0x3000047
-.definelabel CurrentEntityInfoList_TEbuf, 0x3000104
-.definelabel EntityLeftOverStateList, 0x3000564
-.definelabel CurrentEnemyData, 0x3000A24
+.definelabel gColorFading, 0x30000D0
+.definelabel gSpriteData, 0x3000104
+.definelabel gPersistentSpriteData, 0x3000564
+.definelabel gCurrentSprite, 0x3000A24
 .definelabel W4ItemStatus, 0x3000A68
-.definelabel Scbuf_ucStatus, 0x3000BE0
-.definelabel Scbuf_ucSeq, 0x3000BE3
-.definelabel Scbuf_ucWork0, 0x3000BE4
-.definelabel Scbuf_usPosX, 0x3000BEA
+.definelabel gCurrentSecondarySprite, 0x3000BE0
+.definelabel iGmTotalScore, 0x3000BF4
+.definelabel iGmStageScore, 0x3000BF8
 .definelabel Has1stGemPiece, 0x3000C07
 .definelabel Has2ndGemPiece, 0x3000C08
 .definelabel Has3rdGemPiece, 0x3000C09
@@ -33,6 +33,7 @@
 .definelabel HasTreasure11, 0x3000C32
 .definelabel HasTreasure12, 0x3000C33
 .definelabel ucTakaraCount, 0x3000C34
+.definelabel gPauseFlag, 0x3000C35
 .definelabel GlobalGameMode, 0x3000C3A
 .definelabel sGameSeq, 0x3000C3C
 .definelabel GlobalTimer, 0x3000C41
@@ -59,20 +60,24 @@
 .thumb
 .definelabel ClearOamBuf, 0x8000A0C
 .definelabel m4aSongNumStart, 0x8001DA4
+.definelabel m4aSongNumStop, 0x8001E70
 .definelabel GmVblkIntr1_InGameUpdateWarioOAMAndSpritesTiles, 0x801BEA8
 .definelabel GmWarioCreate, 0x801C5D8
-.definelabel EnemyDisplayMain, 0x801D8C4
-.definelabel EnemyChildSet, 0x801E328
+.definelabel Sprite_Draw, 0x801D8C4
+.definelabel Sprite_SpawnAsChild, 0x801E328
 .definelabel ChangeWarioReact_Fire, 0x801EA3C
 .definelabel ChangeWarioReact_Fat, 0x801EA64
 .definelabel ChangeWarioReact_Frozen, 0x801EB54
-.definelabel EntityAI_INITIAL_takara_kakera, 0x802932C
+.definelabel SpriteAI_Diamond, 0x802C848
+.definelabel Diamond_Init, 0x802C434
+.definelabel Diamond_Main, 0x802C4A8
 .definelabel GmapSceneCreate, 0x806C794
 .definelabel PanelPartWork_Broken_Main, 0x806EE98
 .definelabel AutoSave_ExRead_Work, 0x8073A18
 .definelabel SramBackup_Auto_Write, 0x8073880
 .definelabel ItemGetFlgSet_LoadSavestateInfo2RAM, 0x8075B50
-.definelabel TOptObjSet, 0x80766E8
+.definelabel GmStScoreCalc, 0x8076658
+.definelabel Sprite_SpawnSecondary, 0x80766E8
 .definelabel WarioCoinSet, 0x80768B8
 .definelabel TKakeraComp_SE_Set, 0x8078D60
 .definelabel TKakeraIconDsp_sub, 0x8078D98
@@ -86,6 +91,7 @@
 .definelabel WarioVoiceSet, 0x8088620
 .definelabel MiniRandomCreate, 0x8089B80
 .definelabel MojiCreate, 0x80904DC
+.definelabel _call_via_r0, 0x8094DFC
 .definelabel _divsi3, 0x8094E38
 .definelabel _modsi3, 0x8094ED0
 
@@ -102,6 +108,7 @@
 .definelabel takara_Anm_05, 0x83B4C30
 .definelabel zako_takara_box_Anm_02, 0x83B4F34
 .definelabel zako_takara_box_Anm_11, 0x83B5004
+.definelabel DiamondAnm, 0x83B62AC
 .definelabel CommonRoomEntityPalettes4, 0x8400A68
 .definelabel EmptyCDTile, 0x8400FA8
 .definelabel HasCDTile, 0x8404648
@@ -118,7 +125,12 @@
 .definelabel HasJewel2Tile, 0x84045E8
 .definelabel HasJewel3Tile, 0x8404608
 .definelabel HasJewel4Tile, 0x8404628
-.definelabel PassageTreasurePalettes, 0x8414A64
+.definelabel sLevelEntryPal, 0x8414A64
+.definelabel sLevelEmeraldPal, 0x8414A84
+.definelabel sLevelRubyPal, 0x8414AA4
+.definelabel sLevelTopazPal, 0x8414AC4
+.definelabel sLevelSapphirePal, 0x8414AE4
+.definelabel sLevelGoldenPal, 0x8414B04
 .definelabel PortalTilemap3, 0x864BF58
 .definelabel PortalOBJTileset, 0x868269C
 .definelabel SaveTutorialTilemap, 0x868B15C

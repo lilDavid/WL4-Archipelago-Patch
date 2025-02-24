@@ -8,7 +8,7 @@
 ; 2: Break blocks with head
 ; 3: Grab light objects
 ; 4: Dash Attack
-; 5: Enemy jump
+; 5: Stomp Jump
 ; 6: Super Ground Pound
 ; 7: Grab heavy objects
 
@@ -46,26 +46,26 @@ MoveBit_GrabHeavy equ 7
 .endmacro
 
 
-hook_manual 0x8010AE6, 0x8010AF2, LimitWarioAbility_GroundPound       ; WarKeyJump()
-hook_manual 0x80117B4, 0x80117BE, LimitWarioAbility_GroundPoundSuper  ; WarKeyHip()
+jump_hook 0x8010AE6, 0x8010AF2, LimitWarioAbility_GroundPound       ; WarKeyJump()
+jump_hook 0x80117B4, 0x80117BE, LimitWarioAbility_GroundPoundSuper  ; WarKeyHip()
 
-hook_manual 0x8015E76, 0x8015E82, LimitWarioAbility_Swim_Underwater   ; WarKeySwim2()
-hook_manual 0x8015FC4, 0x8015FE8, LimitWarioAbility_Swim_Surfaced     ; WarKeySwim3()
-hook_manual 0x8016114, 0x801611C, LimitWarioAbility_Swim_FloatingB    ; WarKeySwStop()
-hook_manual 0x801615C, 0x801618C, LimitWarioAbility_Swim_FloatingD    ; WarKeySwStop()
-hook_manual 0x801624A, 0x8016254, LimitWarioAbility_Swim_GroundPound  ; WarKeySwHip()
-hook_manual 0x801640C, 0x8016416, LimitWarioAbility_Swim_Fat          ; WarKeySwFat()
+jump_hook 0x8015E76, 0x8015E82, LimitWarioAbility_Swim_Underwater   ; WarKeySwim2()
+jump_hook 0x8015FC4, 0x8015FE8, LimitWarioAbility_Swim_Surfaced     ; WarKeySwim3()
+jump_hook 0x8016114, 0x801611C, LimitWarioAbility_Swim_FloatingB    ; WarKeySwStop()
+jump_hook 0x801615C, 0x801618C, LimitWarioAbility_Swim_FloatingD    ; WarKeySwStop()
+jump_hook 0x801624A, 0x8016254, LimitWarioAbility_Swim_GroundPound  ; WarKeySwHip()
+.org 0x082DEF2C :: .word LimitWarioAbility_Swim_Fat | 1             ; Override function
 
-hook_manual 0x806EE56, 0x806EE60, LimitWarioAbility_HeadSmash         ; WarUpPanel_Attack()
+jump_hook 0x806EE56, 0x806EE60, LimitWarioAbility_HeadSmash         ; WarUpPanel_Attack()
 
-hook_manual 0x801F9E8, 0x801F9F2, LimitWarioAbility_Grab              ; It's complicated
+jump_hook 0x801F9E8, 0x801F9F2, LimitWarioAbility_Grab              ; It's complicated
 
-hook_manual 0x80106C0, 0x80106D2, LimitWarioAbility_DashAttack_Left   ; WarKeyWalk()
-hook_manual 0x8010640, 0x801064A, LimitWarioAbility_DashAttack_Right  ; WarKeyWalk()
-.org 0x806ECFC :: .word LimitWarioAbility_DashAttack_Roll             ; WarSidePanelAttack() case 14
-.org 0x806ED00 :: .word LimitWarioAbility_DashAttack_Roll             ; WarSidePanelAttack() case 15
+jump_hook 0x80106C0, 0x80106D2, LimitWarioAbility_DashAttack_Left   ; WarKeyWalk()
+jump_hook 0x8010640, 0x801064A, LimitWarioAbility_DashAttack_Right  ; WarKeyWalk()
+.org 0x806ECFC :: .word LimitWarioAbility_DashAttack_Roll           ; WarSidePanelAttack() case 14
+.org 0x806ED00 :: .word LimitWarioAbility_DashAttack_Roll           ; WarSidePanelAttack() case 15
 
-hook_manual 0x8012C60, 0x8012C6C, LimitWarioAbility_EnemyJump         ; GmWarioChng()
+jump_hook 0x8012C60, 0x8012C6C, LimitWarioAbility_EnemyJump         ; GmWarioChng()
 
 
 .autoregion
@@ -282,24 +282,25 @@ LimitWarioAbility_Swim_GroundPound:
 ; If Fat Wario falls into water and swim isn't unlocked, freeze him in place to
 ; prevent softlocks
 LimitWarioAbility_Swim_Fat:
+        push {lr}
+
+        ldr r0, =0x80163F8 | 1  ; WarKeySwFat()
+        bl @@call
+        mov r3, r0
+
         get_wario_move MoveBit_Swim
-        ldrh r1, [r4, #0xE]
         cmp r0, #0
-        beq @@NoSwim
+        bne @@return
 
-    ; Replaced code
-        mov r3, r2
-        and r3, r1
-        cmp r3, #0
-        beq @@NoSwim
+        ldr r0, =Wario
+        mov r1, #0
+        strh r1, [r0, #0x16]  ; Wario.sMvSpeedX
 
-        ldr r0, =0x8016416
-        mov pc, r0
-
-    @@NoSwim:
-        ldr r0, =0x801643C
-        mov pc, r0
-
+    @@return:
+        mov r0, r3
+        pop {pc}
+    @@call:
+        bx r0
     .pool
 
 
@@ -344,7 +345,7 @@ LimitWarioAbility_Grab:
         mov pc, r0
 
     @@CheckWeight:
-        ldr r1, =CurrentEntityInfoList_TEbuf
+        ldr r1, =gSpriteData
         mov r0, #0x2C
         mul r0, r7
         add r0, r0, r1

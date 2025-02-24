@@ -1,19 +1,21 @@
-#include "unsorted/functions.h"
-#include "unsorted/types.h"
+#include "unsorted/macros.h"
 #include "unsorted/variables.h"
+#include "game_state.h"
 #include "item.h"
+#include "sound.h"
+#include "units.h"
 #include "wario.h"
 
 
 // Refill Wario's health by a specified amount
 void GiveWarioHearts(u32 hearts) {
-    WarioHeart[1] += hearts;
-    if (WarioHeart[0] + WarioHeart[1] > 8) {
-        WarioHeart[1] = 8 - WarioHeart[0];
+    WarioHeart.queuedFill += hearts;
+    if (WarioHeart.count + WarioHeart.queuedFill > MAX_WARIO_HEARTS) {
+        WarioHeart.queuedFill = MAX_WARIO_HEARTS - WarioHeart.count;
     }
-    WarioHeart[2] = WarioHeart[1] << 3;
-    WarioHeart[3] = 0;
-    if (hearts == 8) {
+    WarioHeart.unk_02 = WarioHeart.queuedFill << 3;
+    WarioHeart.timer = 0;
+    if (hearts == MAX_WARIO_HEARTS) {
         m4aSongNumStart(SE_FULL_HEALTH_ITEM_GET);
     } else {
         m4aSongNumStart(SE_HEART_GET);
@@ -40,15 +42,19 @@ void GiveTransformTrap() {
         ChangeWarioReact_Frozen
     };
 
-    int random = MiniRandomCreate();
-    random = _modsi3(random, 3);
-    reactionList[random]();
+    reactionList[_modsi3(MiniRandomCreate(), ARRAY_SIZE(reactionList))]();
+}
+
+// Give lightning damage to Wario, flashing the screen and making him drop 400 coins
+void ApplyLightningTrap() {
+    ucFlashLoop = 5;
+    // If underwater, apply the correct status because it's different
+    WarioChng_React[Wario.ucReact](Wario.ucReact == REACT_NORMAL ? 19 : 6);
+    WarioCoinSet(CONVERT_SCORE(-400));
 }
 
 // Summon lightnining to strike and damage Wario, same as on The Big Board
-// If underwater, apply the correct status because it's different
 void GiveLightningTrap() {
-    ucFlashLoop = 5;
-    WarioChng_React[Wario.ucReact](Wario.ucReact == REACT_NORMAL ? 19 : 6);
-    WarioCoinSet(-0x28);
+    m4aSongNumStart(SE_THUNDER);
+    LightningTrapTimer = CONVERT_SECONDS(0.75);
 }

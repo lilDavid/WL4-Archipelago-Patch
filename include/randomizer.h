@@ -1,3 +1,5 @@
+#pragma once
+
 #include <gba.h>
 
 typedef enum {
@@ -16,3 +18,4 @@ typedef enum {
 extern const u8 GoalType;
 extern const u8 GoldenTreasuresNeeded;
 extern const u8 TrapBehavior;
+extern const u8 DiamondShuffle;

@@ -21,40 +21,8 @@ typedef enum {
     LEVEL_MAX = 6,  // Number of "levels" where Wario could be in a passage
 } InPassageLevel;
 
-typedef enum {
-    SE_BOX_OPEN = 0xDC,
-    SE_CONFIRM = 0x125,
-    SE_GEM_GET = 0x13B,
-    SE_CD_GET = 0x13C,
-    SE_HEART_GET = 0x140,
-    SE_FULL_HEALTH_ITEM_GET = 0x143,
-    SE_ALL_BOXES_GET = 0x156,
-    SE_RESULTS_FOUND_CD = 0x1D0,
-    SE_MINIGAME_COIN_GET = 0x223,
-    SE_HIGH_SCORE = 0x252,
-    BGM_AFTER_DIVA_ESCAPE = 0x320,
-} m4aSongNum;
-
-typedef enum {
-    WV_TREASURE = 1,
-    WV_HURT = 4,
-} WarioVoiceID;
-
-typedef enum {
-    REACT_NORMAL,
-    REACT_WATER,
-    REACT_FIRE,
-    REACT_FAT,
-    REACT_FROZEN,
-    REACT_ZOMBIE,
-    REACT_SNOWMAN,
-    REACT_BOUNCY,
-    REACT_PUFFY,
-    REACT_BAT,
-    REACT_FLAT,
-    REACT_MASK,
-    REACT_MAX
-} WarioReact;
+#define MAX_ROOMS_PER_LEVEL 16
+#define MAX_SPRITE_SLOTS_IN_ROOM 64
 
 typedef enum {
     VBLK_MAIN_SET_PALETTE = 1 << 6,

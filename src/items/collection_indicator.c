@@ -1,9 +1,11 @@
 #include <gba.h>
 
 #include "unsorted/functions.h"
-#include "unsorted/variables.h"
+#include "game_state.h"
 #include "graphics.h"
 #include "item.h"
+#include "sprite.h"
+#include "units.h"
 #include "wario.h"
 
 
@@ -44,7 +46,7 @@ void SpawnCollectionIndicator(u32 is_cd, u32 is_permanent) {
         x = Wario.usPosX + 72;
     else
         x = Wario.usPosX - (is_cd ? 136 : 200);
-    TOptObjSet(Wario.usPosY - 160, x, is_cd + 0x41);
+    Sprite_SpawnSecondary(Wario.usPosY - 160, x, is_cd + SSPRITE_TREASURE_ICONS);
     LastCollectedItemStatus = 2 * is_permanent + 1;
 }
 
@@ -53,9 +55,9 @@ static u32 GemIcons_DecideSeq(void);
 static void GemIcons_SetUpGraphics(void);
 
 void GemIcons_Init() {
-    Scbuf_ucStatus |= 4;
+    gCurrentSecondarySprite.ucStatus |= 4;
     if (LastCollectedItemStatus & 1) {
-        Scbuf_ucSeq = GemIcons_DecideSeq();
+        gCurrentSecondarySprite.ucSeq = GemIcons_DecideSeq();
         GemIcons_SetUpGraphics();
         LastCollectedItemStatus += 1;
     } else {
@@ -63,9 +65,9 @@ void GemIcons_Init() {
             return;
         if (LastCollectedItemStatus == 0)
             return;
-        Scbuf_ucSeq = 6;
+        gCurrentSecondarySprite.ucSeq = 6;
     }
-    Scbuf_ucWork0 = 0;
+    gCurrentSecondarySprite.WorkVariable0 = 0;
 }
 
 static u32 GemIcons_DecideSeq(void) {
@@ -149,15 +151,15 @@ static void GemIcons_SetCollectedAbility();
 static void GemIcons_SetCollectedPiece();
 
 void GemIcons_Update() {
-    if (Scbuf_ucWork0 >= 60) {
-        Scbuf_ucStatus = (Scbuf_ucStatus & 0xfd) | 4;
-        Scbuf_ucSeq = 5;
-        Scbuf_ucWork0 = 0x14;
-        Scbuf_usPosX += 0x20;
+    if (gCurrentSecondarySprite.WorkVariable0 >= CONVERT_SECONDS(1)) {
+        gCurrentSecondarySprite.ucStatus = (gCurrentSecondarySprite.ucStatus & 0xfd) | 4;
+        gCurrentSecondarySprite.ucSeq = 5;
+        gCurrentSecondarySprite.WorkVariable0 = 0x14;
+        gCurrentSecondarySprite.usPosX += 0x20;
         return;
     }
 
-    if (Scbuf_ucWork0 == 20) {
+    if (gCurrentSecondarySprite.WorkVariable0 == CONVERT_SECONDS(1.0/3.0)) {
         if (Item_GetType(LastCollectedItemID) == ITEMTYPE_ABILITY)
             GemIcons_SetCollectedAbility();
         else
@@ -186,15 +188,13 @@ static void GemIcons_SetCollectedAbility() {
     Tile4bpp* destination_tile;
 
     if (LastCollectedItemID == ITEM_GRAB) {
-        // Hack to make the blue W work with the red palette active
-        SPRITE_PALETTE[4 * 16 + 0xF] = 0x50A5;
         ability_tile = &CarryingGrab1Tile;
     } else /* Ground Pound */ {
         ability_tile = &CarryingGroundPound1Tile;
     }
 
     destination_tile = (Tile4bpp*) 0x6012000;
-    if (Scbuf_ucSeq == 2) {
+    if (gCurrentSecondarySprite.ucSeq == 2) {
         ability_tile += &CarryingGrab2Tile - &CarryingGrab1Tile;
         destination_tile += 1;
     }
@@ -217,7 +217,7 @@ static const u8 np_ability_tile_indices[6] = {
     1,  // Head Smash
     0,  // Grab
     2,  // Dash Attack
-    3,  // Enemy Jump
+    3,  // Stomp Jump
 };
 
 void CDIcon_Init() {
@@ -232,7 +232,7 @@ void CDIcon_Init() {
 }
 
 void CDIcon_Update() {
-    if (Scbuf_ucWork0 != 20)
+    if (gCurrentSecondarySprite.WorkVariable0 != CONVERT_SECONDS(1.0/3.0))
         return;
     u8 item_id = LastCollectedItemID;
     const Tile4bpp* icon;

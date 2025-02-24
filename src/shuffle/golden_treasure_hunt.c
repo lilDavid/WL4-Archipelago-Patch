@@ -2,9 +2,10 @@
 
 #include "unsorted/functions.h"
 #include "unsorted/types.h"
-#include "unsorted/variables.h"
+#include "game_state.h"
 #include "item.h"
 #include "randomizer.h"
+#include "sound.h"
 
 LONGCALL void ItemGetFlgSet_LoadSavestateInfo2RAM(void);
 extern u8 ucTakaraCount;

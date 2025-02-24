@@ -1,9 +1,11 @@
 #include <gba.h>
 
-#include "unsorted/functions.h"
+#include "color.h"
+#include "game_state.h"
 #include "graphics.h"
 #include "item.h"
 #include "multiworld.h"
+#include "sound.h"
 #include "wario.h"
 
 
@@ -22,12 +24,19 @@ void ItemReceivedFeedbackSound(u8 item_id) {
             m4aSongNumStart(SE_HIGH_SCORE);
             break;
         case ITEMTYPE_JUNK:
-            if (item_id == ITEM_MINIGAME_COIN) m4aSongNumStart(SE_MINIGAME_COIN_GET);
+            if (item_id == ITEM_MINIGAME_MEDAL) m4aSongNumStart(SE_MINIGAME_MEDAL_GET);
+            if (item_id == ITEM_DIAMOND) {
+                if (GlobalGameMode == 2 && sGameSeq == 2 && Wario.ucReact == REACT_WATER)
+                    m4aSongNumStart(SE_DIAMOND_GET_UNDERWATER);
+                else
+                    m4aSongNumStart(SE_DIAMOND_GET);
+            }
             break;
         default:
             break;
     }
-    WarioVoiceSet(WV_TREASURE);
+    if (item_id != ITEM_LIGHTNING_TRAP && item_id != ITEM_WARIO_FORM_TRAP)
+        WarioVoiceSet(WV_TREASURE);
 }
 
 // Get the next incoming item. If nothing has been received, return ITEM_NONE.
@@ -55,7 +64,7 @@ void SetTextColor(u16 color) {
 
 // Load the text "Received from <player>" into some sprite tiles in VRAM.
 void LoadReceivedText() {
-    SetTextColor(0x7FFF);
+    SetTextColor(COLOR_WHITE);
     LoadSpriteString(StrItemReceived, (Tile4bpp*) 0x06012180, 8);
     LoadSpriteString(StrItemFrom, (Tile4bpp*) 0x06012280, 4);
     const u8* restofstr = LoadSpriteString(IncomingItemSender, (Tile4bpp*) 0x06012600, 8);

@@ -35,15 +35,13 @@
 ; collected yet.
 .definelabel AbilitiesInThisLevel, UnusedRamStart + 42  ; byte
 
-; Extends the existing box system to include full health boxes
-.definelabel HasFullHealthItem, UnusedRamStart + 43  ; byte
+.definelabel LastCollectedItemIndex, UnusedRamStart + 43  ; byte
 
-; Pinball Zone has an extra one
-.definelabel HasFullHealthItem2, UnusedRamStart + 44  ; byte
+.definelabel LightningTrapTimer, UnusedRamStart + 44  ; byte
 
-.definelabel LastCollectedBox, UnusedRamStart + 45  ; byte
+.definelabel gStoredMultiworldDiamonds, UnusedRamStart + 45  ; byte
 
-.definelabel VblkStatus, UnusedRamStart + 46  ; byte
+.definelabel VblkStatus, UnusedRamStart + 47  ; byte
 
 .definelabel QueuedJunk, UnusedRamStart + 48  ; bytes
     .definelabel QueuedFullHealthItem, QueuedJunk + 0
@@ -51,20 +49,4 @@
     .definelabel QueuedHearts, QueuedJunk + 2
     .definelabel QueuedLightningTraps, QueuedJunk + 3
 
-.definelabel BoxContents, QueuedJunk + 4  ; bytes
-    .definelabel Jewel1BoxContents, BoxContents  ; bytes
-    .definelabel Jewel2BoxContents, BoxContents + 1
-    .definelabel Jewel3BoxContents, BoxContents + 2
-    .definelabel Jewel4BoxContents, BoxContents + 3
-    .definelabel CDBoxContents, BoxContents + 4
-    .definelabel HealthBoxContents, BoxContents + 5
-    .definelabel HealthBox2Contents, BoxContents + 6
-
-.definelabel BoxExtData, Jewel1BoxContents + 8  ; words
-    .definelabel Jewel1BoxExtData, BoxExtData
-    .definelabel Jewel2BoxExtData, BoxExtData + 4
-    .definelabel Jewel3BoxExtData, BoxExtData + 8
-    .definelabel Jewel4BoxExtData, BoxExtData + 12
-    .definelabel CDBoxExtData, BoxExtData + 16
-    .definelabel HealthBoxExtData, BoxExtData + 20
-    .definelabel HealthBox2ExtData, BoxExtData + 24
+.definelabel CollectedItems, QueuedJunk + 4  ; word

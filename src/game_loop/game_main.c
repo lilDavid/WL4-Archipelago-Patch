@@ -1,9 +1,13 @@
 #include "unsorted/functions.h"
 #include "unsorted/variables.h"
+#include "color.h"
+#include "game_state.h"
 #include "graphics.h"
 #include "item.h"
 #include "item_table.h"
 #include "multiworld.h"
+#include "sprite.h"
+#include "units.h"
 #include "wario.h"
 
 
@@ -34,8 +38,8 @@ static void GameMain_CollectMultiworld() {
     if (item_id == ITEM_NONE)
         return;
 
-    TextTimer = 120;
-    GiveItem(item_id, NULL);
+    TextTimer = CONVERT_SECONDS(2);
+    GiveItem_InGame(item_id, NULL);
     VblkStatus |= VBLK_MAIN_UPDATE_TEXT;
     ItemReceivedFeedbackSound(item_id);
 
@@ -75,6 +79,9 @@ static void GameMain_CollectJunk(void) {
     if (MultiworldState == MW_TEXT_FOUND_BOSS_ITEMS)
         return;
 
+    if (usWarStopFlg != 0)
+        return;
+
     if (QueuedFullHealthItem) {
         GiveWarioHearts(8);
         QueuedFullHealthItem = 0;
@@ -83,7 +90,11 @@ static void GameMain_CollectJunk(void) {
         QueuedHearts -= 1;
     }
 
-    if (Wario.ucMiss == 0 && Wario.ucReact <= REACT_WATER) {
+    if (LightningTrapTimer >= 0) {
+        if (LightningTrapTimer == 0)
+            ApplyLightningTrap();
+        LightningTrapTimer -= 1;
+    } else if (Wario.ucMiss == 0 && Wario.ucReact <= REACT_WATER) {
         int is_swimming = Wario.ucReact == REACT_WATER && HAS_ABILITY_TEMPORARY(ABILITY_SWIM);
         int favor_transforms = (QueuedFormTraps ^ QueuedLightningTraps) & 1;
         if (QueuedFormTraps > 0 && favor_transforms
@@ -104,7 +115,7 @@ static void GameMain_CreateTextOAM(u32);
 void GameMain_RandoGraphics() {
     if (ucWarOffFlg == 0)
         GmWarioCreate();
-    EnemyDisplayMain();
+    Sprite_Draw();
 
     if (MultiworldState == MW_TEXT_RECEIVED_ITEM || MultiworldState == MW_TEXT_SENDING_ITEM) {
         int text_type = MW_TEXT_SENDING_ITEM - MultiworldState;
@@ -136,24 +147,23 @@ void GameMain_ReceivedTextVBlk() {
                 break;
 
             case MW_TEXT_SENDING_ITEM: {
-                int box_type = LastCollectedBox;
-                int item_id = BoxContents[box_type];
-                const ExtData* multi = BoxExtData[box_type];
+                int item_index = LastCollectedItemIndex;
+                u32 item_id = ItemInCurrentLevel(item_index);
+                const MultiworldData* multi = MultiworldDataInCurrentLevel(item_index);
 
                 Tile4bpp* tiles1 = (Tile4bpp*) 0x6012180;  // Row of 12
                 Tile4bpp* tiles2 = (Tile4bpp*) 0x6012600;  // Row of 8
                 Tile4bpp* tiles3 = (Tile4bpp*) 0x6012A00;  // Row of 8
                 if (SendMultiworldItemsImmediately) {
-                    const ExtData* multi = BoxExtData[box_type];
-                    if (box_type > BOX_CD)
-                        box_type += 1;
-                    W4ItemStatus[PassageID][InPassageLevelID] |= (1 << (box_type + 8));
+                    if (item_index > BOX_CD)
+                        item_index += 1;
+                    W4ItemStatus[PassageID][InPassageLevelID] |= (1 << (item_index + 8));
 
                     // Sent to <Player name>
                     const u8* namebytes = multi->receiver;
                     int sent_len = sizeof(StrItemSent) - 1;  // trim space
                     int to_len = sizeof(StrItemTo);
-                    SetTextColor(0x7FFF);
+                    SetTextColor(COLOR_WHITE);
                     LoadSpriteString(StrItemSent, tiles1, sent_len);
                     LoadSpriteString(StrItemTo, tiles1 + sent_len, to_len);
                     namebytes = LoadSpriteString(namebytes, tiles1 + sent_len + to_len, 12 - sent_len - to_len);
@@ -162,11 +172,11 @@ void GameMain_ReceivedTextVBlk() {
                 } else {
                     // Item name
                     switch (item_id & 7) {
-                        case AP_IC_FILLER:      SetTextColor(0x7B6B /* cyan */); break;
-                        case AP_IC_PROGRESSION: SetTextColor(0x51D5 /* plum */); break;
-                        case AP_IC_USEFUL:      SetTextColor(0x7DC6 /* slate blue */); break;
-                        case AP_IC_TRAP:        SetTextColor(0x39DF /* salmon */); break;
-                        default:                SetTextColor(0x7FFF /* white */); break;
+                        case AP_IC_FILLER:      SetTextColor(COLOR_AP_CYAN); break;
+                        case AP_IC_PROGRESSION: SetTextColor(COLOR_AP_PLUM); break;
+                        case AP_IC_USEFUL:      SetTextColor(COLOR_AP_SLATEBLUE); break;
+                        case AP_IC_TRAP:        SetTextColor(COLOR_AP_SALMON); break;
+                        default:                SetTextColor(COLOR_WHITE); break;
                     }
                     const u8* namebytes = multi->item_name;
                     namebytes = LoadSpriteString(namebytes, tiles1, 12);

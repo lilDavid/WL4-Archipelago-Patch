@@ -48,8 +48,7 @@ StrItemTo: .string " to "
 StrItemReceived: .string "Received "
 StrItemFrom: .string "from "
 
-; The ExtData tables will point into this area, which is intended to take up the
-; rest of the space in the ROM.
+; The MultiworldData tables will point into this area, which is intended to take up the rest of the space in the ROM.
 .align 4
 .sym on
 MultiworldStringDump: .byte 0

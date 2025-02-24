@@ -130,16 +130,19 @@ TextBoxCharCount equ 14 * (11 / 2)
 .org PassageScreenTiles + tile_coord_4b(2, 9)
     .incbin "data/graphics/slash.bin", sizeof_tile, sizeof_tile
 
-.org 0x86A2648 + 0x10
-    .halfword 0x50D0, 0x50D1, 0x50D2, 0x50D3, 0x50D4, 0x50D5
-    .halfword 0x50D6, 0x50D7, 0x50D8, 0x50D9, 0x50DA, 0x50DB
-.org 0x86A2648 + 0x50
-    .halfword 0x50F0, 0x50F1, 0x50F2, 0x50F3, 0x50F4, 0x50F5
-    .halfword 0x50F6, 0x50F7, 0x50F8, 0x50F9, 0x50FA, 0x50FB
+; Ground Pound, Grab, Dash Attack
+.org 0x86A2648 + 0x402
+    .halfword 0x50D0, 0x50D1, 0x50D6, 0x50D7, 0x50D8, 0x50D9
+.org 0x86A2648 + 0x442
+    .halfword 0x50F0, 0x50F1, 0x50F6, 0x50F7, 0x50F8, 0x50F9
 
+; Swim, Head Smash, Stomp Jump
+.org 0x86A2648 + 0x482
+    .halfword 0x50D2, 0x50D3, 0x50D4, 0x50D5, 0x50DA, 0x50DB
+.org 0x86A2648 + 0x4C2
+    .halfword 0x50F2, 0x50F3, 0x50F4, 0x50F5, 0x50FA, 0x50FB
 
 .autoregion
-
 
 .align 4
 AbilityIconTilesTop:
@@ -150,11 +153,12 @@ AbilityIconTilesBottom:
 APLogoTilesTop:
     .incbin "data/graphics/ap_logo.bin", 0x00, 2 * sizeof_tile
 APLogoTilesBottom:
-    .incbin "data/graphics/ap_logo.bin", 2 * sizeof_tile, 2 * sizeof_tile
+    .incbin "data/graphics/ap_logo.bin", 2 * sizeof_tile, 6 * sizeof_tile
 
-EmptyGroundPound1Tile:
+EmptyAbilityTiles:
     .incbin "data/graphics/ability_get.bin", 0, 16 * sizeof_tile
-.org EmptyGroundPound1Tile + sizeof_tile
+.org EmptyAbilityTiles
+EmptyGroundPound1Tile: .skip sizeof_tile
 EmptyGroundPound2Tile: .skip sizeof_tile
 CarryingGroundPound1Tile: .skip sizeof_tile
 CarryingGroundPound2Tile: .skip sizeof_tile
@@ -175,14 +179,15 @@ EmptyDashAttackTile: .skip sizeof_tile
 EmptyEnemyJumpTile: .skip sizeof_tile
 
 FilledNonProgressiveAbilityTiles:
-HasSwimTile:
     .incbin "data/graphics/ability_get.bin", 18 * sizeof_tile, 4 * sizeof_tile
-.org HasSwimTile + sizeof_tile
+.org FilledNonProgressiveAbilityTiles
+HasSwimTile: .skip sizeof_tile
 HasHeadSmashTile: .skip sizeof_tile
 HasDashAttackTile: .skip sizeof_tile
 HasEnemyJumpTile: .skip sizeof_tile
 
-MinigameCoinTiles: .incbin "data/graphics/minigame_coin_item.bin"
-
+.sym on
+MinigameCoinTiles: .fill 4 * sizeof_tile
+.sym off
 
 .endautoregion

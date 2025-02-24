@@ -1,13 +1,16 @@
 #include <gba.h>
 
 #include "unsorted/variables.h"
-#include "unsorted/functions.h"
 #include "unsorted/macros.h"
 #include "unsorted/types.h"
+#include "color.h"
 #include "graphics.h"
 #include "item.h"
 #include "item_table.h"
 #include "multiworld.h"
+#include "sound.h"
+#include "text.h"
+#include "units.h"
 #include "wario.h"
 
 
@@ -42,7 +45,7 @@ u32 PassageSelect_Rando() {
             ItemReceivedFeedbackSound(item_id);
             break;
     }
-    TextTimer = 15;
+    TextTimer = CONVERT_SECONDS(0.25);
     VblkStatus = VBLK_DMAP_UPDATE;
 
     return 0;
@@ -61,6 +64,11 @@ static const TObjDef msgFullHealthItem = {
     2,
     { ANM_OBJ(-8,  -4, ATTR0_SQUARE, ATTR1_SIZE_16, 0x200, 15, 0),
       ANM_OBJ(-8, -12, ATTR0_WIDE,   ATTR1_SIZE_8,  0x202, 15, 0) }
+};
+static const TObjDef msgDiamond = {
+    2,
+    { ANM_OBJ(-16, -12, ATTR0_WIDE, ATTR1_SIZE_32, 0x202, 15, 0),
+      ANM_OBJ( -8,   4, ATTR0_WIDE, ATTR1_SIZE_8,  0x200, 15, 0) }
 };
 static const TObjDef msgWarioFormTrap = {
     3,
@@ -82,8 +90,10 @@ static const TObjDef* PassageSelect_GetItemSprite(u8 item_id) {
                 case ITEM_FULL_HEALTH_ITEM:
                     return &msgFullHealthItem;
                 case ITEM_HEART:
-                case ITEM_MINIGAME_COIN:
+                case ITEM_MINIGAME_MEDAL:
                     return &msgSmallItem;
+                case ITEM_DIAMOND:
+                    return &msgDiamond;
                 case ITEM_WARIO_FORM_TRAP:
                     return &msgWarioFormTrap;
                 case ITEM_LIGHTNING_TRAP:
@@ -135,6 +145,7 @@ static void PassageSelect_RandoVblk(void) {
 
     if (VblkStatus == VBLK_DMAP_UPDATE) {
         LoadMessageBG();
+        usMojiCount = TEXT_FIXED;
         if (MultiworldState == MW_TEXT_RECEIVED_ITEM)
             PassageSelect_ShowReceivedItem();
         else
@@ -145,7 +156,7 @@ static void PassageSelect_RandoVblk(void) {
     if (TextTimer == 0) {
         if (usTrg_KeyPress1Frame & KEY_A) {
             m4aSongNumStart(SE_CONFIRM);
-            if (MultiworldState == MW_TEXT_RECEIVED_ITEM || (LastCollectedBox & 0xF) == 0) {
+            if (MultiworldState == MW_TEXT_RECEIVED_ITEM || (CollectedItems & 0xF) == 0) {
                 LoadPyramidBG3();
                 MultiworldState = MW_IDLE;
             } else {
@@ -198,8 +209,8 @@ void PassageSelect_SpriteCopy(u8 item_id) {
                             34 * sizeof(Tile4bpp));
                     break;
 
-                case ITEM_MINIGAME_COIN:
-                    dmaCopy(PassagePaletteTable[PAL_MINGAME_COIN],
+                case ITEM_MINIGAME_MEDAL:
+                    dmaCopy(ItemPaletteTable[PAL_MEDAL],
                             palette_dest + (16 - 5),
                             5 * sizeof(u16));
                     dmaCopy(MinigameCoinTiles,
@@ -208,6 +219,15 @@ void PassageSelect_SpriteCopy(u8 item_id) {
                     dmaCopy(MinigameCoinTiles + 2,
                             item_dest + TILE_OFFSET(0, 1),
                             2 * sizeof(Tile4bpp));
+                    break;
+
+                case ITEM_DIAMOND:
+                    dmaCopy(CommonRoomEntityPalettes4[1],  // normally OBP5
+                            palette_dest,
+                            16 * sizeof(u16));
+                    dmaCopy(BasicElementTiles + TILE_OFFSET(8, 5),
+                            item_dest,
+                            38 * sizeof(Tile4bpp));
                     break;
 
                 case ITEM_WARIO_FORM_TRAP:
@@ -242,12 +262,9 @@ void PassageSelect_SpriteCopy(u8 item_id) {
                     ability = ABILITY_HEAVY_GRAB;
                 }
             }
-            dmaCopy(PassageTreasurePalettes[0],
+            dmaCopy(ItemPaletteTable[AbilityPaletteTable[ability]],
                     palette_dest,
-                    (16 - 5) * sizeof(u16));
-            dmaCopy(PassagePaletteTable[AbilityPaletteTable[ability]],
-                    palette_dest + 16 - 5,
-                    5 * sizeof(u16));
+                    16 * sizeof(u16));
             dmaCopy(AbilityIconTilesTop + 2 * ability,
                     item_dest,
                     2 * sizeof(Tile4bpp));
@@ -323,25 +340,24 @@ static const u8* PaddedBossNames[] = {
 };
 
 static void PassageSelect_ShowFoundBossItem() {
-    int passage = LastCollectedBox >> 4;
+    int passage = CollectedItems >> 4;
     int chest;
     for (chest = 0; chest < 3; chest++) {
-        if (LastCollectedBox & (1 << chest)) {
-            LastCollectedBox &= ~(1 << chest);
+        if (CollectedItems & (1 << chest)) {
+            CollectedItems &= ~(1 << chest);
             break;
         }
     }
 
     int char_size = 2 * sizeof(Tile4bpp);  // Each character is 2 tiles
     int next_tile = 0x9000;
-    usMojiCount = 1000;  // Fixed text position (?)
 
     // Boss names are centered, so center them on the top of the window.
     // Coincidentally, the longest, Spoiled Rotten, is exactly 14 chars.
     MojiCreate(PaddedBossNames[passage] + 6, next_tile, 14);
     next_tile += 14 * char_size;
 
-    const ExtData* multi = ItemExtDataTable[passage][LEVEL_BOSS][chest];
+    const MultiworldData* multi = MultiworldDataTable[passage][LEVEL_BOSS][chest];
     if (multi) {
         MojiCreate(StrItemSent, next_tile, sizeof(StrItemSent));
         next_tile += sizeof(StrItemSent) * char_size;
@@ -388,7 +404,7 @@ extern Tile4bpp PortalTileset2[];
 static void LoadMessageBG() {
     REG_BG3CNT = BG_SIZE_0 | SCREEN_BASE(0x1E) | BG_16_COLOR | CHAR_BASE(2) | BG_PRIORITY(0);
     // Miraculously, BGP 6 color 2 isn't used at all as far as I can tell
-    BG_PALETTE[6 * 16 + 2] = 0x7FFF;
+    BG_PALETTE[6 * 16 + 2] = COLOR_WHITE;
 
     dmaCopy(SaveTutorialTilemap, SCREEN_BASE_BLOCK(0x1E), 0x1000);
     dmaCopy(PortalTileset2, CHAR_BASE_BLOCK(2), 0x4000);

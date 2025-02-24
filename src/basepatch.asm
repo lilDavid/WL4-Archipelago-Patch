@@ -10,12 +10,12 @@ UnusedRomStart equ 0x0878F97C
 .include "src/symbols/vanilla_labels.asm"
 .include "src/symbols/randomizer_variables.asm"
 
-JUNK_MAX equ 5
+JUNK_MAX equ 6
 ITEM_NONE equ 0xFF
 
 PASSAGES equ 6
 LEVELS_PER_PASSAGE equ 5
-CHECKS_PER_LEVEL equ (4 + 1 + 2)  ; 4 gem pieces, up to 1 CD, up to 2 health refills
+CHECKS_PER_LEVEL equ (4 + 1 + 2 + 11)  ; 4 gem pieces, up to 1 CD, up to 2 health refills, up to 11 diamonds
 TOTAL_LOCATIONS equ (PASSAGES * LEVELS_PER_PASSAGE * CHECKS_PER_LEVEL)
 
 ; Allocate space at ROM end
@@ -32,7 +32,7 @@ TOTAL_LOCATIONS equ (PASSAGES * LEVELS_PER_PASSAGE * CHECKS_PER_LEVEL)
     .align 4
     ItemLocationTable:              .fill TOTAL_LOCATIONS,     ITEM_NONE
     .align 4
-    ItemExtDataTable:               .fill TOTAL_LOCATIONS * 4, 0
+    MultiworldDataTable:            .fill TOTAL_LOCATIONS * 4, 0
     StartingInventoryItemStatus:    .fill PASSAGES * 6,        0
     StartingInventoryJunkCounts:    .fill JUNK_MAX,            0
     StartingInventoryWarioAbilities:                     .byte 0
@@ -42,6 +42,7 @@ TOTAL_LOCATIONS equ (PASSAGES * LEVELS_PER_PASSAGE * CHECKS_PER_LEVEL)
     GoalType:                       .byte 0
     GoldenTreasuresNeeded:          .byte 0
     TrapBehavior:                   .byte 0
+    DiamondShuffle:                 .byte 0
     .thumb
 .endregion
 
@@ -57,7 +58,9 @@ TOTAL_LOCATIONS equ (PASSAGES * LEVELS_PER_PASSAGE * CHECKS_PER_LEVEL)
 .importobj "obj/items/multiworld.o"
 .importobj "obj/items/collect_junk.o"
 .importobj "obj/items/collection_indicator.o"
+.importobj "obj/shuffle/item.o"
 .importobj "obj/shuffle/boxes.o"
+.importobj "obj/shuffle/diamonds.o"
 .importobj "obj/shuffle/save_data.o"
 .importobj "obj/shuffle/golden_treasure_hunt.o"
 .importobj "obj/game_loop/passage_select.o"

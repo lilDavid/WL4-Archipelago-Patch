@@ -1,11 +1,13 @@
 #include <gba.h>
 
 #include "unsorted/functions.h"
-#include "unsorted/variables.h"
+#include "game_state.h"
 #include "item.h"
 #include "item_table.h"
 #include "multiworld.h"
 #include "randomizer.h"
+#include "sprite.h"
+#include "units.h"
 #include "wario.h"
 
 LONGCALL void AutoSave_ExRead_Work(void);
@@ -23,15 +25,13 @@ void CreateStartingInventory() {
     QueuedFormTraps = StartingInventoryJunkCounts[JUNK_WARIO_FORM_TRAP];
     QueuedHearts = StartingInventoryJunkCounts[JUNK_HEART];
     QueuedLightningTraps = StartingInventoryJunkCounts[JUNK_LIGHTNING_TRAP];
-    MiniGameCoinNum = StartingInventoryJunkCounts[JUNK_MINIGAME_COIN];
+    gMedalCount = StartingInventoryJunkCounts[JUNK_MINIGAME_MEDAL];
+    iGmTotalScore = StartingInventoryJunkCounts[JUNK_DIAMOND] * CONVERT_SCORE(1000);
 
     WarioAbilities = StartingInventoryWarioAbilities;
 }
 
-u8* boxPosessionVariables[BOX_MAX] = {
-    &Has1stGemPiece, &Has2ndGemPiece, &Has3rdGemPiece, &Has4thGemPiece,
-    &HasCD, &HasFullHealthItem, &HasFullHealthItem2
-};
+u8* boxPosessionVariables[BOX_CD + 1] = { &Has1stGemPiece, &Has2ndGemPiece, &Has3rdGemPiece, &Has4thGemPiece, &HasCD };
 
 
 // The boxes you've checked are in the second byte of the item status word.
@@ -39,34 +39,33 @@ u8* boxPosessionVariables[BOX_MAX] = {
 // so this data is handled all in the same place.
 
 void CheckLocations() {
+    gStoredMultiworldDiamonds = 0;
+
+    CollectedItems &= ~(W4ItemStatus[PassageID][InPassageLevelID] >> 8);
     for (int i = 0; i <= BOX_CD; i++) {
-        if (HAS_BOX(i) != 1)
+        if (HAS_BOX(i))
+            HAS_BOX(i) = 3;
+    }
+
+    for (int i = BOX_GEM1; i < LOCATION_MAX; i++) {
+        int flag = i + (i > BOX_CD);
+        if (!(CollectedItems & (1 << flag)))
             continue;
-        W4ItemStatus[PassageID][InPassageLevelID] |= 1 << (8 + i);
         int item_id = ItemInCurrentLevel(i);
-        const ExtData* multiworld_data = ExtDataInCurrentLevel(i);
-        if (!((Item_GetType(item_id) == ITEMTYPE_JUNK && item_id != ITEM_MINIGAME_COIN) &&
-              multiworld_data == NULL))
-            GiveItem(item_id, multiworld_data);
+        const MultiworldData* multiworld_data = MultiworldDataInCurrentLevel(i);
+        GiveItem_LevelEnd(item_id, multiworld_data);
     }
 
     if (HasKeyzer) {
         W4ItemStatus[PassageID][InPassageLevelID] |= ISB_KEYZER;
     }
 
-    for (int i = BOX_HEART; i < BOX_MAX; i++) {
-        if (HAS_BOX(i) != 1)
-            continue;
-        W4ItemStatus[PassageID][InPassageLevelID] |= 1 << (8 + i + 1);
-        int item_id = ItemInCurrentLevel(i);
-        const ExtData* multiworld_data = ExtDataInCurrentLevel(i);
-        if (!((Item_GetType(item_id) == ITEMTYPE_JUNK && item_id != ITEM_MINIGAME_COIN) &&
-              multiworld_data == NULL))
-            GiveItem(item_id, multiworld_data);
-    }
+    W4ItemStatus[PassageID][InPassageLevelID] |= CollectedItems << 8;
 }
 
 void CheckBossLocations() {
+    gStoredMultiworldDiamonds = 0;
+
     unsigned int current_status = W4ItemStatus[PassageID][InPassageLevelID];
     unsigned int new_status = 0;
     if (Has1stGemPiece) {
@@ -86,26 +85,26 @@ void CheckBossLocations() {
         W4ItemStatus[PassageID][InPassageLevelID] |= new_status;
         return;
     } else {
-        LastCollectedBox = (current_status >> 8) ^ new_status;
+        CollectedItems = (current_status >> 8) ^ new_status;
         W4ItemStatus[PassageID][InPassageLevelID] |= new_status << 8;
     }
 
-    if (LastCollectedBox) {
+    if (CollectedItems) {
         MultiworldState = MW_TEXT_FOUND_BOSS_ITEMS;
         TextTimer = 15;
         VblkStatus = VBLK_DMAP_UPDATE;
-        LastCollectedBox |= PassageID << 4;
+        CollectedItems |= PassageID << 4;
     } else {
         return;
     }
 
     for (int i = 0; i < 3; i++) {
         int flag = (1 << i);
-        if (!(LastCollectedBox & flag))
+        if (!(CollectedItems & flag))
             continue;
 
         int item = ItemLocationTable[PassageID][InPassageLevelID][i];
-        const ExtData* multi = ItemExtDataTable[PassageID][InPassageLevelID][i];
+        const MultiworldData* multi = MultiworldDataTable[PassageID][InPassageLevelID][i];
         GiveItem(item, multi);
     }
 }
@@ -124,14 +123,14 @@ void SetItemCollection() {
     } else {
         HasKeyzer = 0;
     }
-    for (int i = BOX_HEART; i < BOX_MAX; i++) {
-        int has_item = item_status & (1 << (8 + i + 1));
-        if (has_item)
-            has_item = 3;
-        HAS_BOX(i) = has_item;
-    }
 
+    CollectedItems = item_status >> 8;
+}
+
+void ResetLevelVariables() {
     AbilitiesInThisLevel = 0;
+    LightningTrapTimer = -1;
+    gStoredMultiworldDiamonds = 0;
 }
 
 
@@ -189,14 +188,24 @@ void BossDefeated_Save() {
     ucSaveFlg = 1;
 }
 
+// Limit traps so you don't get looped
 void ResetTraps() {
-    // Limit traps so you don't get looped
     if (QueuedFormTraps > 1)
         QueuedFormTraps = 1;
     if (QueuedLightningTraps > 1)
         QueuedLightningTraps = 1;
+}
 
-    TOptObjSet(Wario.usPosY, Wario.usPosX, 0x4D);
+// Add diamonds recieved from the multiworld to your total score
+void GiveStoredDiamonds() {
+    iGmTotalScore += CONVERT_SCORE(1000) * gStoredMultiworldDiamonds;
+    gStoredMultiworldDiamonds = 0;
+}
+
+void WarioFailure() {
+    ResetTraps();
+    GiveStoredDiamonds();
+
     if (InPassageLevelID == LEVEL_BOSS)
         LoseSave();
 }

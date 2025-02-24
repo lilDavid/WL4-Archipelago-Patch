@@ -2,19 +2,22 @@
 
 #include "unsorted/functions.h"
 #include "unsorted/types.h"
-#include "unsorted/variables.h"
 #include "item.h"
 #include "item_table.h"
+#include "game_state.h"
 #include "graphics.h"
 #include "randomizer.h"
+#include "sprite.h"
+#include "units.h"
+#include "wario.h"
 
 
-u8 ItemInCurrentLevel(u32 boxtype) {
-    return ItemLocationTable[PassageID][InPassageLevelID][boxtype];
+u8 ItemInCurrentLevel(u32 flag) {
+    return ItemLocationTable[PassageID][InPassageLevelID][flag];
 }
 
-const ExtData* ExtDataInCurrentLevel(u32 boxtype) {
-    return ItemExtDataTable[PassageID][InPassageLevelID][boxtype];
+const MultiworldData* MultiworldDataInCurrentLevel(u32 flag) {
+    return MultiworldDataTable[PassageID][InPassageLevelID][flag];
 }
 
 static void GiveItem_Gem(u8 item_id);
@@ -23,7 +26,7 @@ static void GiveItem_Ability(u8 item_id);
 static void GiveItem_Junk(u8 item_id);
 static void GiveItem_Treasure(u8 item_id);
 
-void GiveItem(u8 item_id, const ExtData* multiworld) {
+void GiveItem(u8 item_id, const MultiworldData* multiworld) {
     if (item_id == ITEM_NONE)
         return;
 
@@ -36,9 +39,60 @@ void GiveItem(u8 item_id, const ExtData* multiworld) {
         case ITEMTYPE_GEM:      GiveItem_Gem(item_id); break;
         case ITEMTYPE_CD:       GiveItem_CD(item_id); break;
         case ITEMTYPE_ABILITY:  GiveItem_Ability(item_id); break;
-        case ITEMTYPE_JUNK:     GiveItem_Junk(item_id); break;
         case ITEMTYPE_TREASURE: GiveItem_Treasure(item_id); break;
-        default:                break;
+        case ITEMTYPE_JUNK:
+            GiveItem_Junk(item_id);
+            if (item_id == ITEM_DIAMOND)
+                iGmTotalScore += CONVERT_SCORE(1000);
+            break;
+        default:
+            break;
+    }
+}
+
+void GiveItem_LevelEnd(u8 item_id, const MultiworldData* multiworld) {
+    if (item_id == ITEM_NONE)
+        return;
+
+    if (multiworld != NULL)
+        return;
+
+    switch (Item_GetType(item_id)) {
+        case ITEMTYPE_GEM:      GiveItem_Gem(item_id); break;
+        case ITEMTYPE_CD:       GiveItem_CD(item_id); break;
+        case ITEMTYPE_ABILITY:  GiveItem_Ability(item_id); break;
+        case ITEMTYPE_TREASURE: GiveItem_Treasure(item_id); break;
+        case ITEMTYPE_JUNK:
+            if (item_id == ITEM_MINIGAME_MEDAL)
+                gMedalCount += 1;
+            break;
+        default:
+            break;
+    }
+}
+
+void GiveItem_InGame(u8 item_id, const MultiworldData* multiworld) {
+    if (item_id == ITEM_NONE)
+        return;
+
+    if (multiworld != NULL)
+        return;
+
+    switch (Item_GetType(item_id)) {
+        case ITEMTYPE_GEM:      GiveItem_Gem(item_id); break;
+        case ITEMTYPE_CD:       GiveItem_CD(item_id); break;
+        case ITEMTYPE_ABILITY:  GiveItem_Ability(item_id); break;
+        case ITEMTYPE_TREASURE: GiveItem_Treasure(item_id); break;
+        case ITEMTYPE_JUNK:
+            GiveItem_Junk(item_id);
+            if (item_id == ITEM_DIAMOND) {
+                gStoredMultiworldDiamonds += 1;
+                GmStScoreCalc(CONVERT_SCORE(1000));
+                Sprite_SpawnSecondary(Wario.usPosY, Wario.usPosX, SSPRITE_SCORE_1000);
+            }
+            break;
+        default:
+            break;
     }
 }
 
@@ -95,16 +149,18 @@ static void GiveItem_Junk(u8 item_id) {
             else
                 QueuedLightningTraps += 1;
             break;
-        case ITEM_MINIGAME_COIN:
-            MiniGameCoinNum += 1;
+        case ITEM_MINIGAME_MEDAL:
+            gMedalCount += 1;
             break;
     }
 }
 
+#define TREASURES_PER_BOSS 3
+
 static void GiveItem_Treasure(u8 item_id) {
     int flag = item_id & 0xF;
-    int passage = _divsi3(flag, 3) + 1;
-    int chest = _modsi3(flag, 3);
+    int passage = _divsi3(flag, TREASURES_PER_BOSS) + 1;
+    int chest = _modsi3(flag, TREASURES_PER_BOSS);
     W4ItemStatus[passage][LEVEL_BOSS] |= (1 << chest);
 }
 
@@ -123,9 +179,9 @@ const u16 AbilityPaletteTable[ABILITY_MAX] = {
     /* Ground Pound */       PAL_ENTRY,
     /* Swim */               PAL_SAPPHIRE,
     /* Head Smash */         PAL_HELMET,
-    /* Grab */               PAL_SAPPHIRE,
+    /* Grab */               PAL_GLOVES,
     /* Dash Attack */        PAL_GARLIC,
-    /* Enemy Jump */         PAL_EMERALD,
+    /* Stomp Jump */         PAL_EMERALD,
     /* Super Ground Pound */ PAL_ENTRY,
-    /* Heavy Grab */         PAL_RUBY,
+    /* Heavy Grab */         PAL_GLOVES,
 };
