@@ -118,17 +118,17 @@ TextBoxCharCount equ 14 * (11 / 2)
 
 .definelabel PassageScreenTiles, 0x869CE48
 .org PassageScreenTiles + tile_coord_4b(0, 6)
-    .incbin "data/graphics/chest.bin"
+    .incbin "data/graphics/chest.gfx"
 .org PassageScreenTiles + tile_coord_4b(0, 7)
-    .incbin "data/graphics/jewel_box.bin"
+    .incbin "data/graphics/jewel_box.gfx"
 .org PassageScreenTiles + tile_coord_4b(16, 6)
-    .incbin "data/graphics/ability_icons.bin", 0x00, 12 * sizeof_tile
+    .incbin "data/graphics/ability_icons.gfx", 0x00, 12 * sizeof_tile
 .org PassageScreenTiles + tile_coord_4b(16, 7)
-    .incbin "data/graphics/ability_icons.bin", 16 * sizeof_tile, 12 * sizeof_tile
+    .incbin "data/graphics/ability_icons.gfx", 16 * sizeof_tile, 12 * sizeof_tile
 .org PassageScreenTiles + tile_coord_4b(2, 8)
-    .incbin "data/graphics/slash.bin", 0x00, sizeof_tile
+    .incbin "data/graphics/slash.gfx", 0x00, sizeof_tile
 .org PassageScreenTiles + tile_coord_4b(2, 9)
-    .incbin "data/graphics/slash.bin", sizeof_tile, sizeof_tile
+    .incbin "data/graphics/slash.gfx", sizeof_tile, sizeof_tile
 
 ; Ground Pound, Grab, Dash Attack
 .org 0x86A2648 + 0x402
@@ -146,17 +146,17 @@ TextBoxCharCount equ 14 * (11 / 2)
 
 .align 4
 AbilityIconTilesTop:
-    .incbin "data/graphics/ability_icons.bin", 32 * sizeof_tile, 16 * sizeof_tile
+    .incbin "data/graphics/ability_icons.gfx", 32 * sizeof_tile, 16 * sizeof_tile
 AbilityIconTilesBottom:
-    .incbin "data/graphics/ability_icons.bin", 48 * sizeof_tile, 16 * sizeof_tile
+    .incbin "data/graphics/ability_icons.gfx", 48 * sizeof_tile, 16 * sizeof_tile
 
 APLogoTilesTop:
-    .incbin "data/graphics/ap_logo.bin", 0x00, 2 * sizeof_tile
+    .incbin "data/graphics/ap_logo.gfx", 0x00, 2 * sizeof_tile
 APLogoTilesBottom:
-    .incbin "data/graphics/ap_logo.bin", 2 * sizeof_tile, 6 * sizeof_tile
+    .incbin "data/graphics/ap_logo.gfx", 2 * sizeof_tile, 6 * sizeof_tile
 
 EmptyAbilityTiles:
-    .incbin "data/graphics/ability_get.bin", 0, 16 * sizeof_tile
+    .incbin "data/graphics/ability_get.gfx", 0, 16 * sizeof_tile
 .org EmptyAbilityTiles
 EmptyGroundPound1Tile: .skip sizeof_tile
 EmptyGroundPound2Tile: .skip sizeof_tile
@@ -179,7 +179,7 @@ EmptyDashAttackTile: .skip sizeof_tile
 EmptyEnemyJumpTile: .skip sizeof_tile
 
 FilledNonProgressiveAbilityTiles:
-    .incbin "data/graphics/ability_get.bin", 18 * sizeof_tile, 4 * sizeof_tile
+    .incbin "data/graphics/ability_get.gfx", 18 * sizeof_tile, 4 * sizeof_tile
 .org FilledNonProgressiveAbilityTiles
 HasSwimTile: .skip sizeof_tile
 HasHeadSmashTile: .skip sizeof_tile

@@ -184,4 +184,4 @@
 .halfword 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000
 
 .org 0x8749870 + tile_coord_4b(28, 0)
-        .incbin "data/graphics/smallslash.bin"
+        .incbin "data/graphics/smallslash.gfx"

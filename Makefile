@@ -22,7 +22,7 @@ HEADERS = $(shell find $(INCLUDE) -type f -name '*.h')
 
 DATA = data
 PNGS = $(shell find $(DATA) -type f -name '*.png')
-BINS = $(patsubst $(DATA)/%.png, $(DATA)/%.bin, $(PNGS))
+GFX = $(patsubst $(DATA)/%.png, $(DATA)/%.gfx, $(PNGS))
 
 .PHONY: all clean debug remake remake-debug
 
@@ -36,7 +36,7 @@ build/basepatch.bsdiff: build/baserom.gba
 	bsdiff "Wario Land 4.gba" build/baserom.gba build/basepatch.bsdiff
 	grep -Ev '[0-9A-F]{8} [@.].*' build/baserom.sym > build/basepatch.sym
 
-build/baserom.gba: $(SRCS_ASM) $(OBJS) $(BINS)
+build/baserom.gba: $(SRCS_ASM) $(OBJS) $(GFX)
 	@mkdir -p build
 	armips src/basepatch.asm -sym build/baserom.sym $(ARMIPSFLAGS)
 
@@ -44,8 +44,8 @@ obj/%.o: src/%.c $(HEADERS)
 	@mkdir -p $(shell dirname $@)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-data/graphics/%.bin: data/graphics/%.png data/graphics/%.txt
+data/graphics/%.gfx: data/graphics/%.png data/graphics/%.palmap
 	python3 make_graphics.py $@
 
 clean:
-	rm -rf $(OBJ) build $(BINS)
+	rm -rf $(OBJ) build $(GFX)

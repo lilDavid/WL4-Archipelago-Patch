@@ -56,4 +56,5 @@ build/*
 *.gba
 *.sym
 *.bin
+*.gfx
 *.bsdiff

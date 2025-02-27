@@ -8,8 +8,8 @@ import sys
 
 
 # This script converts a PNG image into the uncompressed 4bpp indexed format
-# Wario Land 4 uses. To do that, it uses a .txt file which maps RGB/RGBA colors
-# to a 4-bit color index.
+# Wario Land 4 uses. To do that, it uses a .palmap text file which maps RGB/RGBA
+# colors to a 4-bit color index.
 #
 # The image is converted into 8x8 pixel tiles, which are then stored in a 1D
 # array format in row major order, as in the simplified example here:
@@ -42,8 +42,8 @@ def batches(iterable, n):
 
 def main():
     in_path = Path(sys.argv[1]).with_suffix('.png')
-    palette_path = in_path.with_suffix('.txt')
-    out_path = in_path.with_suffix('.bin')
+    palette_path = in_path.with_suffix('.palmap')
+    out_path = in_path.with_suffix('.gfx')
 
     palette: Mapping[Sequence[int], int] = {}
     try:
