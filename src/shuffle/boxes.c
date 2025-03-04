@@ -77,7 +77,7 @@ void SpawnRandomizedItemFromBox() {
 
 
 // Load the appropriate animation for a randomized item found in a box. The
-// item used and resulting animation chosen is based on the item's PSPRITE ID.
+// item used and resulting animation chosen is based on the item's sprite ID.
 void LoadRandomItemAnimation() {
     int item_index = gCurrentSprite.GlobalId - PSPRITE_TREASURE_GEM1;
     if (gCurrentSprite.GlobalId == PSPRITE_TREASURE_HEART)
@@ -87,13 +87,12 @@ void LoadRandomItemAnimation() {
     const TAnmDef* animation = ItemLoadInGameGraphics(item_index);
     if (animation == NULL)
         animation = EmptyAnm;
-    int give_immediately = item_id == ITEM_WARIO_FORM_TRAP || item_id == ITEM_LIGHTNING_TRAP;
     if (item_id == ITEM_DIAMOND)
         gCurrentSprite.YPos += 3 * QUARTER_BLOCK_SIZE;
 
     RANDO_BOX_REWARD_INDEX = item_index;
     RANDO_BOX_REWARD_ITEM = item_id;
-    if (give_immediately) {
+    if (item_id == ITEM_WARIO_FORM_TRAP || item_id == ITEM_LIGHTNING_TRAP || item_id == ITEM_AP_TRAP) {
         CollectRandomItem();
     } else {
         gCurrentSprite.OAMDataPackPointerForCurrentAnimation = animation;
