@@ -130,7 +130,7 @@ void LevelSelect_CreateAbilityOAM() {
             ATTR2_PALETTE(0x9) | ATTR2_PRIORITY(0) | OBJ_CHAR(0x088)
         );
     }
-    if (HAS_ABILITY_PERMANENT(ABILITY_ENEMY_JUMP)) {
+    if (HAS_ABILITY_PERMANENT(ABILITY_STOMP_JUMP)) {
         OamBuf_AddObj(
             ATTR0_SQUARE | ATTR0_COLOR_16 | OBJ_Y(SCREEN_HEIGHT - 16),
             ATTR1_SIZE_16 | OBJ_X(8 * 5),
