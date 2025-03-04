@@ -211,8 +211,8 @@ void PassageSelect_SpriteCopy(u8 item_id) {
 
                 case ITEM_MINIGAME_MEDAL:
                     dmaCopy(ItemPaletteTable[PAL_MEDAL],
-                            palette_dest + (16 - 5),
-                            5 * sizeof(u16));
+                            palette_dest,
+                            16 * sizeof(u16));
                     dmaCopy(MinigameCoinTiles,
                             item_dest,
                             2 * sizeof(Tile4bpp));
