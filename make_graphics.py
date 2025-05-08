@@ -42,43 +42,20 @@ def batches(iterable, n):
 
 def main():
     in_path = Path(sys.argv[1]).with_suffix('.png')
-    palette_path = in_path.with_suffix('.palmap')
     out_path = in_path.with_suffix('.gfx')
 
-    palette: Mapping[Sequence[int], int] = {}
-    try:
-        with open(palette_path, 'r') as file:
-            for line in filter(None, map(str.strip, file.readlines())):
-                if line.startswith('--'):
-                    continue
-                hexstr, gba = line.split(':')
-                hexbytes = map(lambda x: int("".join(x), base=16), batches(hexstr[1:], 2))
-                if len(hexstr) == 7:
-                    hexbytes = itertools.chain(hexbytes, [255])
-                gba = int(gba, base=16)
-                palette[tuple(hexbytes)] = gba
-    except FileNotFoundError:
-        # Create the file automatically because we need it anyway and so the
-        # script can helpfully list the colors that need to be mapped
-        open(palette_path, 'w').close()
+    source_image = Image.open(in_path)
+    if source_image.palette is None:
+        raise ValueError("Image is not in indexed color format")
 
-    source_image = Image.open(in_path).convert('RGBA')
     width, height = map(pixels_to_tiles, source_image.size)
     pixels = []
-    bad_colors = set()
     for row in range(height):
         for column in range(width):
             for y in range(8):
                 for x in range(8):
                     color = source_image.getpixel((8 * column + x, 8 * row + y))
-                    try:
-                        pixels.append(palette[color])
-                    except KeyError:
-                        bad_colors.add('#' + bytes(color).hex())
-
-    if len(bad_colors) != 0:
-        missing_colors = ' \n'.join(sorted(bad_colors))
-        raise Exception(f'Not all colors mapped. Missing colors:\n{missing_colors}')
+                    pixels.append(color & 0xF)
 
     with open(out_path, 'wb') as out_file:
         out_file.write(bytes(map(lambda p: p[1] << 4 | p[0], batches(pixels, 2))))

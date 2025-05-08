@@ -44,7 +44,7 @@ obj/%.o: src/%.c $(HEADERS)
 	@mkdir -p $(shell dirname $@)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-data/graphics/%.gfx: data/graphics/%.png data/graphics/%.palmap
+data/graphics/%.gfx: data/graphics/%.png
 	python3 make_graphics.py $@
 
 clean:
