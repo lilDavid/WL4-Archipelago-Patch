@@ -49,9 +49,15 @@
 .org 0x8091A46  ; ReadyMain_SelectDef(): Skip difficulty selection
     b 0x8091A58
 
-; Jewel cutscene and jewel door opening
+; Completed jewel going to door
 .org 0x8080FA8  ; DoraGetItemHantei()
     nop
+
+; Jewel door opening
+.org SeisanSave + 0xE6
+    b SeisanSave + 0xFA
+.org SeisanSave + 0x10A
+    b SeisanSave + 0x17A
 
 ; Boss defeat cutscene
 .org 0x8056AA8       ;  EntityAI_0xCF_boss_jewel()
