@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 
+from argparse import ArgumentParser
 import itertools
+import math
 from pathlib import Path
-from typing import Mapping, Sequence
+import struct
+from typing import cast
 from PIL import Image
-import sys
 
 
 # This script converts a PNG image into the uncompressed 4bpp indexed format
@@ -31,6 +33,13 @@ def pixels_to_tiles(pixels: int):
     return pixels // 8
 
 
+def convert_color(r: int, g: int, b: int):
+    r >>= 3
+    g >>= 3
+    b >>= 3
+    return (b << 5 | g) << 5 | r
+
+
 # https://docs.python.org/3.11/library/itertools.html
 def batches(iterable, n):
     if n < 1:
@@ -40,9 +49,8 @@ def batches(iterable, n):
         yield batch
 
 
-def main():
-    in_path = Path(sys.argv[1]).with_suffix('.png')
-    out_path = in_path.with_suffix('.gfx')
+def create_gfx(in_path: Path):
+    out_path = in_path.with_suffix(".gfx")
 
     source_image = Image.open(in_path)
     if source_image.palette is None:
@@ -55,11 +63,36 @@ def main():
             for y in range(8):
                 for x in range(8):
                     color = source_image.getpixel((8 * column + x, 8 * row + y))
-                    pixels.append(color & 0xF)
+                    pixels.append(cast(int, color) & 0xF)
 
-    with open(out_path, 'wb') as out_file:
+    with open(out_path, "wb") as out_file:
         out_file.write(bytes(map(lambda p: p[1] << 4 | p[0], batches(pixels, 2))))
 
 
-if __name__ == '__main__':
-    main()
+def create_pal(in_path: Path):
+    out_path = in_path.with_suffix(".pal")
+
+    source_image = Image.open(in_path)
+    if source_image.palette is None:
+        raise ValueError("Image is not in indexed color format")
+
+    palette = [
+        convert_color(*color[:3]) for color in source_image.palette.colors.keys()
+    ]
+    size = math.ceil(len(palette) / 16) * 16
+    palette.extend(0 for _ in range(size - len(palette)))
+
+    with open(out_path, "wb") as out_file:
+        out_file.write(struct.pack(f"<{size}H", *palette))
+
+
+if __name__ == "__main__":
+    parser = ArgumentParser()
+    parser.add_argument("-p", "--palette", action="store_true")
+    parser.add_argument("input_file", type=Path)
+    args = parser.parse_args()
+
+    if args.palette:
+        create_pal(args.input_file)
+    else:
+        create_gfx(args.input_file)

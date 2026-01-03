@@ -48,6 +48,7 @@
 .definelabel WarioLift, 0x3001940
 .definelabel usWarStopFlg, 0x30019F6
 .definelabel ucWarOffFlg, 0x30019F8
+.definelabel sLocalSeq, 0x3002C60
 .definelabel ucSelectVector, 0x3003C08
 .definelabel ucDoraFlg, 0x3003C34
 .definelabel ucSeldemoSeq, 0x3003C39
@@ -61,6 +62,7 @@
 .definelabel ClearOamBuf, 0x8000A0C
 .definelabel m4aSongNumStart, 0x8001DA4
 .definelabel m4aSongNumStop, 0x8001E70
+// .definelabel LZ77UnCompVram, 0x8003224
 .definelabel GmVblkIntr1_InGameUpdateWarioOAMAndSpritesTiles, 0x801BEA8
 .definelabel GmWarioCreate, 0x801C5D8
 .definelabel Sprite_Draw, 0x801D8C4
@@ -98,6 +100,8 @@
 
 ; ROM data
 .arm
+.definelabel sTitleBackgroundGfx, 0x829443C
+.definelabel sTitleGfx, 0x8295954
 .definelabel WarioChng_React, 0x82DECA0
 .definelabel BigBoardEntityTiles, 0x83644F0
 .definelabel BigBoardEntityPalettes, 0x83B1950

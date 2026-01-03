@@ -23,6 +23,7 @@ HEADERS = $(shell find $(INCLUDE) -type f -name '*.h')
 DATA = data
 PNGS = $(shell find $(DATA) -type f -name '*.png')
 GFX = $(patsubst $(DATA)/%.png, $(DATA)/%.gfx, $(PNGS))
+PAL = data/graphics/randomizer.pal
 
 .PHONY: all clean debug remake remake-debug
 
@@ -36,7 +37,7 @@ build/basepatch.bsdiff: build/baserom.gba
 	bsdiff "Wario Land 4.gba" build/baserom.gba build/basepatch.bsdiff
 	grep -Ev '[0-9A-F]{8} [@.].*' build/baserom.sym > build/basepatch.sym
 
-build/baserom.gba: $(SRCS_ASM) $(OBJS) $(GFX)
+build/baserom.gba: $(SRCS_ASM) $(OBJS) $(GFX) $(PAL)
 	@mkdir -p build
 	armips src/basepatch.asm -sym build/baserom.sym $(ARMIPSFLAGS)
 
@@ -44,8 +45,11 @@ obj/%.o: src/%.c $(HEADERS)
 	@mkdir -p $(shell dirname $@)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-data/graphics/%.gfx: data/graphics/%.png
-	python3 make_graphics.py $@
+%.gfx: %.png
+	python3 make_graphics.py $<
+
+%.pal: %.png
+	python3 make_graphics.py --palette $<
 
 clean:
-	rm -rf $(OBJ) build $(GFX)
+	rm -rf $(OBJ) build $(GFX) $(PAL)

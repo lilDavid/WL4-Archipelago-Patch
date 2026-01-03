@@ -449,3 +449,7 @@ call_hook_and_jump 0x8000518, 0x8000534, 0x800062E, @Hook_GiveUp
     .pool
 
 .endautoregion
+
+; ----------------- 'Randomizer' title -----------------
+
+call_hook_and_jump 0x8005F70, 0x8005F88, 0x800631E, LoadWarioLandLogo  ; TitleSubroutine()

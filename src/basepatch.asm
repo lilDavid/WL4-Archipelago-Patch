@@ -69,7 +69,8 @@ TOTAL_LOCATIONS equ (PASSAGES * LEVELS_PER_PASSAGE * CHECKS_PER_LEVEL)
 .importobj "obj/game_loop/level_results.o"
 .importobj "obj/cutscene_skips.o"
 .importobj "obj/misc.o"
-.importobj "obj/graphics.o"
+.importobj "obj/gfx/items.o"
+.importobj "obj/gfx/cosmetic.o"
 .endautoregion
 
 .include "src/data/graphics.asm"

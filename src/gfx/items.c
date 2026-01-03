@@ -57,9 +57,6 @@ void OamBuf_AddObj(u16 attr0, u16 attr1, u16 attr2) {
 }
 
 
-// ------------- Graphics data ----------------
-
-
 const TObjDef Item1Obj = {
     1,
     { ANM_OBJ(-8, -8, ATTR0_SQUARE, ATTR1_SIZE_16, 302, 4, 0) }

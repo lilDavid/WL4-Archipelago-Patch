@@ -59,4 +59,5 @@ build/*
 *.sym
 *.bin
 *.gfx
+*.pal
 *.bsdiff

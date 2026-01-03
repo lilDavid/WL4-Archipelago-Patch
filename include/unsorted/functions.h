@@ -4,6 +4,7 @@
 
 
 #define LONGCALL __attribute__((long_call))
+#define UNUSED __attribute__((unused))
 
 LONGCALL s32 _divsi3(s32, s32);
 LONGCALL s32 _modsi3(s32, s32);
