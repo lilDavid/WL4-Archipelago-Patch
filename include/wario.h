@@ -7,6 +7,7 @@
 
 typedef enum {
     WV_TREASURE = 1,
+    WV_KEYZER = 2,
     WV_HURT = 4,
     WV_SORRY = 9,
 } WarioVoiceID;

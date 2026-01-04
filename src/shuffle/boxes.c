@@ -20,9 +20,9 @@ void CollectRandomItem(void);
 // player is in Pinball Zone but not in the pink room with the heart box, and 0
 // otherwise.
 static u32 GetHeartBoxID() {
-    return PassageID == PASSAGE_RUBY &&
+    return (PassageID == PASSAGE_RUBY &&
            InPassageLevelID == LEVEL_4 &&
-           CurrentRoomId != 8;
+           CurrentRoomId != 8) + 1;
 }
 
 

@@ -18,3 +18,5 @@ LONGCALL void Select_Fade_Init(void);
 LONGCALL void GmapSceneCreate(void);
 LONGCALL void MmapHekigaChange(void);
 LONGCALL void MmapBestScoreSet(void);
+
+LONGCALL void T_NoCorrectionBgAttack(void);

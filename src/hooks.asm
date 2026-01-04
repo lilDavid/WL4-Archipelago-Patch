@@ -291,7 +291,7 @@ call_hook 0x8079112, 0x8079126, CDIcon_Update
     .pool
 .endautoregion
 
-; ------------------------ Boxes -----------------------
+; ----------------------- Sprites ----------------------
 
 
 ; Change the boxes' opening routines to spawn their randomized item
@@ -319,8 +319,9 @@ call_hook_and_jump 0x802A2B8, 0x802A2C8, 0x802A32E, LoadRandomItemAnimation  ; 0
 call_hook_and_jump 0x802A378, 0x802A388, 0x802A3E6, LoadRandomItemAnimation  ; 0x8B Full health
 
 
-; Replace diamond sprite AI
+; Replace sprite AI pointers
 .org 0x878E800 + 6 * 4 :: .word RandoSpriteAI_Diamond | 1
+.org 0x878E800 + 8 * 4 :: .word RandoSpriteAI_Keyzer | 1
 
 
 ; --------------------- Save data ----------------------

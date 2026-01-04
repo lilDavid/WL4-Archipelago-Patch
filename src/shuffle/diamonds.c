@@ -5,6 +5,7 @@
 #include "item_table.h"
 #include "game_state.h"
 #include "randomizer.h"
+#include "rando_sprite_util.h"
 #include "sound.h"
 #include "sprite.h"
 #include "units.h"
@@ -176,11 +177,6 @@ static u8 DiamondIdentify(void) {
     return 0xFF;
 }
 
-static void DiamondDespawn(void) {
-    gCurrentSprite.usStatus = 0;
-    gPersistentSpriteData[CurrentRoomId][gCurrentSprite.RoomEntitySlotId] = SPRITE_DESPAWNED;
-}
-
 static void RandoDiamond_Init(void) {
     int index = DiamondIdentify();
     if (PassageID == PASSAGE_SAPPHIRE &&
@@ -191,14 +187,14 @@ static void RandoDiamond_Init(void) {
 
 
     if (index == 0xFF || ItemInCurrentLevel(index) == ITEM_NONE) {
-        DiamondDespawn();
+        RandoSpriteUtil_Despawn();
         return;
     }
 
     int item_id = ItemInCurrentLevel(index);
     const MultiworldData* multi = MultiworldDataInCurrentLevel(index);
     if (HasItemInLevel(index) && (multi || Item_GetType(item_id) != ITEMTYPE_JUNK)) {
-        DiamondDespawn();
+        RandoSpriteUtil_Despawn();
         return;
     }
 
@@ -234,24 +230,6 @@ static void RandoDiamond_Init(void) {
     }
 }
 
-static void RandoDiamond_Collect(void) {
-    DiamondDespawn();
-    CollectItemInLevel(RANDO_DIAMOND_INDEX);
-    const MultiworldData* multi = MultiworldDataInCurrentLevel(RANDO_DIAMOND_INDEX);
-    if (multi) {
-        m4aSongNumStart(SE_GEM_GET);
-    }
-    if (RANDO_DIAMOND_ITEM == ITEM_WARIO_FORM_TRAP ||
-        RANDO_DIAMOND_ITEM == ITEM_LIGHTNING_TRAP ||
-        RANDO_DIAMOND_ITEM == ITEM_AP_TRAP) {
-        if (multi) {
-            WarioVoiceSet(WV_SORRY);
-        }
-    } else if (RANDO_DIAMOND_ITEM != ITEM_HEART && RANDO_DIAMOND_ITEM != ITEM_AP_FILLER) {
-        WarioVoiceSet(WV_TREASURE);
-    }
-}
-
 void RandoSpriteAI_Diamond(void) {
     if (!DiamondShuffle) {
         SpriteAI_Diamond();
@@ -261,6 +239,6 @@ void RandoSpriteAI_Diamond(void) {
     switch (gCurrentSprite.CurrentAnimationId) {
         case ANIMATION_INIT: RandoDiamond_Init(); break;
         case ANIMATION_WALK: Diamond_Main(); break;
-        case ANIMATION_Q_HIP: RandoDiamond_Collect(); break;
+        case ANIMATION_Q_HIP: RandoSpriteUtil_CollectItem(RANDO_DIAMOND_INDEX, RANDO_DIAMOND_ITEM); break;
     }
 }

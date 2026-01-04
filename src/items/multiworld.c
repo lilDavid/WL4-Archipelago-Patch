@@ -17,6 +17,9 @@ void ItemReceivedFeedbackSound(u8 item_id) {
         case ITEMTYPE_CD:
             m4aSongNumStart(SE_CD_GET);
             break;
+        case ITEMTYPE_KEYZER:
+            m4aSongNumStart(SE_KEYZER_GET);
+            break;
         case ITEMTYPE_ABILITY:
             m4aSongNumStart(SE_ALL_BOXES_GET);
             break;

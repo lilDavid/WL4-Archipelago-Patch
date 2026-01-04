@@ -13,7 +13,7 @@
 
 
 u8 HasItemInLevel(u8 index) {
-    return !!(CollectedItems & (1 << (index + (index > BOX_CD))));
+    return !!(CollectedItems & (1 << index));
 }
 
 extern u8 CurrentJewelIconPosition;
@@ -88,6 +88,8 @@ const TAnmDef* ItemLoadInGameGraphicsForID(u8 item_id) {
         case ITEMTYPE_CD:
             SetTreasurePalette((item_id >> 2) & 7);
             return takara_Anm_00;
+        case ITEMTYPE_KEYZER:
+            return KeyzerAnm;
         case ITEMTYPE_TREASURE: {
             u16* palette;
             if (sGameSeq <= 1 && gColorFading.Kind == 2)
@@ -135,6 +137,13 @@ void ItemReloadInGameGraphics() {
                 sprite->OAMDataPackPointerForCurrentAnimation = animation;
                 break;
 
+            case PSPRITE_KEYZER:
+                animation = ItemLoadInGameGraphicsForID(sprite->WorkVariable1);
+                if (animation == NULL)
+                    animation = EmptyAnm;
+                sprite->OAMDataPackPointerForCurrentAnimation = animation;
+                break;
+
             case PSPRITE_DIAMOND:
                 if (!DiamondShuffle)
                     break;
@@ -152,9 +161,7 @@ void ItemReloadInGameGraphics() {
 // that it can be properly given to you or another player when you escape the
 // level.
 void CollectItemInLevel(u8 index) {
-    int flag = index + (index > BOX_CD);
-
-    CollectedItems |= 1 << flag;
+    CollectedItems |= 1 << index;
     LastCollectedItemIndex = index;
 
     int item_id = ItemInCurrentLevel(index);
@@ -216,6 +223,14 @@ void CollectItemInLevel(u8 index) {
         case ITEMTYPE_TREASURE:
             m4aSongNumStart(SE_HIGH_SCORE);
             break;
+        case ITEMTYPE_KEYZER:
+            if (Wario.ucReact == REACT_WATER)
+                m4aSongNumStart(SE_KEYZER_GET_UNDERWATER);
+            else
+                m4aSongNumStart(SE_KEYZER_GET);
+            Sprite_SpawnSecondary(gCurrentSprite.YPos, gCurrentSprite.XPos, SSPRITE_KEYZER);
+            HasKeyzer = 1;
+            break;
         default: return;
     }
     LastCollectedItemID = item_id;
@@ -231,6 +246,16 @@ static void ItemInitBoxContents() {
     gCurrentSprite.HitboxRight = SUBPIXELS_FROM_PIXELS(9);
 }
 
+static void ItemInitKeyzer() {
+    gCurrentSprite.DrawDistanceBottom = BLOCK_SIZE_PIXELS;
+    gCurrentSprite.DrawDistanceTop = BLOCK_SIZE_PIXELS;
+    gCurrentSprite.DrawDistanceHorizontal = BLOCK_SIZE_PIXELS * 3 / 2;
+    gCurrentSprite.HitboxTop = HALF_BLOCK_SIZE;
+    gCurrentSprite.HitboxBottom = QUARTER_BLOCK_SIZE + PIXEL_SIZE;
+    gCurrentSprite.HitboxLeft = HALF_BLOCK_SIZE;
+    gCurrentSprite.HitboxRight = HALF_BLOCK_SIZE - PIXEL_SIZE;
+}
+
 static void ItemInitDiamond() {
     gCurrentSprite.DrawDistanceBottom = PIXELS_FROM_SUBPIXELS(3 * HALF_BLOCK_SIZE);
     gCurrentSprite.DrawDistanceTop = PIXELS_FROM_SUBPIXELS(HALF_BLOCK_SIZE);
@@ -242,10 +267,15 @@ static void ItemInitDiamond() {
 }
 
 void ItemSetHitboxAndDrawDistance(u8 item_id) {
-    switch (item_id) {
-        case ITEM_DIAMOND: ItemInitDiamond(); break;
-        default: ItemInitBoxContents(); break;
+    if (item_id == ITEM_DIAMOND) {
+        ItemInitDiamond();
+        return;
     }
+    if (Item_GetType(item_id) == ITEMTYPE_KEYZER) {
+        ItemInitKeyzer();
+        return;
+    }
+    ItemInitBoxContents();
 }
 
 // Can be any jewel piece or ability, or a diamond or full health item

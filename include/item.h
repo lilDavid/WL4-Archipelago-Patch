@@ -36,6 +36,7 @@ typedef enum {
 typedef enum {
     ITEMTYPE_GEM,
     ITEMTYPE_CD,
+    ITEMTYPE_KEYZER,
     ITEMTYPE_ABILITY,
     ITEMTYPE_TREASURE,
     ITEMTYPE_JUNK,
@@ -86,6 +87,7 @@ typedef enum {
 
 #define ITEM_JEWEL(passage, quadrant) ((passage << 2) | quadrant)
 #define ITEM_CD(passage, level) ((1 << 5) | (passage << 2) | level)
+#define ITEM_KEYZER(passage, level) ((3 << 6) | (passage << 2) | level)
 #define ITEM_ABILITY(ability) ((1 << 6) | ability)
 #define ITEM_JUNK(junk) ((1 << 7) | junk)
 #define ITEM_AP(classification) (0xF0 | classification)

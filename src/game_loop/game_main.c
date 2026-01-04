@@ -155,8 +155,6 @@ void GameMain_ReceivedTextVBlk() {
                 Tile4bpp* tiles2 = (Tile4bpp*) 0x6012600;  // Row of 8
                 Tile4bpp* tiles3 = (Tile4bpp*) 0x6012A00;  // Row of 8
                 if (SendMultiworldItemsImmediately) {
-                    if (item_index > BOX_CD)
-                        item_index += 1;
                     W4ItemStatus[PassageID][InPassageLevelID] |= (1 << (item_index + 8));
 
                     // Sent to <Player name>

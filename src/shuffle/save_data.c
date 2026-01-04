@@ -34,10 +34,6 @@ void CreateStartingInventory() {
 u8* boxPosessionVariables[BOX_CD + 1] = { &Has1stGemPiece, &Has2ndGemPiece, &Has3rdGemPiece, &Has4thGemPiece, &HasCD };
 
 
-// The boxes you've checked are in the second byte of the item status word.
-// This was originally done with a patch, but now these functions are rewritten
-// so this data is handled all in the same place.
-
 void CheckLocations() {
     gStoredMultiworldDiamonds = 0;
 
@@ -48,16 +44,11 @@ void CheckLocations() {
     }
 
     for (int i = BOX_GEM1; i < LOCATION_MAX; i++) {
-        int flag = i + (i > BOX_CD);
-        if (!(CollectedItems & (1 << flag)))
+        if (!(CollectedItems & (1 << i)))
             continue;
         int item_id = ItemInCurrentLevel(i);
         const MultiworldData* multiworld_data = MultiworldDataInCurrentLevel(i);
         GiveItem_LevelEnd(item_id, multiworld_data);
-    }
-
-    if (HasKeyzer) {
-        W4ItemStatus[PassageID][InPassageLevelID] |= ISB_KEYZER;
     }
 
     W4ItemStatus[PassageID][InPassageLevelID] |= CollectedItems << 8;
@@ -118,7 +109,7 @@ void SetItemCollection() {
             has_item = 3;
         HAS_BOX(i) = has_item;
     }
-    if (item_status & ISB_KEYZER) {
+    if (item_status & (ISB_KEYZER << 8)) {
         HasKeyzer = 2;
     } else {
         HasKeyzer = 0;

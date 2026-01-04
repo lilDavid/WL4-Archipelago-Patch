@@ -15,7 +15,7 @@ ITEM_NONE equ 0xFF
 
 PASSAGES equ 6
 LEVELS_PER_PASSAGE equ 5
-CHECKS_PER_LEVEL equ (4 + 1 + 2 + 11)  ; 4 gem pieces, up to 1 CD, up to 2 health refills, up to 11 diamonds
+CHECKS_PER_LEVEL equ (4 + 1 + 1 + 2 + 11)  ; 4 gem pieces, up to 1 CD, keyzer, up to 2 health refills, up to 11 diamonds
 TOTAL_LOCATIONS equ (PASSAGES * LEVELS_PER_PASSAGE * CHECKS_PER_LEVEL)
 
 ; Allocate space at ROM end
@@ -58,9 +58,11 @@ TOTAL_LOCATIONS equ (PASSAGES * LEVELS_PER_PASSAGE * CHECKS_PER_LEVEL)
 .importobj "obj/items/multiworld.o"
 .importobj "obj/items/collect_junk.o"
 .importobj "obj/items/collection_indicator.o"
+.importobj "obj/shuffle/rando_sprite_util.o"
 .importobj "obj/shuffle/item.o"
 .importobj "obj/shuffle/boxes.o"
 .importobj "obj/shuffle/diamonds.o"
+.importobj "obj/shuffle/keyzer.o"
 .importobj "obj/shuffle/save_data.o"
 .importobj "obj/shuffle/golden_treasure_hunt.o"
 .importobj "obj/game_loop/passage_select.o"

@@ -22,6 +22,7 @@ const MultiworldData* MultiworldDataInCurrentLevel(u32 flag) {
 
 static void GiveItem_Gem(u8 item_id);
 static void GiveItem_CD(u8 item_id);
+static void GiveItem_Keyzer(u8 item_id);
 static void GiveItem_Ability(u8 item_id);
 static void GiveItem_Junk(u8 item_id);
 static void GiveItem_Treasure(u8 item_id);
@@ -38,6 +39,7 @@ void GiveItem(u8 item_id, const MultiworldData* multiworld) {
     switch (Item_GetType(item_id)) {
         case ITEMTYPE_GEM:      GiveItem_Gem(item_id); break;
         case ITEMTYPE_CD:       GiveItem_CD(item_id); break;
+        case ITEMTYPE_KEYZER:   GiveItem_Keyzer(item_id); break;
         case ITEMTYPE_ABILITY:  GiveItem_Ability(item_id); break;
         case ITEMTYPE_TREASURE: GiveItem_Treasure(item_id); break;
         case ITEMTYPE_JUNK:
@@ -60,6 +62,7 @@ void GiveItem_LevelEnd(u8 item_id, const MultiworldData* multiworld) {
     switch (Item_GetType(item_id)) {
         case ITEMTYPE_GEM:      GiveItem_Gem(item_id); break;
         case ITEMTYPE_CD:       GiveItem_CD(item_id); break;
+        case ITEMTYPE_KEYZER:   GiveItem_Keyzer(item_id); break;
         case ITEMTYPE_ABILITY:  GiveItem_Ability(item_id); break;
         case ITEMTYPE_TREASURE: GiveItem_Treasure(item_id); break;
         case ITEMTYPE_JUNK:
@@ -81,6 +84,7 @@ void GiveItem_InGame(u8 item_id, const MultiworldData* multiworld) {
     switch (Item_GetType(item_id)) {
         case ITEMTYPE_GEM:      GiveItem_Gem(item_id); break;
         case ITEMTYPE_CD:       GiveItem_CD(item_id); break;
+        case ITEMTYPE_KEYZER:   GiveItem_Keyzer(item_id); break;
         case ITEMTYPE_ABILITY:  GiveItem_Ability(item_id); break;
         case ITEMTYPE_TREASURE: GiveItem_Treasure(item_id); break;
         case ITEMTYPE_JUNK:
@@ -114,6 +118,12 @@ static void GiveItem_CD(u8 item_id) {
     int passage = (item_id >> 2) & 7;
     int level = item_id & 3;
     W4ItemStatus[passage][level] |= ISB_CD;
+}
+
+static void GiveItem_Keyzer(u8 item_id) {
+    int passage = (item_id >> 2) & 7;
+    int level = item_id & 3;
+    W4ItemStatus[passage][level] |= ISB_KEYZER;
 }
 
 // Ground pound and grab are progressive, so choose a high bit if you already
@@ -167,6 +177,7 @@ static void GiveItem_Treasure(u8 item_id) {
 ItemType Item_GetType(u8 item_id) {
     if ((item_id & 0b11100000) == 0b00000000) return ITEMTYPE_GEM;
     if ((item_id & 0b11100000) == 0b00100000) return ITEMTYPE_CD;
+    if ((item_id & 0b11100000) == 0b11000000) return ITEMTYPE_KEYZER;
     if ((item_id & 0b11111000) == 0b01000000) return ITEMTYPE_ABILITY;
     if ((item_id & 0b11110000) == 0b01110000) return ITEMTYPE_TREASURE;
     if ((item_id & 0b11110000) == 0b10000000) return ITEMTYPE_JUNK;

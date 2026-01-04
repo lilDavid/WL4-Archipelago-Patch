@@ -7,3 +7,5 @@ extern u16 KeyPressPrevious;
 extern u16 usTrg_KeyPress1Frame;
 
 extern u8 ucFlashLoop;
+
+extern u8 ucTHit2;

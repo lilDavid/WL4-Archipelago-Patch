@@ -12,6 +12,7 @@ typedef enum {
     BOX_GEM3,
     BOX_GEM4,
     BOX_CD,
+    KEYZER,
     BOX_HEART,
     BOX_HEART2,
     DIAMOND_1,

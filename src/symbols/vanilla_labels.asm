@@ -14,6 +14,7 @@
 .definelabel gSpriteData, 0x3000104
 .definelabel gPersistentSpriteData, 0x3000564
 .definelabel gCurrentSprite, 0x3000A24
+.definelabel ucThit2, 0x3000A51
 .definelabel W4ItemStatus, 0x3000A68
 .definelabel gCurrentSecondarySprite, 0x3000BE0
 .definelabel iGmTotalScore, 0x3000BF4
@@ -70,6 +71,7 @@
 .definelabel ChangeWarioReact_Fire, 0x801EA3C
 .definelabel ChangeWarioReact_Fat, 0x801EA64
 .definelabel ChangeWarioReact_Frozen, 0x801EB54
+.definelabel T_NoCorrectionBgAttack, 0x8023BFC
 .definelabel SpriteAI_Diamond, 0x802C848
 .definelabel Diamond_Init, 0x802C434
 .definelabel Diamond_Main, 0x802C4A8
@@ -105,6 +107,8 @@
 .definelabel WarioChng_React, 0x82DECA0
 .definelabel BigBoardEntityTiles, 0x83644F0
 .definelabel BigBoardEntityPalettes, 0x83B1950
+.definelabel KeyzerAnm, 0x83B492C
+.definelabel sKeyzerYSpeed, 0x83B4A4C
 .definelabel takara_Anm_00, 0x83B4BC8
 .definelabel takara_Anm_01, 0x83B4BD8
 .definelabel takara_Anm_02, 0x83B4C00

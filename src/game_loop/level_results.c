@@ -9,9 +9,6 @@
 
 
 static u32 GotItem(u8 index) {
-    if (index > BOX_CD)
-        index += 1;
-
     int bit = CollectedItems & (1 << index);
     CollectedItems &= ~bit;
     return bit;
