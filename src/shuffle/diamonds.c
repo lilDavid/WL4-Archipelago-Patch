@@ -221,11 +221,10 @@ static void RandoDiamond_Init(void) {
     DIAMOND_FLOATING_ANIMATION_FRAME = 0;
     gCurrentSprite.CurrentAnimationId = ANIMATION_WALK;
     gCurrentSprite.GuardAndDamageParam = 6;
-    gCurrentSprite.YPos -= PIXEL_SIZE;
+    gCurrentSprite.YPos -= 3 * QUARTER_BLOCK_SIZE + PIXEL_SIZE;
     gCurrentSprite.XPos += HALF_BLOCK_SIZE;
 
     if (RANDO_DIAMOND_ITEM != ITEM_DIAMOND) {
-        gCurrentSprite.YPos -= 3 * QUARTER_BLOCK_SIZE;
         gCurrentSprite.HitboxBottom += HALF_BLOCK_SIZE;
     }
 }

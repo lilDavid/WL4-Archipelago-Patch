@@ -87,8 +87,6 @@ void LoadRandomItemAnimation() {
     const TAnmDef* animation = ItemLoadInGameGraphics(item_index);
     if (animation == NULL)
         animation = EmptyAnm;
-    if (item_id == ITEM_DIAMOND)
-        gCurrentSprite.YPos += 3 * QUARTER_BLOCK_SIZE;
 
     RANDO_BOX_REWARD_INDEX = item_index;
     RANDO_BOX_REWARD_ITEM = item_id;

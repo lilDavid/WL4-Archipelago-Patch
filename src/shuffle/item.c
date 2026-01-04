@@ -264,6 +264,7 @@ static void ItemInitDiamond() {
     gCurrentSprite.HitboxBottom = SUBPIXELS_FROM_PIXELS(34);
     gCurrentSprite.HitboxLeft = SUBPIXELS_FROM_PIXELS(10);
     gCurrentSprite.HitboxRight = SUBPIXELS_FROM_PIXELS(9);
+    gCurrentSprite.YPos += 3 * QUARTER_BLOCK_SIZE;
 }
 
 void ItemSetHitboxAndDrawDistance(u8 item_id) {
