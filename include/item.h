@@ -33,6 +33,8 @@ typedef enum {
     ISB_DIAMOND11 = 1 << 18,
 } ItemStatusBit;
 
+#define ISB_GOLDEN_DIVA ISB_CD
+
 typedef enum {
     ITEMTYPE_GEM,
     ITEMTYPE_CD,

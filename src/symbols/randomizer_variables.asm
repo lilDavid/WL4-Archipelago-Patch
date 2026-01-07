@@ -1,12 +1,13 @@
 .gba
 .arm
 
-; These extra bits of save data are stored in the upper parts of Entry Passage
-; levels that don't exist.
-; Most significant byte of the "third" level
-.definelabel WarioAbilities, W4ItemStatus + 11
-; Upper halfword of the "fourth" level
-.definelabel ReceivedItemCount, W4ItemStatus + 14
+.expfunc level_table_index(passage, level), W4ItemStatus + 4 * (level + 6 * passage)
+
+; These extra bits of save data are stored in Entry/Golden Passage levels
+; that don't exist.
+.definelabel WarioAbilities,     level_table_index(0, 2) + 3
+.definelabel ReceivedItemCount,  level_table_index(0, 3) + 2
+.definelabel gInGameTime,        level_table_index(5, 2)
 
 ; Items can be received one at a time w/o issue
 .definelabel IncomingItemID, UnusedRamStart  ; byte

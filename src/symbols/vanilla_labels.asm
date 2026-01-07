@@ -7,6 +7,7 @@
 .definelabel gMedalCount, 0x3000008
 .definelabel ucWorldNumBak, 0x3000010
 .definelabel ucSaveFlg, 0x3000013
+.definelabel gResetSaveFile, 0x3000018
 .definelabel CurrentRoomId, 0x3000024
 .definelabel ucFlashLoop, 0x3000044
 .definelabel ucTimeUp, 0x3000047

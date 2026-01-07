@@ -40,11 +40,35 @@
 .endmacro
 
 
-; ------------------- Initialization ------------------
+; ----------------------- Main ------------------------
 
+
+; agbMain()
+jump_hook 0x8000678, 0x8000682, @Hook_agbMain
 
 ; HardwareInitialization()
 call_hook 0x8000728, 0x8000738, InitializeVariables
+
+
+.autoregion
+.align 2
+@Hook_agbMain:
+        bl Stats_CountInGameTime
+
+        ldr r4, =gResetSaveFile
+        ldrb r0, [r4]
+        cmp r0, #0
+        bne @@reset_save_file
+
+        ldr r0, =0x80001D4 | 1
+        bx r0
+    @@reset_save_file:
+        ldr r0, =0x8000682 | 1
+        bx r0
+
+    .pool
+
+.endautoregion
 
 
 ; ------------------ Main game screen -----------------
@@ -454,3 +478,11 @@ call_hook_and_jump 0x8000518, 0x8000534, 0x800062E, @Hook_GiveUp
 ; ----------------- 'Randomizer' title -----------------
 
 call_hook_and_jump 0x8005F70, 0x8005F88, 0x800631E, LoadWarioLandLogo  ; TitleSubroutine()
+
+; ------------ Clear rate and in-game time -------------
+
+; CreditsNewspaperSubroutine
+call_hook 0x8005A1E, 0x8005A64, Stats_LoadClearTimeAndCollectionRate
+.org 0x8005A78 :: mov r0, #44
+.org 0x8005AA8 :: .word 0x82D825E
+.org 0x8005AB0 :: .word 0x82D825E + 2 * 44

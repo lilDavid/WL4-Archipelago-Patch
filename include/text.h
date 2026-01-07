@@ -11,4 +11,6 @@
 extern u16 usMojiCount;
 LONGCALL void MojiCreate(const u8*, u32, u8);
 
+extern u8 sRandoSlashTiles[32 * 2];
+
 u32 W4strlen(const u8* str);

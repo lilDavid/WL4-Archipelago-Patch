@@ -36,6 +36,8 @@ TOTAL_LOCATIONS equ (PASSAGES * LEVELS_PER_PASSAGE * CHECKS_PER_LEVEL)
     StartingInventoryItemStatus:    .fill PASSAGES * 6,        0
     StartingInventoryJunkCounts:    .fill JUNK_MAX,            0
     StartingInventoryWarioAbilities:                     .byte 0
+    .align 2
+    sLocationCount:                  .halfword 0
 
     ; Settings
     SendMultiworldItemsImmediately: .byte 0
@@ -69,6 +71,7 @@ TOTAL_LOCATIONS equ (PASSAGES * LEVELS_PER_PASSAGE * CHECKS_PER_LEVEL)
 .importobj "obj/game_loop/level_select.o"
 .importobj "obj/game_loop/game_main.o"
 .importobj "obj/game_loop/level_results.o"
+.importobj "obj/stats.o"
 .importobj "obj/cutscene_skips.o"
 .importobj "obj/misc.o"
 .importobj "obj/gfx/items.o"
