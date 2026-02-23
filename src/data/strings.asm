@@ -8,6 +8,7 @@
 .loadtable "data/charset.tbl"
 
 .arm
+.align 4
 LetterToSpriteTile:
     .word Text8x8_0, Text8x8_1, Text8x8_2, Text8x8_3, Text8x8_4, Text8x8_5, Text8x8_6, Text8x8_7
     .word Text8x8_8, Text8x8_9, Text8x8_A, Text8x8_B, Text8x8_C, Text8x8_D, Text8x8_E, Text8x8_F
