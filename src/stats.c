@@ -27,17 +27,11 @@ static u32 Stats_CountBits(u32 bitfield) {
 
 u32 Stats_GetLocationsChecked(void) {
     u32 locations = 0;
-
     locations += Stats_CountBits(W4ItemStatus[PASSAGE_ENTRY][0] >> 8);
-    locations += Stats_CountBits(W4ItemStatus[PASSAGE_ENTRY][LEVEL_BOSS] >> 8);
-
     for (int passage = PASSAGE_EMERALD; passage < PASSAGE_GOLDEN; passage++)
         for (int level = 0; level <= LEVEL_BOSS; level++)
             locations += Stats_CountBits(W4ItemStatus[passage][level] >> 8);
-
     locations += Stats_CountBits(W4ItemStatus[PASSAGE_GOLDEN][0] >> 8);
-    locations += Stats_CountBits(W4ItemStatus[PASSAGE_GOLDEN][LEVEL_BOSS] >> 8);
-
     return locations;
 }
 
