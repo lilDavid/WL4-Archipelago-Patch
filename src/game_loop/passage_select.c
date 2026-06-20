@@ -8,15 +8,35 @@
 #include "item.h"
 #include "item_table.h"
 #include "multiworld.h"
+#include "randomizer.h"
 #include "sound.h"
 #include "text.h"
 #include "units.h"
 #include "wario.h"
 
+enum PassageStatus {
+    PASSAGE_STATUS_ENTRY_ONLY,
+    PASSAGE_STATUS_OPEN,
+    PASSAGE_STATUS_PYRAMID_UNLOCKED,
+};
 
 #ifdef DEBUG
 void PassageSelect_DebugSetFlagsWithL();
 #endif
+
+u32 PassageSelect_SetStatus(void) {
+    u32 bosses = 0;
+    if (CountSpoiledRotten && (W4ItemStatus[PASSAGE_ENTRY][LEVEL_BOSS] & ISB_BOSS))
+        bosses += 1;
+    for (int passage = PASSAGE_EMERALD; passage < PASSAGE_GOLDEN; passage++)
+        if (W4ItemStatus[passage][LEVEL_BOSS] & ISB_BOSS)
+            bosses += 1;
+
+    if (bosses >= BossesRequired)
+        return PASSAGE_STATUS_PYRAMID_UNLOCKED;
+    else
+        return PASSAGE_STATUS_OPEN;
+}
 
 u32 PassageSelect_Rando() {
 #ifdef DEBUG

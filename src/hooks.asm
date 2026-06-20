@@ -145,6 +145,11 @@ call_hook 0x801BB7A, 0x801BB90, GameMain_RandoGraphics
 .org 0x807A574
         .word @Hook_SelectDmapVblk  ; Case 2
 
+; SelectDmapInit()
+call_hook_and_jump 0x807B104, 0x807B11C, 0x807B248, PassageSelect_SetStatus  ; Return next status in r0
+.org 0x807B24A :: nop  ; Nop the instruction that overwrites it
+; Use the prior machinery to set from return value (which is needed later in the fn)
+
 .autoregion
 .align 2
 @Hook_GameSelect2:

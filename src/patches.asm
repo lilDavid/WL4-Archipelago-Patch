@@ -8,13 +8,6 @@
 .org 0x864115A
     .halfword 0x3016 | (1 << 10)
 
-
-; Start with access to the four main passages.
-; SelectDMapInit()
-.org 0x807B110
-    b 0x0807b204
-
-
 ; PauseInit(): Show the player which boxes they've opened, not what they have.
 .org 0x8088BEA
     ldrb r1, [r1, #1]

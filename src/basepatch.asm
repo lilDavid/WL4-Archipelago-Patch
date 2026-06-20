@@ -45,6 +45,8 @@ TOTAL_LOCATIONS equ (PASSAGES * LEVELS_PER_PASSAGE * CHECKS_PER_LEVEL)
     GoldenTreasuresNeeded:          .byte 0
     TrapBehavior:                   .byte 0
     DiamondShuffle:                 .byte 0
+    BossesRequired:                 .byte 4
+    CountSpoiledRotten:             .byte 0
     .thumb
 .endregion
 

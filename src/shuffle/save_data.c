@@ -69,7 +69,7 @@ void CheckBossLocations() {
         new_status |= ISB_GEM3;
     }
     if (HasKeyzer) {
-        W4ItemStatus[PassageID][InPassageLevelID] |= ISB_KEYZER;
+        W4ItemStatus[PassageID][InPassageLevelID] |= ISB_BOSS;
     }
 
     if (GoalType == GOAL_GOLDEN_DIVA) {

@@ -26,3 +26,5 @@ extern const u8 GoalType;
 extern const u8 GoldenTreasuresNeeded;
 extern const u8 TrapBehavior;
 extern const u8 DiamondShuffle;
+extern const u8 BossesRequired;
+extern const u8 CountSpoiledRotten;
